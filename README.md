@@ -15,13 +15,13 @@ Security Architecture Design
 
 ### Key Features
 
-✔ VLAN-based network segmentation  
-✔ FortiGate firewall policy enforcement  
-✔ Guest network isolation  
-✔ Management plane protection  
-✔ Security framework alignment (Zero Trust / CIS)  
-✔ Architecture decision records  
-✔ Threat modeling
+- [x] VLAN-based network segmentation
+- [x] FortiGate firewall policy enforcement
+- [x] Guest network isolation
+- [x] Management plane protection
+- [x] Security framework alignment (Zero Trust / CIS)
+- [x] Architecture decision records
+- [x] Threat modeling
 
 # enterprise-security-lab
 architecture/Enterprise_Lab
