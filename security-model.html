@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security Model - Enterprise Security Lab</title>
+<style>
+:root{
+  --bg:#0b1220;
+  --panel:#111827;
+  --text:#e5edf8;
+  --muted:#9fb2cc;
+  --line:#273449;
+  --done:#22c55e;
+  --progress:#f59e0b;
+  --future:#64748b;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  background:linear-gradient(180deg,#0a1120,#101826 35%,#0e1724);
+  color:var(--text);
+  line-height:1.55;
+}
+.container{
+  max-width:1280px;
+  margin:0 auto;
+  padding:28px 20px 40px;
+}
+.hero{
+  background:linear-gradient(135deg,#14233e,#0f1a2c 55%,#1a2942);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:24px;
+  margin-bottom:18px;
+}
+.hero h1{margin:0 0 8px;font-size:34px}
+.hero p{margin:0;color:var(--muted)}
+.nav{margin-top:14px}
+.nav a{
+  display:inline-block;
+  margin-right:10px;
+  margin-top:8px;
+  padding:8px 12px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  color:#dbeafe;
+  text-decoration:none;
+  background:#0b1320;
+}
+.card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:18px;
+}
+.card h2{margin:0 0 12px;font-size:22px}
+.list{margin:0;padding-left:20px}
+.list li{margin:8px 0}
+.code{
+  background:#0b1320;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px;
+  font-family:ui-monospace,Consolas,monospace;
+  white-space:pre-wrap;
+  color:#d8e8ff;
+  font-size:13px;
+}
+.badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:#0b1320;
+  font-size:13px;
+  margin-right:8px;
+  margin-bottom:8px;
+}
+.done{color:var(--done); border-color:var(--done);}
+.progress{color:var(--progress); border-color:var(--progress);}
+.future{color:var(--future); border-color:var(--future);}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <section class="hero">
+    <h1>Security Model</h1>
+    <p>Security design princípy, trust zones a policy model Enterprise Security Labu.</p>
+    <div class="nav">
+      <a href="./">Home</a>
+      <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+      <a href="topology.html">Topology</a>
+      <a href="architecture-overview.html">Architecture</a>
+      <a href="troubleshooting.html">Troubleshooting</a>
+      <a href="device-fortigate.html">FortiGate</a>
+      <a href="device-cbs250.html">CBS250</a>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>1. Trust zones</h2>
+    <div class="code">MGMT   = management plane
+USERS  = end-user zone
+GUEST  = internet-only untrusted zone
+SOC    = monitoring / observability zone
+SERVER = protected service zone
+BACKUP = isolated backup domain</div>
+  </section>
+
+  <section class="card">
+    <h2>2. Core security principles</h2>
+    <ul class="list">
+      <li>Segmentation between functional network zones</li>
+      <li>Least privilege access between VLANs</li>
+      <li>Management plane isolation</li>
+      <li>Explicit policy control instead of broad any-any trust</li>
+      <li>Guest isolation from internal services</li>
+      <li>Observability and troubleshooting readiness</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>3. Policy direction model</h2>
+    <div class="code">USERS  → WAN     = allow
+USERS  → MGMT    = deny
+USERS  → SERVER  = specific allow only
+GUEST  → WAN     = allow
+GUEST  → INTERNAL = deny
+MGMT   → ALL     = admin controlled
+SOC    → devices = monitoring flows only</div>
+  </section>
+
+  <section class="card">
+    <h2>4. Management plane protection</h2>
+    <ul class="list">
+      <li>FortiGate admin access only from VLAN30</li>
+      <li>Trusted host restriction for admin account</li>
+      <li>Local-in deny for Guest zone</li>
+      <li>Switch break-glass access kept separate</li>
+    </ul>
+
+    <span class="badge done">✓ Mgmt VLAN</span>
+    <span class="badge done">✓ Trusted host</span>
+    <span class="badge done">✓ Local-in protection</span>
+  </section>
+
+  <section class="card">
+    <h2>5. Current security maturity</h2>
+    <span class="badge done">✓ Core segmentation</span>
+    <span class="badge done">✓ Guest isolation baseline</span>
+    <span class="badge progress">● Inter-VLAN deny model</span>
+    <span class="badge future">◌ Security profiles</span>
+    <span class="badge future">◌ Monitoring enforcement</span>
+    <span class="badge future">◌ SOC integration</span>
+  </section>
+
+  <section class="card">
+    <h2>6. Next design steps</h2>
+    <div class="code">1. USERS → MGMT explicit deny
+2. USERS → SERVER allow by service only
+3. Guest outbound hardening
+4. Logging and observability
+5. Security profiles on FortiGate
+6. Wireless policy integration</div>
+  </section>
+
+</div>
+</body>
+</html>
