@@ -1,3 +1,18 @@
+# Enterprise Security Lab
+
+Live enterprise-style network security lab demonstrating VLAN segmentation, firewall enforcement, and security architecture design.
+
+### Live Lab Portal
+https://pelen171004-wq.github.io/enterprise-security-lab/
+
+### Technologies
+FortiGate • Cisco CBS250 • VLAN Segmentation • Firewall Policies • Network Security Architecture
+
+### Focus Areas
+Network Security Engineering  
+Infrastructure Security  
+Security Architecture Design
+
 # enterprise-security-lab
 architecture/Enterprise_Lab
 ## Security Frameworks & Architecture Decisions
