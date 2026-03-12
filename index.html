@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Enterprise Security Lab</title>
+<title>Senior Network Security Engineer Portfolio</title>
 <style>
 :root{
   --bg:#0b1220;
@@ -78,13 +78,6 @@ body{
   margin:0 0 12px;
   font-size:22px;
 }
-.card h3{
-  margin:0 0 10px;
-  font-size:18px;
-}
-.muted{
-  color:var(--muted);
-}
 .portal-links{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
@@ -99,9 +92,6 @@ body{
   border-left:4px solid var(--accent);
   border-radius:14px;
   padding:16px;
-}
-.portal-link:hover{
-  background:#12203a;
 }
 .portal-link strong{
   display:block;
@@ -138,27 +128,8 @@ body{
   color:#d8e8ff;
   font-size:13px;
 }
-.kpis{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px;
-}
-.kpi{
-  background:#0e1625;
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:14px;
-}
-.kpi .num{
-  font-size:28px;
-  font-weight:700;
-}
-.kpi .label{
-  color:var(--muted);
-  font-size:13px;
-}
 @media (max-width:980px){
-  .grid,.portal-links,.kpis{grid-template-columns:1fr;}
+  .grid,.portal-links{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -166,11 +137,10 @@ body{
 <div class="container">
 
   <section class="hero">
-    <h1>Enterprise Security Lab</h1>
+    <h1>Senior Network Security Engineer Portfolio</h1>
     <p>
-      Enterprise-style lab zameraný na Network Security Engineering, Security Hardening,
-      VLAN Segmentation, FortiGate policy model, troubleshooting workflow a postupný prechod
-      od Engineer úrovne k Senior / Architect mindsetu.
+      Enterprise Security Lab zameraný na FortiGate segmentation firewall, Cisco switching,
+      management plane protection, guest isolation, inter-VLAN security a troubleshooting workflow.
     </p>
 
     <div class="nav">
@@ -178,74 +148,64 @@ body{
       <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
       <a href="topology.html">Topology</a>
       <a href="architecture-overview.html">Architecture</a>
+      <a href="device-fortigate.html">FortiGate</a>
+      <a href="device-cbs250.html">CBS250</a>
     </div>
   </section>
 
   <div class="grid">
     <section class="card">
-      <h2>Project portal</h2>
+      <h2>Portfolio navigation</h2>
       <div class="portal-links">
         <a class="portal-link" href="Enterprise_Lab_Dashboard_v4.html">
           <strong>Dashboard</strong>
-          Aktuálny stav labu, progress, status a ďalšie kroky.
+          Aktuálny stav labu, progress a ďalšie kroky.
         </a>
 
         <a class="portal-link" href="topology.html">
           <strong>Topology</strong>
-          Celková topológia siete a stav jednotlivých častí architektúry.
+          Celková topológia a stav jednotlivých komponentov.
         </a>
 
         <a class="portal-link" href="architecture-overview.html">
           <strong>Architecture Overview</strong>
-          Security zones, trust boundaries, policy model a roadmap.
+          Security zones, trust boundaries a policy model.
         </a>
 
-        <a class="portal-link" href="README.md">
-          <strong>README / Repo Overview</strong>
-          Základná dokumentácia a štruktúra projektu.
+        <a class="portal-link" href="device-fortigate.html">
+          <strong>FortiGate 60E</strong>
+          Firewall architektúra, security role a kľúčové CLI.
+        </a>
+
+        <a class="portal-link" href="device-cbs250.html">
+          <strong>CBS250 Switch</strong>
+          Switching layer, VLAN delivery a trunk/access design.
         </a>
       </div>
     </section>
 
     <section class="card">
-      <h2>Current status</h2>
-      <div>
-        <span class="badge done">✓ Core network hotové</span>
-        <span class="badge done">✓ Management plane hotové</span>
-        <span class="badge done">✓ Users VLAN20 hotové</span>
-        <span class="badge done">✓ Guest VLAN60 hotové</span>
-        <span class="badge progress">● Inter-VLAN security rozpracované</span>
-        <span class="badge future">◌ Security profiles plánované</span>
-        <span class="badge future">◌ Monitoring stack plánovaný</span>
-      </div>
-
-      <div class="kpis" style="margin-top:14px;">
-        <div class="kpi">
-          <div class="num">3</div>
-          <div class="label">Live pages</div>
-        </div>
-        <div class="kpi">
-          <div class="num">7</div>
-          <div class="label">Navrhnuté VLAN zóny</div>
-        </div>
-        <div class="kpi">
-          <div class="num">1</div>
-          <div class="label">Aktívny security blok</div>
-        </div>
-      </div>
+      <h2>Current engineering status</h2>
+      <span class="badge done">✓ Core network hotové</span>
+      <span class="badge done">✓ Management plane hotové</span>
+      <span class="badge done">✓ Users VLAN20 hotové</span>
+      <span class="badge done">✓ Guest VLAN60 hotové</span>
+      <span class="badge progress">● Inter-VLAN security rozpracované</span>
+      <span class="badge future">◌ Monitoring stack plánovaný</span>
+      <span class="badge future">◌ Server zone plánovaná</span>
     </section>
   </div>
 
   <div class="grid">
     <section class="card">
-      <h2>Lab focus</h2>
+      <h2>Scope</h2>
       <ul class="list">
-        <li>FortiGate segmentation firewall</li>
-        <li>Cisco CBS250 switching a trunk/access model</li>
-        <li>Management plane protection</li>
+        <li>FortiGate policy design</li>
+        <li>VLAN segmentation</li>
+        <li>Management plane hardening</li>
         <li>Guest isolation</li>
-        <li>Inter-VLAN security policy design</li>
-        <li>Troubleshooting workflow a debug discipline</li>
+        <li>Switch trunk/access design</li>
+        <li>Troubleshooting workflow</li>
       </ul>
     </section>
 
