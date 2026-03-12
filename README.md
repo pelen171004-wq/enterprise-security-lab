@@ -27,8 +27,6 @@ Security Architecture Design
 - [x] Architecture decision records
 - [x] Threat modeling
 
-# enterprise-security-lab
-architecture/Enterprise_Lab
 ## Security Frameworks & Architecture Decisions
 
 This lab also documents security design principles and architecture decisions.
