@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+
+<meta charset="utf-8">
+
+<title>CBS250 - Enterprise Lab</title>
+
+<style>
+
+body{
+background:#0b1220;
+color:#e5edf8;
+font-family:Arial;
+padding:40px;
+}
+
+.card{
+background:#111827;
+padding:25px;
+border-radius:12px;
+margin-bottom:20px;
+border:1px solid #273449;
+}
+
+code{
+background:#0b1320;
+padding:10px;
+display:block;
+border-radius:8px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Cisco CBS250</h1>
+
+<div class="card">
+
+<h2>Role in architecture</h2>
+
+<ul>
+
+<li>Core switching layer</li>
+
+<li>VLAN segmentation delivery</li>
+
+<li>Trunk between firewall and endpoints</li>
+
+<li>Access ports for users and management</li>
+
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>Status</h2>
+
+✓ VLAN configuration  
+✓ Trunk to FortiGate  
+✓ Access ports  
+✓ Break-glass port  
+
+</div>
+
+<div class="card">
+
+<h2>Key commands</h2>
+
+<code>
+
+show vlan
+
+show interfaces status
+
+show running-config
+
+interface gi2
+
+switchport mode access
+
+switchport access vlan 20
+
+</code>
+
+</div>
+
+</body>
+</html>
