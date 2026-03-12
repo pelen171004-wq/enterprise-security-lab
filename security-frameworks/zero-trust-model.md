@@ -36,3 +36,14 @@ Segmentation implemented using:
 • Cisco CBS250 VLAN switching  
 
 Example traffic model:
+
+USERS → WAN = allow
+USERS → MGMT = deny
+USERS → SERVERS = restricted access
+GUEST → INTERNAL = deny
+MGMT → ALL = admin controlled
+---
+
+## Security goal
+
+Reduce lateral movement and enforce controlled access between network zones.
