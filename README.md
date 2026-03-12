@@ -10,3 +10,8 @@ This lab also documents security design principles and architecture decisions.
 
 ### Architecture Decision Records
 - [Network Segmentation Decision Record](security-frameworks/decision-record-segmentation.md)
+
+
+### Additional Security Documentation
+- [Threat Model](security-frameworks/threat-model.md)
+- [Skills Mapping](skills-mapping.md)
