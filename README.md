@@ -1,5 +1,28 @@
 # Enterprise Security Lab
 
+![Firewall](https://img.shields.io/badge/Firewall-FortiGate-red)
+![Switch](https://img.shields.io/badge/Switch-Cisco_CBS250-blue)
+![Architecture](https://img.shields.io/badge/Architecture-Segmented-green)
+![Security](https://img.shields.io/badge/Security-Zero_Trust-orange)
+![Project](https://img.shields.io/badge/Project-Enterprise_Lab-purple)
+
+## Quick Navigation
+
+- 🌐 **Live Lab Portal**  
+  https://pelen171004-wq.github.io/enterprise-security-lab/
+
+- 🏗 **Architecture Overview**  
+  https://pelen171004-wq.github.io/enterprise-security-lab/architecture-overview.html
+
+- 🔥 **FortiGate Documentation**  
+  https://pelen171004-wq.github.io/enterprise-security-lab/device-fortigate.html
+
+- 🔧 **Cisco CBS250 Documentation**  
+  https://pelen171004-wq.github.io/enterprise-security-lab/device-cbs250.html
+
+- 🛡 **Security Model**  
+  https://pelen171004-wq.github.io/enterprise-security-lab/security-model.html
+
 Live enterprise-style network security lab demonstrating VLAN segmentation, firewall enforcement, and security architecture design.
 
 ### Live Lab Portal
