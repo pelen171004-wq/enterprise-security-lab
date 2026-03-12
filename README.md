@@ -13,6 +13,16 @@ Network Security Engineering
 Infrastructure Security  
 Security Architecture Design
 
+### Key Features
+
+✔ VLAN-based network segmentation  
+✔ FortiGate firewall policy enforcement  
+✔ Guest network isolation  
+✔ Management plane protection  
+✔ Security framework alignment (Zero Trust / CIS)  
+✔ Architecture decision records  
+✔ Threat modeling
+
 # enterprise-security-lab
 architecture/Enterprise_Lab
 ## Security Frameworks & Architecture Decisions
