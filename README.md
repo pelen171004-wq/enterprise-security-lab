@@ -40,6 +40,7 @@ This lab also documents security design principles and architecture decisions.
 ### Additional Security Documentation
 - [Threat Model](security-frameworks/threat-model.md)
 - [Skills Mapping](skills-mapping.md)
+- [Security Control Matrix](security-control-matrix.md)
 
 ### Lab Roadmap
 
