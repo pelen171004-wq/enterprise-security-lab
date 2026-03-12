@@ -5,6 +5,10 @@ Live enterprise-style network security lab demonstrating VLAN segmentation, fire
 ### Live Lab Portal
 https://pelen171004-wq.github.io/enterprise-security-lab/
 
+## Network Architecture
+
+![Enterprise Security Lab Architecture](lab-architecture-v2.jpg)
+
 ### Technologies
 FortiGate • Cisco CBS250 • VLAN Segmentation • Firewall Policies • Network Security Architecture
 
