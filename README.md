@@ -40,3 +40,35 @@ This lab also documents security design principles and architecture decisions.
 ### Additional Security Documentation
 - [Threat Model](security-frameworks/threat-model.md)
 - [Skills Mapping](skills-mapping.md)
+
+### Lab Roadmap
+
+Planned improvements for the Enterprise Security Lab.
+
+#### Phase 1 – Core Network Security (current)
+
+- FortiGate NGFW deployment
+- Cisco CBS250 core switching
+- VLAN segmentation
+- Guest network isolation
+- Management VLAN
+- Inter-VLAN firewall policy model
+
+#### Phase 2 – Security Monitoring
+
+- SOC VLAN implementation
+- Log collection
+- SIEM integration
+- Network traffic monitoring
+
+#### Phase 3 – Infrastructure Expansion
+
+- Server zone deployment
+- Backup infrastructure zone
+- Security service segmentation
+
+#### Phase 4 – Enterprise Features
+
+- Firewall High Availability (HA)
+- Configuration backup automation
+- Security incident response runbooks
