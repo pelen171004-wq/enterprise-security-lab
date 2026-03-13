@@ -32,14 +32,15 @@ Contains:
 
 ### Lab Network Topology (Simplified)
 
+```
 Internet
-│
+   │
 Vodafone ISP Modem
-│
+   │
 FortiGate 60E (NGFW)
-│
+   │
 Cisco CBS250 (Core Switch)
-│
+   │
 ├── VLAN20  Users Network
 │       Standard client devices
 │
@@ -56,7 +57,8 @@ Cisco CBS250 (Core Switch)
 │       Internet-only access
 │
 └── VLAN70  Backup Zone (planned)
-Backup infrastructure
+        Backup infrastructure
+```
 
 ### Network Security Zones
 
