@@ -98,3 +98,15 @@ Planned improvements for the Enterprise Security Lab.
 - Firewall High Availability (HA)
 - Configuration backup automation
 - Security incident response runbooks
+
+## Architecture Decisions
+
+Key architectural decisions are documented using ADR:
+
+- Network segmentation model
+- Firewall policy architecture
+- Management plane protection
+
+See:
+
+architecture-decisions/
