@@ -114,3 +114,5 @@ architecture-decisions/
 ## Threat Model
 
 - [Network Zone Threat Model](threat-model/THREAT-001-network-zones.md)
+
+- [Architecture Decisions Portal](architecture-decisions.html)
