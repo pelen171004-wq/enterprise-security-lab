@@ -90,6 +90,70 @@ https://pelen171004-wq.github.io/enterprise-security-lab/attack-surface.html
 
 # Security Framework Alignment
 
+Architecture decisions portal:
+
+https://pelen171004-wq.github.io/enterprise-security-lab/architecture-decisions.html
+
+---
+
+# Threat Model
+
+Threat modeling identifies potential attack scenarios.
+
+Documentation:
+
+- [Network Zone Threat Model](threat-model/THREAT-001-network-zones.md)
+
+---
+
+# Troubleshooting & Operations
+
+The project includes operational troubleshooting documentation.
+
+Examples:
+
+- connectivity debugging
+- firewall policy validation
+- network diagnostics
+
+Troubleshooting playbook:
+
+https://pelen171004-wq.github.io/enterprise-security-lab/troubleshooting.html
+
+---
+
+# Lab Roadmap
+
+Planned improvements.
+
+## Phase 1 – Core Network Security (Current)
+
+- FortiGate NGFW deployment
+- Cisco CBS250 switching
+- VLAN segmentation
+- Guest network isolation
+- Management VLAN
+- Inter-VLAN firewall policy model
+
+## Phase 2 – Security Monitoring
+
+- SOC VLAN deployment
+- Log collection
+- SIEM integration
+- Network traffic monitoring
+
+## Phase 3 – Infrastructure Expansion
+
+- Server zone deployment
+- Backup infrastructure zone
+- Security service segmentation
+
+## Phase 4 – Enterprise Features
+
+- Firewall High Availability (HA)
+- Configuration backup automation
+- Security incident response runbooks
+
 The security design aligns with industry frameworks:
 
 - [Zero Trust Networking Model](security-frameworks/zero-trust-model.md)
