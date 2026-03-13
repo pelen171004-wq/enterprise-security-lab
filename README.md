@@ -6,113 +6,105 @@
 ![Security](https://img.shields.io/badge/Security-Zero_Trust-orange)
 ![Project](https://img.shields.io/badge/Project-Enterprise_Lab-purple)
 
-## Quick Navigation
+Enterprise-style **Network Security Lab** demonstrating firewall architecture, VLAN segmentation and security design principles.
 
-- 🌐 **Live Lab Portal**  
-  https://pelen171004-wq.github.io/enterprise-security-lab/
+---
 
-- 🏗 **Architecture Overview**  
-  https://pelen171004-wq.github.io/enterprise-security-lab/architecture-overview.html
+# Live Lab Portal
 
-- 🔥 **FortiGate Documentation**  
-  https://pelen171004-wq.github.io/enterprise-security-lab/device-fortigate.html
+Interactive documentation portal:
 
-- 🔧 **Cisco CBS250 Documentation**  
-  https://pelen171004-wq.github.io/enterprise-security-lab/device-cbs250.html
-
-- 🛡 **Security Model**  
-  https://pelen171004-wq.github.io/enterprise-security-lab/security-model.html
-
-Live enterprise-style network security lab demonstrating VLAN segmentation, firewall enforcement, and security architecture design.
-
-### Live Lab Portal
 https://pelen171004-wq.github.io/enterprise-security-lab/
 
-## Network Architecture
+Contains:
+
+- Architecture diagrams
+- Device configuration documentation
+- Security design decisions
+- Threat model
+- Troubleshooting playbooks
+
+---
+
+# Network Architecture
 
 ![Enterprise Security Lab Architecture](lab-architecture-v2.jpg)
 
-### Technologies
-FortiGate • Cisco CBS250 • VLAN Segmentation • Firewall Policies • Network Security Architecture
+Core components:
 
-### Focus Areas
-Network Security Engineering  
-Infrastructure Security  
-Security Architecture Design
+| Component | Role |
+|--------|------|
+| FortiGate 60E | Network firewall / security enforcement |
+| Cisco CBS250 | Layer2 switching / VLAN segmentation |
+| VLAN Zones | Security segmentation |
+| Firewall Policies | Inter-VLAN access control |
 
-### Key Features
+---
 
-- [x] VLAN-based network segmentation
-- [x] FortiGate firewall policy enforcement
-- [x] Guest network isolation
-- [x] Management plane protection
-- [x] Security framework alignment (Zero Trust / CIS)
-- [x] Architecture decision records
-- [x] Threat modeling
+# Skills Demonstrated
 
-## Security Frameworks & Architecture Decisions
+This project demonstrates practical skills in:
 
-This lab also documents security design principles and architecture decisions.
+- Network segmentation
+- Firewall policy architecture
+- Infrastructure security design
+- Network troubleshooting
+- Security monitoring design
+- Architecture documentation
+- Threat modeling
+- Security frameworks alignment
 
-### Security Frameworks
+---
+
+# Security Architecture
+
+Key security design elements implemented in this lab:
+
+- VLAN-based network segmentation
+- Inter-VLAN firewall policy enforcement
+- Guest network isolation
+- Management plane protection
+- Zero Trust inspired architecture
+- Explicit allow/deny firewall model
+- Default-deny mindset
+
+---
+
+# Attack Surface Overview
+
+The lab identifies potential attack vectors and security mitigations.
+
+| Attack Surface | Threat | Mitigation |
+|---------------|-------|-----------|
+| Internet Edge | Port scanning | Firewall policy enforcement |
+| Guest Network | Untrusted device | VLAN isolation |
+| User Network | Compromised endpoint | Inter-VLAN firewall rules |
+| Management Plane | Unauthorized access | MGMT VLAN + restricted access |
+
+Full documentation:
+
+- Attack Surface Portal  
+https://pelen171004-wq.github.io/enterprise-security-lab/attack-surface.html
+
+---
+
+# Security Framework Alignment
+
+The security design aligns with industry frameworks:
+
 - [Zero Trust Networking Model](security-frameworks/zero-trust-model.md)
 - [CIS Network Security Controls](security-frameworks/cis-network-controls.md)
 
-### Architecture Decision Records
-- [Network Segmentation Decision Record](security-frameworks/decision-record-segmentation.md)
+---
 
+# Architecture Decision Records (ADR)
 
-### Additional Security Documentation
-- [Threat Model](security-frameworks/threat-model.md)
-- [Skills Mapping](skills-mapping.md)
-- [Security Control Matrix](security-control-matrix.md)
+Architecture decisions explain **why the network was designed this way**.
 
-### Lab Roadmap
-
-Planned improvements for the Enterprise Security Lab.
-
-#### Phase 1 – Core Network Security (current)
-
-- FortiGate NGFW deployment
-- Cisco CBS250 core switching
-- VLAN segmentation
-- Guest network isolation
-- Management VLAN
-- Inter-VLAN firewall policy model
-
-#### Phase 2 – Security Monitoring
-
-- SOC VLAN implementation
-- Log collection
-- SIEM integration
-- Network traffic monitoring
-
-#### Phase 3 – Infrastructure Expansion
-
-- Server zone deployment
-- Backup infrastructure zone
-- Security service segmentation
-
-#### Phase 4 – Enterprise Features
-
-- Firewall High Availability (HA)
-- Configuration backup automation
-- Security incident response runbooks
-
-## Architecture Decisions
-
-Key architectural decisions are documented using ADR:
+Examples:
 
 - Network segmentation model
 - Firewall policy architecture
 - Management plane protection
 
-See:
-
-architecture-decisions/
-
-## Threat Model
-
-- [Network Zone Threat Model](threat-model/THREAT-001-network-zones.md)
-
-- [Architecture Decisions Portal](architecture-decisions.html)
+Documentation:
