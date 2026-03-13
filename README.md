@@ -70,6 +70,19 @@ Key security design elements implemented in this lab:
 
 ---
 
+# Security Controls Implemented
+
+| Security Control | Implementation |
+|------------------|---------------|
+| Network Segmentation | VLAN architecture on Cisco CBS250 |
+| Firewall Enforcement | FortiGate NGFW policies |
+| Guest Isolation | Dedicated VLAN with internet-only access |
+| Management Plane Protection | MGMT VLAN with restricted access |
+| Inter-VLAN Security | Firewall policy model |
+| Threat Modeling | Documented attack surface and threats |
+| Architecture Governance | Architecture Decision Records (ADR) |
+| Security Framework Alignment | Zero Trust + CIS Controls |
+
 # Attack Surface Overview
 
 The lab identifies potential attack vectors and security mitigations.
