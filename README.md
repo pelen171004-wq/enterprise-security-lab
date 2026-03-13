@@ -110,3 +110,7 @@ Key architectural decisions are documented using ADR:
 See:
 
 architecture-decisions/
+
+## Threat Model
+
+- [Network Zone Threat Model](threat-model/THREAT-001-network-zones.md)
