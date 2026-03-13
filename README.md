@@ -30,6 +30,18 @@ Contains:
 
 ![Enterprise Security Lab Architecture](lab-architecture-v2.jpg)
 
+### Network Security Zones
+
+| Zone | Description |
+|-----|-------------|
+| Internet | Untrusted external network |
+| Firewall | Security enforcement point (FortiGate) |
+| Users VLAN | Standard internal client network |
+| Guest VLAN | Isolated internet-only network |
+| Management VLAN | Administrative access to network devices |
+| Server Zone (planned) | Infrastructure services |
+| Backup Zone (planned) | Backup infrastructure and storage |
+
 Core components:
 
 | Component | Role |
