@@ -172,3 +172,7 @@ Examples:
 - Management plane protection
 
 Documentation:
+
+architecture-decisions/Architecture decisions portal:
+
+https://pelen171004-wq.github.io/enterprise-security-lab/architecture-decisions.html
