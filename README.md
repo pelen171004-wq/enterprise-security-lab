@@ -30,6 +30,34 @@ Contains:
 
 ![Enterprise Security Lab Architecture](lab-architecture-v2.jpg)
 
+### Lab Network Topology (Simplified)
+
+Internet
+│
+Vodafone ISP Modem
+│
+FortiGate 60E (NGFW)
+│
+Cisco CBS250 (Core Switch)
+│
+├── VLAN20  Users Network
+│       Standard client devices
+│
+├── VLAN30  Management
+│       Device management (SSH / GUI)
+│
+├── VLAN40  SOC / Monitoring (planned)
+│       Logging / SIEM / monitoring tools
+│
+├── VLAN50  Server Zone (planned)
+│       Infrastructure services
+│
+├── VLAN60  Guest Network
+│       Internet-only access
+│
+└── VLAN70  Backup Zone (planned)
+Backup infrastructure
+
 ### Network Security Zones
 
 | Zone | Description |
