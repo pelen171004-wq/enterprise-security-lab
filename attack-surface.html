@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Attack Surface – Enterprise Security Lab</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#0f172a;
+color:white;
+margin:40px;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+margin-bottom:20px;
+border-radius:8px;
+}
+
+h1{color:#60a5fa}
+
+.nav a{
+margin-right:15px;
+color:#93c5fd;
+text-decoration:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="nav">
+
+<a href="./index.html">Home</a>
+<a href="topology.html">Topology</a>
+<a href="architecture-overview.html">Architecture</a>
+<a href="architecture-decisions.html">Architecture Decisions</a>
+
+</div>
+
+<h1>Network Attack Surface</h1>
+
+<div class="card">
+
+<h2>Internet Edge</h2>
+
+Threat:
+<ul>
+<li>Port scanning</li>
+<li>Exploit attempts</li>
+<li>Brute force</li>
+</ul>
+
+Mitigation:
+<ul>
+<li>FortiGate firewall</li>
+<li>NAT policy control</li>
+<li>Closed inbound ports</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>Guest Network</h2>
+
+Threat:
+<ul>
+<li>Malicious guest device</li>
+<li>Lateral movement</li>
+</ul>
+
+Mitigation:
+<ul>
+<li>Guest VLAN isolation</li>
+<li>Internet-only policy</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>User Network</h2>
+
+Threat:
+<ul>
+<li>Compromised endpoint</li>
+<li>Internal reconnaissance</li>
+</ul>
+
+Mitigation:
+<ul>
+<li>Inter-VLAN firewall rules</li>
+<li>Segmentation</li>
+</ul>
+
+</div>
+
+<div class="card">
+
+<h2>Management Plane</h2>
+
+Threat:
+<ul>
+<li>Unauthorized admin access</li>
+</ul>
+
+Mitigation:
+<ul>
+<li>Management VLAN</li>
+<li>Restricted access</li>
+</ul>
+
+</div>
+
+</body>
+</html>
