@@ -311,3 +311,18 @@ Management plane protection
 Documentation portal:
 
 https://pelen171004-wq.github.io/enterprise-security-lab/architecture-decisions.html
+
+
+# Device Configurations
+
+The repository also contains sanitized configuration snapshots of lab devices.
+
+configs/
+
+These configurations document:
+
+- VLAN architecture
+- firewall policies
+- routing
+- NAT configuration
+- management access model
