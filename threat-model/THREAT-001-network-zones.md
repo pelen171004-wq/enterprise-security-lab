@@ -3,39 +3,62 @@
 ## Status
 Active
 
+---
+
 ## Scope
 
-This threat model covers the current Enterprise Security Lab network zones:
+This threat model covers the current Enterprise Security Lab network zones.
+
+### Current Zones
 
 - VLAN20 – USERS
 - VLAN30 – MGMT
 - VLAN60 – GUEST
 
-Planned future zones:
+### Planned Future Zones
 
 - VLAN40 – SOC
 - VLAN50 – SERVERS
 - VLAN70 – BACKUP
 
+These zones form the foundation of the segmented security architecture implemented in the lab.
+
 ---
 
 ## Security Objective
 
-The objective is to reduce attack surface, limit lateral movement, and protect the management plane from untrusted endpoints.
+The primary objective of this network design is to:
+
+- reduce attack surface
+- limit lateral movement
+- isolate untrusted endpoints
+- protect the management plane
+
+All traffic between zones is inspected and controlled by the FortiGate firewall.
+
+The architecture follows a **Zero Trust inspired model** where traffic must be explicitly allowed.
 
 ---
 
 ## Threat 1 – User to Management Access
 
 ### Description
+
 A compromised user endpoint attempts to reach management interfaces of security or network devices.
 
+Examples:
+
+- FortiGate management interface
+- Switch management interface
+
 ### Risk
-If successful, an attacker may gain access to firewall or switch management and compromise the environment.
+
+If successful, an attacker could gain administrative access to security infrastructure and compromise the environment.
 
 ### Mitigation
+
 - Dedicated management VLAN
-- Users → Management deny policy
+- Users → Management deny firewall policy
 - FortiGate trusted host configuration
 - Restricted management access model
 
@@ -44,61 +67,83 @@ If successful, an attacker may gain access to firewall or switch management and 
 ## Threat 2 – Guest to Internal Access
 
 ### Description
+
 An untrusted guest device attempts to access internal infrastructure or security devices.
 
+Guest networks should never have visibility into internal services.
+
 ### Risk
-Unauthorized internal access, reconnaissance, malware spread.
+
+Possible outcomes include:
+
+- internal reconnaissance
+- service enumeration
+- malware propagation
 
 ### Mitigation
+
 - Guest VLAN isolated from internal networks
-- Guest → Internal deny policy
+- Guest → Internal deny firewall policy
 - Guest internet-only design
-- Local-in deny for guest traffic to FortiGate
+- Local-in deny policy for guest traffic targeting FortiGate
 
 ---
 
 ## Threat 3 – Excessive Trust Between Zones
 
 ### Description
-Too many broad allow rules create unnecessary trust between VLANs.
+
+Overly permissive firewall policies can create unnecessary trust relationships between security zones.
 
 ### Risk
-Lateral movement becomes easier after compromise.
+
+After a single host compromise, attackers may move laterally across the network.
 
 ### Mitigation
+
 - Explicit firewall policies
 - Least privilege traffic model
 - Zone-based segmentation
-- Default-deny mindset for east-west traffic
+- Default-deny approach for east-west traffic
 
 ---
 
 ## Threat 4 – Weak Visibility
 
 ### Description
-Traffic anomalies or malicious activity occur without logging or monitoring visibility.
+
+Network anomalies or malicious activity may occur without sufficient monitoring or logging.
 
 ### Risk
+
 Delayed incident detection and limited troubleshooting capability.
 
 ### Planned Mitigation
+
+Future monitoring improvements include:
+
 - SOC / monitoring VLAN
-- Traffic logs
-- Session troubleshooting workflow
-- Security monitoring stack
-- Centralized logging
+- firewall traffic logging
+- session troubleshooting workflow
+- security monitoring stack
+- centralized logging
 
 ---
 
 ## Assumptions
 
+The threat model assumes the following architectural conditions:
+
 - FortiGate is the primary policy enforcement point
-- CBS250 delivers VLAN separation to endpoints
-- Management access is limited to the MGMT zone
-- Guest devices are untrusted by design
+- Cisco CBS250 provides VLAN segmentation
+- Management access is limited to the MGMT VLAN
+- Guest devices are treated as untrusted endpoints
+- Inter-VLAN traffic is inspected by firewall policy
 
 ---
 
 ## Conclusion
 
-This threat model supports the segmented design of the lab and justifies the use of restricted traffic flows between zones.
+This threat model supports the segmented architecture used in the Enterprise Security Lab.
+
+The combination of VLAN segmentation, firewall policy enforcement and management plane isolation significantly reduces the attack surface and limits potential lateral movement within the environment.
