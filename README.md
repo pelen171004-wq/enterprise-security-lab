@@ -241,7 +241,11 @@ Threat modeling identifies potential attack scenarios across network zones.
 
 Documentation available in:
 
-[Network Zone Threat Model](threat-model/THREAT-001-network-zones.md)
+Threat model documentation:
+
+| Document | Description |
+|--------|-------------|
+| [THREAT-001 Network Zones](threat-model/THREAT-001-network-zones.md) | Network segmentation threat analysis |
 
 ---
 
