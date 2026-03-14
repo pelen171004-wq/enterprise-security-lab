@@ -241,7 +241,7 @@ Threat modeling identifies potential attack scenarios across network zones.
 
 Documentation available in:
 
-threat-model/THREAT-001-network-zones.md
+[Network Zone Threat Model](threat-model/THREAT-001-network-zones.md)
 
 ---
 
