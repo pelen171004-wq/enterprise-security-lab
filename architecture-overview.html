@@ -1,5 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab - Architecture Overview</title>
 <style>
-
 body{
 background:#0b1220;
 color:white;
@@ -33,40 +38,137 @@ background:#0b1320;
 background:#1e293b;
 }
 
+.section{
+background:#111827;
+padding:24px;
+margin-top:20px;
+border-radius:14px;
+text-align:left;
+}
+
+h1,h2,h3{
+margin-top:0;
+}
+
+p, li{
+line-height:1.7;
+color:#cbd5e1;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:18px;
+margin-top:20px;
+}
+
+.card{
+background:#0f172a;
+padding:20px;
+border-radius:12px;
+border:1px solid #334155;
+}
+
+.badge{
+display:inline-block;
+padding:6px 10px;
+margin:4px;
+border-radius:999px;
+background:#1e293b;
+color:#dbeafe;
+font-size:13px;
+}
 </style>
+</head>
+<body>
 
+<div class="container">
 
+<h1>Enterprise Security Lab</h1>
+<h2>Architecture Overview</h2>
 
 <div class="nav">
-
 <a href="index.html">Home</a>
-
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-
 <a href="topology.html">Topology</a>
-
 <a href="network-diagram.html">Network Diagram</a>
-
 <a href="network-zones.html">Network Zones</a>
-
 <a href="attack-paths.html">Attack Simulation</a>
-
 <a href="attack-surface.html">Attack Surface</a>
-
 <a href="architecture-overview.html">Architecture</a>
-
 <a href="architecture-decisions.html">Architecture Decisions</a>
-
 <a href="security-model.html">Security Model</a>
-
 <a href="security-operations.html">Security Operations</a>
-
+<a href="interactive-security-architecture.html">Interactive Architecture</a>
 <a href="soc-dashboard.html">SOC Dashboard</a>
-
 <a href="device-fortigate.html">FortiGate</a>
-
 <a href="device-cbs250.html">CBS250</a>
-
 <a href="troubleshooting.html">Troubleshooting</a>
+</div>
+
+<div class="section">
+<h3>Overview</h3>
+<p>
+This lab simulates a small enterprise network security architecture built around a FortiGate NGFW and Cisco CBS250 switch.
+The design focuses on segmentation, inter-VLAN control, management plane protection and operational troubleshooting.
+</p>
+
+<div>
+<span class="badge">FortiGate NGFW</span>
+<span class="badge">Cisco CBS250</span>
+<span class="badge">VLAN Segmentation</span>
+<span class="badge">Zero Trust</span>
+<span class="badge">SOC Expansion</span>
+</div>
+</div>
+
+<div class="grid">
+<div class="card">
+<h3>Core Devices</h3>
+<p>FortiGate performs routing, firewall enforcement, NAT and DHCP. Cisco CBS250 provides Layer 2 switching and VLAN transport.</p>
+</div>
+
+<div class="card">
+<h3>Current Zones</h3>
+<p>VLAN20 Users, VLAN30 Management and VLAN60 Guest are currently implemented as the core segmented security model.</p>
+</div>
+
+<div class="card">
+<h3>Planned Zones</h3>
+<p>VLAN40 SOC, VLAN50 Servers and VLAN70 Backup extend the design toward enterprise monitoring and service isolation.</p>
+</div>
+</div>
+
+<div class="section">
+<h3>Architecture Principles</h3>
+<ul>
+<li>Centralized security enforcement through FortiGate</li>
+<li>Explicit inter-VLAN traffic control</li>
+<li>Guest network isolation</li>
+<li>Dedicated management plane</li>
+<li>Least privilege traffic model</li>
+<li>Default deny mindset for east-west traffic</li>
+</ul>
+</div>
+
+<div class="section">
+<h3>Traffic Flow Model</h3>
+<ul>
+<li>Users VLAN → Internet = allowed through firewall policy and NAT</li>
+<li>Guest VLAN → Internet = allowed through firewall policy and NAT</li>
+<li>Users VLAN → Management VLAN = denied</li>
+<li>Guest VLAN → Internal networks = denied</li>
+</ul>
+</div>
+
+<div class="section">
+<h3>Operational Scope</h3>
+<p>
+The lab is also used to validate firewall behavior through diagnose debug flow, packet sniffing,
+session inspection and end-to-end connectivity testing from client networks.
+</p>
+</div>
 
 </div>
+</body>
+</html>
