@@ -1,72 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab - Architecture Decisions</title>
 <style>
-
-body{
-background:#0b1220;
-color:white;
-font-family:Arial;
-margin:0;
-text-align:center;
-}
-
-.container{
-max-width:1200px;
-margin:auto;
-padding:40px;
-}
-
-.nav{
-margin-bottom:30px;
-}
-
-.nav a{
-display:inline-block;
-margin:6px;
-padding:10px 16px;
-border:1px solid #334155;
-border-radius:999px;
-color:#dbeafe;
-text-decoration:none;
-background:#0b1320;
-}
-
-.nav a:hover{
-background:#1e293b;
-}
-
+body{margin:0;background:#0b1220;color:white;font-family:Arial,sans-serif;text-align:center}
+.container{max-width:1100px;margin:auto;padding:40px 20px 80px}
+.nav{margin-bottom:30px}
+.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
+.nav a:hover{background:#1e293b}
+.panel{background:#111827;padding:24px;border-radius:18px;text-align:left;line-height:1.7}
+h1{font-size:38px}
+h2{color:#94a3b8;font-weight:normal}
 </style>
+</head>
+<body>
+<div class="container">
+    <h1>Architecture Decisions</h1>
+    <h2>Enterprise Security Lab</h2>
 
+    <div class="nav">
+        <a href="index.html">Home</a>
+        <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+        <a href="topology.html">Topology</a>
+        <a href="network-diagram.html">Network Diagram</a>
+        <a href="network-zones.html">Network Zones</a>
+        <a href="attack-paths.html">Attack Simulation</a>
+        <a href="attack-surface.html">Attack Surface</a>
+        <a href="architecture-overview.html">Architecture</a>
+        <a href="architecture-decisions.html">Architecture Decisions</a>
+        <a href="security-model.html">Security Model</a>
+        <a href="security-operations.html">Security Operations</a>
+        <a href="interactive-security-architecture.html">Interactive Architecture</a>
+        <a href="firewall-policy-map.html">Policy Map</a>
+        <a href="soc-timeline.html">SOC Timeline</a>
+        <a href="traffic-simulation.html">Traffic Simulation</a>
+        <a href="soc-dashboard.html">SOC Dashboard</a>
+        <a href="device-fortigate.html">FortiGate</a>
+        <a href="device-cbs250.html">CBS250</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+    </div>
 
-
-<div class="nav">
-
-<a href="index.html">Home</a>
-
-<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-
-<a href="topology.html">Topology</a>
-
-<a href="network-diagram.html">Network Diagram</a>
-
-<a href="network-zones.html">Network Zones</a>
-
-<a href="attack-paths.html">Attack Simulation</a>
-
-<a href="attack-surface.html">Attack Surface</a>
-
-<a href="architecture-overview.html">Architecture</a>
-
-<a href="architecture-decisions.html">Architecture Decisions</a>
-
-<a href="security-model.html">Security Model</a>
-
-<a href="security-operations.html">Security Operations</a>
-
-<a href="soc-dashboard.html">SOC Dashboard</a>
-
-<a href="device-fortigate.html">FortiGate</a>
-
-<a href="device-cbs250.html">CBS250</a>
-
-<a href="troubleshooting.html">Troubleshooting</a>
-
+    <div class="panel">
+        <p><strong>Decision 1:</strong> Inter-VLAN routing is performed on FortiGate to allow firewall inspection and security enforcement.</p>
+        <p><strong>Decision 2:</strong> Management services are isolated in a dedicated VLAN to protect administrative interfaces.</p>
+        <p><strong>Decision 3:</strong> Guest traffic is restricted to internet-only access to reduce exposure and lateral movement risk.</p>
+        <p><strong>Decision 4:</strong> The environment follows a default-deny model for internal east-west traffic unless explicitly permitted.</p>
+    </div>
 </div>
+</body>
+</html>
