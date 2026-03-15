@@ -8,13 +8,116 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body{background:#060b16;color:#e2e8f0;font-family:'Inter',sans-serif;margin:0;text-align:center}
-.container{max-width:1100px;margin:auto;padding:40px 20px 80px}
+body{
+    background:#07111f;
+    color:#e5edf8;
+    font-family:'Inter',sans-serif;
+    margin:0;
+    text-align:center;
+}
+.container{
+    max-width:1280px;
+    margin:auto;
+    padding:36px 20px 80px;
+}
 .nav{margin-bottom:30px}
-.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
+.nav a{
+    display:inline-block;
+    margin:6px;
+    padding:10px 16px;
+    border:1px solid #334155;
+    border-radius:999px;
+    color:#dbeafe;
+    text-decoration:none;
+    background:#0b1320;
+}
 .nav a:hover{background:#1e293b}
-.card{background:#0f172a;border:1px solid #334155;border-radius:14px;padding:24px;text-align:left}
-ul{text-align:left}
+h1{margin:10px 0 8px;font-size:40px}
+h2{margin:0 0 24px;color:#94a3b8;font-weight:400}
+.diagram{
+    position:relative;
+    min-height:460px;
+    margin-top:18px;
+}
+.node{
+    position:absolute;
+    min-width:200px;
+    padding:20px 22px;
+    border-radius:16px;
+    color:white;
+    font-weight:700;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+.users{left:6%;top:100px;background:#10b981}
+.guest{left:6%;top:280px;background:#f59e0b}
+.firewall{left:50%;top:180px;transform:translateX(-50%);background:#ef4444;animation:pulse 1.8s infinite}
+.wan{right:6%;top:100px;background:#6366f1}
+.mgmt{right:6%;top:280px;background:#3b82f6}
+.path{
+    position:absolute;
+    height:4px;
+    background:#64748b;
+    border-radius:999px;
+}
+.p1{left:23%;top:150px;width:27%}
+.p2{left:23%;top:330px;width:27%}
+.p3{left:54%;top:150px;width:23%}
+.p4{left:54%;top:330px;width:23%}
+.packet{
+    position:absolute;
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    z-index:5;
+}
+.u{background:#34d399;box-shadow:0 0 12px rgba(52,211,153,.8);animation:usersFlow 3s linear infinite}
+.g{background:#fbbf24;box-shadow:0 0 12px rgba(251,191,36,.8);animation:guestFlow 4s linear infinite}
+.b{background:#fb7185;box-shadow:0 0 12px rgba(251,113,133,.8);animation:blockedFlow 2.6s linear infinite}
+.panel{
+    margin-top:24px;
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:18px;
+    padding:24px;
+    text-align:left;
+    line-height:1.7;
+}
+@keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(239,68,68,.45),0 10px 30px rgba(0,0,0,.25)}
+    70%{box-shadow:0 0 0 18px rgba(239,68,68,0),0 10px 30px rgba(0,0,0,.25)}
+    100%{box-shadow:0 0 0 0 rgba(239,68,68,0),0 10px 30px rgba(0,0,0,.25)}
+}
+@keyframes usersFlow{
+    0%{left:22%;top:144px;opacity:0}
+    10%{opacity:1}
+    45%{left:49%;top:144px}
+    70%{left:56%;top:144px}
+    100%{left:76%;top:144px;opacity:0}
+}
+@keyframes guestFlow{
+    0%{left:22%;top:324px;opacity:0}
+    10%{opacity:1}
+    45%{left:49%;top:324px}
+    70%{left:56%;top:144px}
+    100%{left:76%;top:144px;opacity:0}
+}
+@keyframes blockedFlow{
+    0%{left:22%;top:324px;opacity:0}
+    10%{opacity:1}
+    60%{left:49%;top:324px;opacity:1}
+    100%{left:52%;top:324px;opacity:0}
+}
+@media (max-width:900px){
+    .diagram{min-height:640px}
+    .users,.guest,.firewall,.wan,.mgmt{
+        position:relative;
+        left:auto;right:auto;top:auto;transform:none;
+        margin:14px auto;
+        display:block;
+        width:250px;
+    }
+    .path,.packet{display:none}
+}
 </style>
 </head>
 <body>
@@ -45,15 +148,29 @@ ul{text-align:left}
 </div>
 
 <h1>Traffic Simulation</h1>
+<h2>Animated Packet Movement</h2>
 
-<div class="card">
-<ul>
-<li>Users → Internet ✔</li>
-<li>Guest → Internet ✔</li>
-<li>Guest → Users ❌</li>
-<li>Users → Management ❌</li>
-</ul>
-<p>This page summarizes expected traffic behavior across the core lab zones.</p>
+<div class="diagram">
+    <div class="node users">Users VLAN20</div>
+    <div class="node guest">Guest VLAN60</div>
+    <div class="node firewall">FortiGate NGFW</div>
+    <div class="node wan">Internet</div>
+    <div class="node mgmt">MGMT VLAN30</div>
+
+    <div class="path p1"></div>
+    <div class="path p2"></div>
+    <div class="path p3"></div>
+    <div class="path p4"></div>
+
+    <div class="packet u"></div>
+    <div class="packet g"></div>
+    <div class="packet b"></div>
+</div>
+
+<div class="panel">
+    <p><strong>Green packet:</strong> Users traffic allowed to WAN.</p>
+    <p><strong>Amber packet:</strong> Guest internet-only traffic allowed through firewall.</p>
+    <p><strong>Red packet:</strong> Unauthorized east-west traffic stopped before reaching protected destinations.</p>
 </div>
 
 </div>
