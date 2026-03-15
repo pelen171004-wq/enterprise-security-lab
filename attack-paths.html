@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab - Attack Path Simulation</title>
+<style>
+    :root{
+        --bg1:#0b1220;
+        --bg2:#111827;
+        --panel:#0f172a;
+        --text:#e5edf8;
+        --muted:#9fb2cc;
+        --border:#334155;
+        --guest:#f59e0b;
+        --users:#10b981;
+        --mgmt:#ef4444;
+        --fw:#f43f5e;
+        --deny:#ef4444;
+        --ok:#22c55e;
+        --line:#64748b;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+        margin:0;
+        font-family:Arial, sans-serif;
+        background:linear-gradient(180deg,var(--bg1),var(--bg2));
+        color:var(--text);
+        text-align:center;
+    }
+
+    .container{
+        max-width:1200px;
+        margin:0 auto;
+        padding:40px 20px 80px;
+    }
+
+    h1{
+        margin:10px 0 8px;
+        font-size:38px;
+    }
+
+    h2{
+        margin:0 0 26px;
+        color:var(--muted);
+        font-weight:normal;
+    }
+
+    .nav{
+        margin-bottom:30px;
+    }
+
+    .nav a{
+        display:inline-block;
+        margin:6px;
+        padding:10px 16px;
+        border:1px solid var(--border);
+        border-radius:999px;
+        color:#dbeafe;
+        text-decoration:none;
+        background:#0b1320;
+    }
+
+    .diagram{
+        position:relative;
+        min-height:520px;
+        margin:0 auto 30px;
+    }
+
+    .node{
+        position:absolute;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        flex-direction:column;
+        text-align:center;
+        padding:18px 26px;
+        border-radius:16px;
+        font-weight:bold;
+        color:white;
+        box-shadow:0 10px 30px rgba(0,0,0,.25);
+        border:1px solid rgba(255,255,255,.12);
+        min-width:220px;
+    }
+
+    .guest{
+        left:10%;
+        top:240px;
+        background:var(--guest);
+    }
+
+    .firewall{
+        left:50%;
+        top:190px;
+        transform:translateX(-50%);
+        background:var(--fw);
+        animation:pulseFirewall 1.8s infinite;
+    }
+
+    .users{
+        right:10%;
+        top:110px;
+        background:var(--users);
+    }
+
+    .mgmt{
+        right:10%;
+        top:310px;
+        background:var(--mgmt);
+    }
+
+    .small{
+        margin-top:6px;
+        font-size:13px;
+        font-weight:normal;
+        color:#f8fafc;
+    }
+
+    .path{
+        position:absolute;
+        height:4px;
+        background:var(--line);
+        border-radius:8px;
+        overflow:hidden;
+    }
+
+    .path.guest-fw{
+        left:28%;
+        top:280px;
+        width:20%;
+    }
+
+    .path.fw-users{
+        left:58%;
+        top:210px;
+        width:18%;
+    }
+
+    .path.fw-mgmt{
+        left:58%;
+        top:390px;
+        width:18%;
+    }
+
+    .packet{
+        position:absolute;
+        width:12px;
+        height:12px;
+        border-radius:50%;
+        background:#fff;
+        box-shadow:0 0 12px rgba(255,255,255,.8);
+    }
+
+    .packet-users{
+        animation:attackUsers 2.8s linear infinite;
+    }
+
+    .packet-mgmt{
+        animation:attackMgmt 3.2s linear infinite;
+    }
+
+    .deny-badge{
+        position:absolute;
+        background:var(--deny);
+        color:white;
+        font-size:14px;
+        font-weight:bold;
+        padding:10px 14px;
+        border-radius:999px;
+        box-shadow:0 0 14px rgba(239,68,68,.55);
+        animation:blinkDeny 1s infinite;
+    }
+
+    .deny-users{
+        left:62%;
+        top:165px;
+    }
+
+    .deny-mgmt{
+        left:62%;
+        top:345px;
+    }
+
+    .panel{
+        max-width:980px;
+        margin:0 auto 24px;
+        background:rgba(15,23,42,.92);
+        border:1px solid rgba(255,255,255,.08);
+        border-radius:18px;
+        padding:24px;
+        text-align:left;
+        box-shadow:0 10px 30px rgba(0,0,0,.25);
+    }
+
+    .panel h3{
+        margin:0 0 14px;
+        font-size:26px;
+    }
+
+    .panel p{
+        color:var(--muted);
+        line-height:1.6;
+    }
+
+    .event-box{
+        margin-top:16px;
+        background:#0b1320;
+        border:1px solid rgba(255,255,255,.06);
+        border-radius:14px;
+        padding:18px;
+    }
+
+    .event-line{
+        margin:8px 0;
+        font-size:16px;
+    }
+
+    .deny-text{
+        color:var(--deny);
+        font-weight:bold;
+    }
+
+    .ok-text{
+        color:var(--ok);
+        font-weight:bold;
+    }
+
+    .legend{
+        margin-top:18px;
+        color:var(--muted);
+        line-height:1.7;
+    }
+
+    @keyframes pulseFirewall{
+        0%{box-shadow:0 0 0 0 rgba(244,63,94,.45),0 10px 30px rgba(0,0,0,.25)}
+        70%{box-shadow:0 0 0 18px rgba(244,63,94,0),0 10px 30px rgba(0,0,0,.25)}
+        100%{box-shadow:0 0 0 0 rgba(244,63,94,0),0 10px 30px rgba(0,0,0,.25)}
+    }
+
+    @keyframes blinkDeny{
+        0%,100%{opacity:1}
+        50%{opacity:.35}
+    }
+
+    @keyframes attackUsers{
+        0%   { left:26%; top:274px; opacity:0; }
+        10%  { opacity:1; }
+        45%  { left:47%; top:274px; }
+        60%  { left:52%; top:248px; }
+        75%  { left:58%; top:220px; opacity:1; }
+        100% { left:61%; top:210px; opacity:0; }
+    }
+
+    @keyframes attackMgmt{
+        0%   { left:26%; top:286px; opacity:0; }
+        10%  { opacity:1; }
+        45%  { left:47%; top:286px; }
+        60%  { left:52%; top:322px; }
+        75%  { left:58%; top:372px; opacity:1; }
+        100% { left:61%; top:390px; opacity:0; }
+    }
+
+    @media (max-width:980px){
+        .diagram{min-height:760px}
+        .guest{left:50%; transform:translateX(-50%); top:420px;}
+        .firewall{top:250px;}
+        .users{left:50%; right:auto; transform:translateX(-50%); top:40px;}
+        .mgmt{left:50%; right:auto; transform:translateX(-50%); top:610px;}
+
+        .path.guest-fw{
+            left:50%;
+            transform:translateX(-50%);
+            top:360px;
+            width:4px;
+            height:60px;
+        }
+
+        .path.fw-users{
+            left:50%;
+            transform:translateX(-50%);
+            top:150px;
+            width:4px;
+            height:100px;
+        }
+
+        .path.fw-mgmt{
+            left:50%;
+            transform:translateX(-50%);
+            top:450px;
+            width:4px;
+            height:160px;
+        }
+
+        .deny-users{
+            left:58%;
+            top:165px;
+        }
+
+        .deny-mgmt{
+            left:58%;
+            top:505px;
+        }
+
+        @keyframes attackUsers{
+            0%   { left:50%; top:430px; opacity:0; }
+            10%  { opacity:1; }
+            45%  { left:50%; top:320px; }
+            70%  { left:50%; top:250px; }
+            100% { left:50%; top:190px; opacity:0; }
+        }
+
+        @keyframes attackMgmt{
+            0%   { left:50%; top:430px; opacity:0; }
+            10%  { opacity:1; }
+            45%  { left:50%; top:360px; }
+            70%  { left:50%; top:430px; }
+            100% { left:50%; top:500px; opacity:0; }
+        }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+
+    <h1>Enterprise Security Lab</h1>
+    <h2>Attack Path Simulation Diagram</h2>
+
+    <div class="nav">
+        <a href="./">Home</a>
+        <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+        <a href="network-diagram.html">Animated Topology</a>
+        <a href="network-zones.html">Network Zones</a>
+        <a href="topology.html">Topology</a>
+    </div>
+
+    <div class="diagram">
+        <div class="node guest">
+            Guest VLAN
+            <span class="small">Untrusted endpoint zone</span>
+        </div>
+
+        <div class="node firewall">
+            FortiGate NGFW
+            <span class="small">Policy enforcement point</span>
+        </div>
+
+        <div class="node users">
+            Users VLAN
+            <span class="small">Internal client network</span>
+        </div>
+
+        <div class="node mgmt">
+            Management VLAN
+            <span class="small">Protected infrastructure zone</span>
+        </div>
+
+        <div class="path guest-fw"></div>
+        <div class="path fw-users"></div>
+        <div class="path fw-mgmt"></div>
+
+        <div class="packet packet-users"></div>
+        <div class="packet packet-mgmt"></div>
+
+        <div class="deny-badge deny-users">BLOCKED BY FIREWALL</div>
+        <div class="deny-badge deny-mgmt">BLOCKED BY FIREWALL</div>
+    </div>
+
+    <div class="panel">
+        <h3>Attack Simulation Summary</h3>
+        <p>This simulation represents an untrusted endpoint located in the Guest VLAN attempting to move laterally into protected internal zones. The FortiGate firewall inspects the traffic path and blocks unauthorized access according to the segmentation policy model.</p>
+
+        <div class="event-box">
+            <div class="event-line">Guest VLAN → Users VLAN <span class="deny-text">BLOCKED BY FIREWALL</span></div>
+            <div class="event-line">Guest VLAN → Management VLAN <span class="deny-text">BLOCKED BY FIREWALL</span></div>
+            <div class="event-line">Guest VLAN → Internet <span class="ok-text">ALLOWED</span></div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h3>Security Meaning</h3>
+        <p>This model demonstrates how VLAN segmentation and firewall policy enforcement reduce attack surface and prevent lateral movement. It reflects a Zero Trust inspired design where untrusted endpoints are never allowed to directly reach internal or management networks.</p>
+    </div>
+
+    <div class="legend">
+        Simulated attack paths are animated from the Guest zone toward protected internal networks.  
+        Deny policies stop the flow before it reaches Users or Management.
+    </div>
+
+</div>
+</body>
+</html>
