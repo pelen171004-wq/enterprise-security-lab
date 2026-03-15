@@ -1,638 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab - Interactive Network Diagram</title>
+<title>Enterprise Security Lab - Network Diagram</title>
+
 <style>
-    :root{
-        --bg1:#0b1220;
-        --bg2:#111827;
-        --panel:#0f172a;
-        --text:#e5edf8;
-        --muted:#9fb2cc;
-        --line:#314056;
-        --internet:#6366f1;
-        --firewall:#ef4444;
-        --switch:#3b82f6;
-        --vlan:#10b981;
-        --soc:#f59e0b;
-        --danger:#f43f5e;
-        --ok:#22c55e;
-        --glow:#93c5fd;
-    }
-
-    *{box-sizing:border-box}
-
-    body{
-        margin:0;
-        font-family:Arial, sans-serif;
-        background:linear-gradient(180deg,var(--bg1),var(--bg2));
-        color:var(--text);
-        text-align:center;
-    }
-
-    .container{
-        max-width:1280px;
-        margin:0 auto;
-        padding:40px 20px 80px;
-    }
-
-    h1{
-        margin:10px 0 8px;
-        font-size:38px;
-    }
-
-    h2{
-        margin:0 0 24px;
-        color:var(--muted);
-        font-weight:normal;
-    }
-
-    .nav{
-        margin-bottom:28px;
-    }
-
-    .nav a{
-        display:inline-block;
-        margin:6px;
-        padding:10px 16px;
-        border:1px solid var(--line);
-        border-radius:999px;
-        color:#dbeafe;
-        text-decoration:none;
-        background:#0b1320;
-    }
-
-    .topbar{
-        display:flex;
-        flex-wrap:wrap;
-        justify-content:center;
-        gap:16px;
-        margin:0 auto 28px;
-    }
-
-    .metric{
-        min-width:170px;
-        background:rgba(15,23,42,.9);
-        border:1px solid rgba(255,255,255,.08);
-        border-radius:14px;
-        padding:14px 16px;
-        box-shadow:0 10px 30px rgba(0,0,0,.20);
-    }
-
-    .metric .label{
-        display:block;
-        font-size:12px;
-        color:var(--muted);
-        margin-bottom:6px;
-        text-transform:uppercase;
-        letter-spacing:.08em;
-    }
-
-    .metric .value{
-        font-size:28px;
-        font-weight:bold;
-    }
-
-    .diagram{
-        position:relative;
-        width:100%;
-        min-height:980px;
-        margin:0 auto 36px;
-    }
-
-    .node{
-        position:absolute;
-        left:50%;
-        transform:translateX(-50%);
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        flex-direction:column;
-        text-align:center;
-        padding:18px 26px;
-        border-radius:14px;
-        font-weight:bold;
-        color:white;
-        text-decoration:none;
-        box-shadow:0 10px 30px rgba(0,0,0,.25);
-        border:1px solid rgba(255,255,255,.15);
-        min-width:220px;
-    }
-
-    .node.clickable{ cursor:pointer; }
-
-    .internet{
-        top:20px;
-        background:var(--internet);
-    }
-
-    .firewall{
-        top:170px;
-        background:var(--firewall);
-        animation:pulseFirewall 1.8s infinite;
-    }
-
-    .firewall::after{
-        content:"IPS ACTIVE";
-        position:absolute;
-        top:-12px;
-        right:-10px;
-        font-size:10px;
-        font-weight:bold;
-        background:var(--danger);
-        color:white;
-        border-radius:999px;
-        padding:6px 10px;
-        box-shadow:0 0 14px rgba(244,63,94,.7);
-        animation:blinkBadge 1s infinite;
-    }
-
-    .switch{
-        top:330px;
-        background:var(--switch);
-    }
-
-    .vlan-row{
-        position:absolute;
-        top:560px;
-        left:50%;
-        transform:translateX(-50%);
-        width:min(1100px,98%);
-        display:flex;
-        justify-content:center;
-        gap:18px;
-        flex-wrap:wrap;
-    }
-
-    .vlan{
-        background:var(--vlan);
-        min-width:210px;
-        position:relative;
-        opacity:0;
-        transform:translateY(18px);
-        animation:showVlan .9s forwards;
-    }
-
-    .vlan.users{animation-delay:.3s}
-    .vlan.mgmt{animation-delay:.8s}
-    .vlan.guest{animation-delay:1.3s}
-    .vlan.soc{
-        animation-delay:1.8s;
-        background:var(--soc);
-    }
-
-    .label-small{
-        display:block;
-        margin-top:6px;
-        font-size:13px;
-        font-weight:normal;
-        color:#ecfeff;
-    }
-
-    .line{
-        position:absolute;
-        left:50%;
-        transform:translateX(-50%);
-        width:4px;
-        background:linear-gradient(180deg,#6b7280,#94a3b8);
-        border-radius:10px;
-        overflow:hidden;
-    }
-
-    .line-main-1{top:78px;height:90px}
-    .line-main-2{top:248px;height:82px}
-    .line-main-3{top:408px;height:130px}
-
-    .flow{
-        position:absolute;
-        left:0;
-        width:100%;
-        height:22px;
-        background:linear-gradient(180deg,rgba(147,197,253,0),rgba(147,197,253,.95),rgba(147,197,253,0));
-        box-shadow:0 0 18px rgba(147,197,253,.8);
-        animation:moveDown 2.2s linear infinite;
-    }
-
-    .branch{
-        position:absolute;
-        top:535px;
-        height:4px;
-        background:#64748b;
-        border-radius:10px;
-    }
-
-    .branch.b1{ left:17%; width:16%; }
-    .branch.b2{ left:33%; width:17%; }
-    .branch.b3{ left:50%; width:17%; }
-    .branch.b4{ left:67%; width:16%; }
-
-    .packet{
-        width:10px;
-        height:10px;
-        border-radius:50%;
-        position:absolute;
-        z-index:20;
-    }
-
-    .packet.users{
-        background:#00ffcc;
-        box-shadow:0 0 12px rgba(0,255,204,.8);
-        animation:movePacketUsers 4s linear infinite;
-    }
-
-    .packet.guest{
-        background:#ffaa00;
-        box-shadow:0 0 12px rgba(255,170,0,.8);
-        animation:movePacketGuest 5s linear infinite;
-    }
-
-    .packet.soc{
-        background:#f59e0b;
-        box-shadow:0 0 12px rgba(245,158,11,.8);
-        animation:movePacketSoc 6s linear infinite;
-    }
-
-    .panel{
-        max-width:1050px;
-        margin:0 auto 26px;
-        background:rgba(15,23,42,.92);
-        border:1px solid rgba(255,255,255,.08);
-        border-radius:18px;
-        padding:24px;
-        text-align:left;
-        box-shadow:0 10px 30px rgba(0,0,0,.25);
-    }
-
-    .panel h3{
-        margin:0 0 14px;
-        font-size:26px;
-    }
-
-    .panel p{
-        color:var(--muted);
-        line-height:1.6;
-    }
-
-    .policy-box{
-        margin-top:14px;
-        padding:18px;
-        border-radius:14px;
-        background:#0b1320;
-        border:1px solid rgba(255,255,255,.06);
-        min-height:130px;
-    }
-
-    .policy-title{
-        font-size:18px;
-        font-weight:bold;
-        margin-bottom:10px;
-    }
-
-    .policy-line{
-        margin:8px 0;
-        font-size:16px;
-    }
-
-    .ok{ color:var(--ok); font-weight:bold; }
-    .deny{ color:var(--danger); font-weight:bold; }
-
-    .upgrades{
-        display:grid;
-        grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-        gap:16px;
-        margin-top:18px;
-    }
-
-    .upgrade-card{
-        background:#0b1320;
-        border:1px solid rgba(255,255,255,.06);
-        border-radius:14px;
-        padding:16px;
-    }
-
-    .upgrade-card h4{
-        margin:0 0 10px;
-        font-size:18px;
-    }
-
-    .upgrade-card ul{
-        margin:0;
-        padding-left:18px;
-        color:var(--muted);
-    }
-
-    .legend{
-        margin-top:24px;
-        color:var(--muted);
-        font-size:14px;
-    }
-
-    @keyframes pulseFirewall{
-        0%{box-shadow:0 0 0 0 rgba(239,68,68,.55),0 10px 30px rgba(0,0,0,.25)}
-        70%{box-shadow:0 0 0 22px rgba(239,68,68,0),0 10px 30px rgba(0,0,0,.25)}
-        100%{box-shadow:0 0 0 0 rgba(239,68,68,0),0 10px 30px rgba(0,0,0,.25)}
-    }
-
-    @keyframes blinkBadge{
-        0%,100%{opacity:1}
-        50%{opacity:.35}
-    }
-
-    @keyframes moveDown{
-        0%{top:-24px;opacity:0}
-        10%{opacity:1}
-        100%{top:100%;opacity:0}
-    }
-
-    @keyframes showVlan{
-        to{
-            opacity:1;
-            transform:translateY(0);
-        }
-    }
-
-    @keyframes movePacketUsers{
-        0%   { left:24%; top:630px; opacity:0; }
-        15%  { opacity:1; }
-        40%  { left:36%; top:540px; }
-        65%  { left:50%; top:385px; }
-        85%  { left:50%; top:230px; }
-        100% { left:50%; top:95px; opacity:0; }
-    }
-
-    @keyframes movePacketGuest{
-        0%   { left:76%; top:630px; opacity:0; }
-        15%  { opacity:1; }
-        40%  { left:64%; top:540px; }
-        65%  { left:50%; top:385px; }
-        85%  { left:50%; top:230px; }
-        100% { left:50%; top:95px; opacity:0; }
-    }
-
-    @keyframes movePacketSoc{
-        0%   { left:58%; top:630px; opacity:0; }
-        15%  { opacity:1; }
-        40%  { left:54%; top:540px; }
-        65%  { left:50%; top:385px; }
-        85%  { left:50%; top:230px; }
-        100% { left:50%; top:95px; opacity:0; }
-    }
-
-    @media (max-width:900px){
-        .diagram{min-height:1180px}
-        .vlan-row{
-            top:520px;
-            justify-content:center;
-        }
-        .vlan{
-            position:relative;
-            left:auto;
-            transform:none;
-            width:100%;
-            max-width:320px;
-        }
-        .branch{display:none}
-        .line-main-3{height:90px}
-
-        @keyframes movePacketUsers{
-            0%   { left:50%; top:900px; opacity:0; }
-            15%  { opacity:1; }
-            45%  { left:50%; top:620px; }
-            75%  { left:50%; top:330px; }
-            100% { left:50%; top:95px; opacity:0; }
-        }
-
-        @keyframes movePacketGuest{
-            0%   { left:50%; top:950px; opacity:0; }
-            15%  { opacity:1; }
-            45%  { left:50%; top:670px; }
-            75%  { left:50%; top:350px; }
-            100% { left:50%; top:95px; opacity:0; }
-        }
-
-        @keyframes movePacketSoc{
-            0%   { left:50%; top:1000px; opacity:0; }
-            15%  { opacity:1; }
-            45%  { left:50%; top:720px; }
-            75%  { left:50%; top:370px; }
-            100% { left:50%; top:95px; opacity:0; }
-        }
-    }
-</style>
-</head>
-<body>
-<div class="container">
-
-    <h1>Enterprise Security Lab</h1>
-    <h2>Interactive Network Topology</h2>
-
-    <div class="nav">
-        <a href="./">Home</a>
-        <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-        <a href="topology.html">Topology</a>
-        <a href="device-fortigate.html">FortiGate</a>
-        <a href="device-cbs250.html">CBS250</a>
-    </div>
-
-    <div class="topbar">
-        <div class="metric">
-            <span class="label">Packets / sec</span>
-            <span class="value" id="pps">128</span>
-        </div>
-        <div class="metric">
-            <span class="label">Active Sessions</span>
-            <span class="value" id="sessions">42</span>
-        </div>
-        <div class="metric">
-            <span class="label">Blocked Flows</span>
-            <span class="value" id="blocked">7</span>
-        </div>
-        <div class="metric">
-            <span class="label">Firewall Status</span>
-            <span class="value">IPS ON</span>
-        </div>
-    </div>
-
-    <div class="diagram">
-
-        <div class="packet users"></div>
-        <div class="packet guest"></div>
-        <div class="packet soc"></div>
-
-        <div class="node internet">
-            Internet
-            <span class="label-small">Untrusted external network</span>
-        </div>
-
-        <div class="line line-main-1">
-            <div class="flow"></div>
-        </div>
-
-        <a class="node firewall" href="device-fortigate.html">
-            FortiGate 60E
-            <span class="label-small">NGFW / Policy Enforcement / NAT / IPS</span>
-        </a>
-
-        <div class="line line-main-2">
-            <div class="flow" style="animation-delay:.5s;"></div>
-        </div>
-
-        <a class="node switch" href="device-cbs250.html">
-            Cisco CBS250 (SWA)
-            <span class="label-small">Core switch / VLAN segmentation</span>
-        </a>
-
-        <div class="line line-main-3">
-            <div class="flow" style="animation-delay:1s;"></div>
-        </div>
-
-        <div class="branch b1"></div>
-        <div class="branch b2"></div>
-        <div class="branch b3"></div>
-        <div class="branch b4"></div>
-
-        <div class="vlan-row">
-            <div class="node vlan users clickable" onclick="showPolicy('users')">
-                VLAN20
-                <span class="label-small">Users Network</span>
-            </div>
-
-            <div class="node vlan mgmt clickable" onclick="showPolicy('mgmt')">
-                VLAN30
-                <span class="label-small">Management</span>
-            </div>
-
-            <div class="node vlan soc clickable" onclick="showPolicy('soc')">
-                VLAN40
-                <span class="label-small">SOC / Monitoring</span>
-            </div>
-
-            <div class="node vlan guest clickable" onclick="showPolicy('guest')">
-                VLAN60
-                <span class="label-small">Guest Network</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="panel">
-        <h3>Policy Flow Viewer</h3>
-        <p>Click a VLAN zone to display expected firewall policy behavior and traffic flow through the FortiGate.</p>
-        <div class="policy-box" id="policyBox">
-            <div class="policy-title">Select a VLAN</div>
-            <div class="policy-line">Click VLAN20, VLAN30, VLAN40 or VLAN60 above.</div>
-        </div>
-    </div>
-
-    <div class="panel">
-        <h3>Recommended Next Lab Step</h3>
-        <p><strong>VLAN40 – SOC / monitoring segment</strong> is the next logical improvement for this lab. It adds monitoring visibility, prepares the design for SIEM integration and moves the environment closer to an enterprise security architecture model.</p>
-    </div>
-
-    <div class="panel">
-        <h3>Next Upgrades</h3>
-        <div class="upgrades">
-            <div class="upgrade-card">
-                <h4>1. Firewall Policy Visualization</h4>
-                <ul>
-                    <li>VLAN20 → WAN ✔</li>
-                    <li>VLAN60 → WAN ✔</li>
-                    <li>VLAN60 → VLAN20 ❌</li>
-                </ul>
-            </div>
-            <div class="upgrade-card">
-                <h4>2. SOC Monitoring Panel</h4>
-                <ul>
-                    <li>packets/sec</li>
-                    <li>active sessions</li>
-                    <li>blocked flows</li>
-                </ul>
-            </div>
-            <div class="upgrade-card">
-                <h4>3. Attack Simulation</h4>
-                <ul>
-                    <li>Guest VLAN → Users VLAN</li>
-                    <li><span class="deny">BLOCKED BY FIREWALL</span></li>
-                </ul>
-            </div>
-            <div class="upgrade-card">
-                <h4>4. Enterprise Network Zones Diagram</h4>
-                <ul>
-                    <li>Users</li>
-                    <li>Guest</li>
-                    <li>MGMT</li>
-                    <li>SOC</li>
-                    <li>Servers</li>
-                    <li>Backup</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="legend">
-        Animated flow represents traffic traversing the firewall and switching layer.  
-        Click VLAN zones to view policy behavior. Click firewall or switch nodes to open device documentation.
-    </div>
-
-</div>
-
-<script>
-function showPolicy(zone){
-    const box = document.getElementById('policyBox');
-
-    if(zone === 'users'){
-        box.innerHTML = `
-            <div class="policy-title">VLAN20 – Users Network</div>
-            <div class="policy-line">Users → Internet <span class="ok">ALLOW</span></div>
-            <div class="policy-line">Users → Management <span class="deny">DENY</span></div>
-            <div class="policy-line">Users traffic is routed through FortiGate for policy enforcement and NAT.</div>
-        `;
-    }
-
-    if(zone === 'mgmt'){
-        box.innerHTML = `
-            <div class="policy-title">VLAN30 – Management</div>
-            <div class="policy-line">Management → Infrastructure <span class="ok">ALLOW</span></div>
-            <div class="policy-line">Users → Management <span class="deny">DENY</span></div>
-            <div class="policy-line">Guest → Management <span class="deny">DENY</span></div>
-            <div class="policy-line">Management plane is protected by dedicated VLAN segmentation.</div>
-        `;
-    }
-
-    if(zone === 'soc'){
-        box.innerHTML = `
-            <div class="policy-title">VLAN40 – SOC / Monitoring</div>
-            <div class="policy-line">SOC → Logs / Monitoring <span class="ok">PLANNED</span></div>
-            <div class="policy-line">Centralized visibility <span class="ok">PLANNED</span></div>
-            <div class="policy-line">SIEM / security monitoring integration is the next recommended step.</div>
-        `;
-    }
-
-    if(zone === 'guest'){
-        box.innerHTML = `
-            <div class="policy-title">VLAN60 – Guest Network</div>
-            <div class="policy-line">Guest → Internet <span class="ok">ALLOW</span></div>
-            <div class="policy-line">Guest → Users <span class="deny">DENY</span></div>
-            <div class="policy-line">Guest → Management <span class="deny">DENY</span></div>
-            <div class="policy-line">Guest network is isolated to prevent lateral movement.</div>
-        `;
-    }
+body{
+font-family:Arial;
+background:#0b1220;
+color:white;
+text-align:center;
+margin:0;
 }
 
-let pps = 128;
-let sessions = 42;
-let blocked = 7;
+.container{
+max-width:1100px;
+margin:auto;
+padding:40px;
+}
 
-setInterval(() => {
-    pps = 120 + Math.floor(Math.random() * 35);
-    sessions = 40 + Math.floor(Math.random() * 18);
-    blocked = 5 + Math.floor(Math.random() * 6);
+.nav{
+margin-bottom:30px;
+}
 
-    document.getElementById('pps').textContent = pps;
-    document.getElementById('sessions').textContent = sessions;
-    document.getElementById('blocked').textContent = blocked;
-}, 1800);
-</script>
+.nav a{
+display:inline-block;
+margin:6px;
+padding:10px 16px;
+border:1px solid #334155;
+border-radius:999px;
+color:#dbeafe;
+text-decoration:none;
+background:#0b1320;
+}
+
+.node{
+display:inline-block;
+padding:20px;
+margin:20px;
+border-radius:12px;
+}
+
+.internet{background:#6366f1}
+.firewall{background:#ef4444}
+.switch{background:#3b82f6}
+.vlan{background:#10b981}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Enterprise Security Lab</h1>
+<h2>Network Diagram</h2>
+
+<div class="nav">
+<a href="./">Home</a>
+<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+<a href="topology.html">Topology</a>
+<a href="network-diagram.html">Network Diagram</a>
+<a href="network-zones.html">Network Zones</a>
+<a href="attack-paths.html">Attack Simulation</a>
+<a href="soc-dashboard.html">SOC Dashboard</a>
+<a href="device-fortigate.html">FortiGate</a>
+<a href="device-cbs250.html">CBS250</a>
+</div>
+
+<div class="node internet">Internet</div>
+<br>
+<div class="node firewall">FortiGate NGFW</div>
+<br>
+<div class="node switch">Cisco CBS250</div>
+<br>
+
+<div class="node vlan">VLAN20 Users</div>
+<div class="node vlan">VLAN30 MGMT</div>
+<div class="node vlan">VLAN60 Guest</div>
+
+</div>
 </body>
 </html>
