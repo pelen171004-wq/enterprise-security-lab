@@ -8,19 +8,185 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body{background:#060b16;color:#e2e8f0;font-family:'Inter',sans-serif;margin:0;text-align:center}
-.container{max-width:1100px;margin:auto;padding:40px 20px 80px}
-.nav{margin-bottom:30px}
-.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
+:root{
+    --bg1:#07111f;
+    --bg2:#111827;
+    --text:#e5edf8;
+    --muted:#9fb2cc;
+    --line:#314056;
+    --internet:#6366f1;
+    --firewall:#ef4444;
+    --switch:#3b82f6;
+    --vlan:#10b981;
+}
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    background:linear-gradient(180deg,var(--bg1),var(--bg2));
+    color:var(--text);
+    text-align:center;
+}
+.container{
+    max-width:1280px;
+    margin:0 auto;
+    padding:36px 20px 80px;
+}
+.nav{
+    margin-bottom:30px;
+}
+.nav a{
+    display:inline-block;
+    margin:6px;
+    padding:10px 16px;
+    border:1px solid #334155;
+    border-radius:999px;
+    color:#dbeafe;
+    text-decoration:none;
+    background:#0b1320;
+}
 .nav a:hover{background:#1e293b}
-.card{background:#0f172a;border:1px solid #334155;border-radius:14px;padding:24px;text-align:left}
-.diagram{margin-top:30px;display:flex;flex-direction:column;align-items:center;gap:18px}
-.box{padding:18px 24px;border-radius:10px;min-width:280px;border:1px solid #334155}
-.internet{background:#4338ca}
-.firewall{background:#b91c1c}
-.switch{background:#1d4ed8}
-.vlan{background:#047857}
-.line{width:4px;height:24px;background:#64748b}
+h1{margin:10px 0 8px;font-size:40px}
+h2{margin:0 0 26px;color:var(--muted);font-weight:400}
+.diagram{
+    position:relative;
+    width:100%;
+    min-height:760px;
+    margin:0 auto;
+}
+.node{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:18px 26px;
+    border-radius:14px;
+    font-weight:700;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+    min-width:240px;
+}
+.internet{top:18px;background:var(--internet)}
+.firewall{top:170px;background:var(--firewall);animation:pulseFirewall 1.8s infinite}
+.switch{top:330px;background:var(--switch)}
+.vlan-row{
+    position:absolute;
+    top:540px;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(980px,95%);
+    display:flex;
+    justify-content:space-between;
+    gap:18px;
+    flex-wrap:wrap;
+}
+.vlan{
+    background:var(--vlan);
+    min-width:220px;
+    opacity:0;
+    transform:translateY(20px);
+    animation:showVlan .8s forwards;
+}
+.vlan.users{animation-delay:.2s}
+.vlan.mgmt{animation-delay:.6s}
+.vlan.guest{animation-delay:1s}
+.label-small{
+    display:block;
+    margin-top:6px;
+    font-size:13px;
+    font-weight:400;
+    color:#ecfeff;
+}
+.line{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    width:4px;
+    background:linear-gradient(180deg,#6b7280,#94a3b8);
+    border-radius:10px;
+    overflow:hidden;
+}
+.line-main-1{top:80px;height:88px}
+.line-main-2{top:248px;height:82px}
+.line-main-3{top:408px;height:125px}
+.flow{
+    position:absolute;
+    left:0;
+    width:100%;
+    height:22px;
+    background:linear-gradient(180deg,rgba(147,197,253,0),rgba(147,197,253,.95),rgba(147,197,253,0));
+    box-shadow:0 0 18px rgba(147,197,253,.8);
+    animation:moveDown 2.1s linear infinite;
+}
+.branch{
+    position:absolute;
+    top:505px;
+    height:4px;
+    background:#64748b;
+    border-radius:10px;
+}
+.branch.left{left:21%;width:20%}
+.branch.center{left:40%;width:20%}
+.branch.right{left:59%;width:20%}
+.legend{
+    margin-top:38px;
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.7;
+}
+.packet{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    position:absolute;
+    z-index:5;
+}
+.packet1{
+    background:#00ffcc;
+    box-shadow:0 0 12px rgba(0,255,204,.8);
+    animation:movePacket 4s linear infinite;
+}
+.packet2{
+    background:#ffaa00;
+    box-shadow:0 0 12px rgba(255,170,0,.8);
+    animation:movePacket2 5s linear infinite;
+}
+@keyframes pulseFirewall{
+    0%{box-shadow:0 0 0 0 rgba(239,68,68,.55),0 10px 30px rgba(0,0,0,.25)}
+    70%{box-shadow:0 0 0 22px rgba(239,68,68,0),0 10px 30px rgba(0,0,0,.25)}
+    100%{box-shadow:0 0 0 0 rgba(239,68,68,0),0 10px 30px rgba(0,0,0,.25)}
+}
+@keyframes moveDown{
+    0%{top:-24px;opacity:0}
+    10%{opacity:1}
+    100%{top:100%;opacity:0}
+}
+@keyframes showVlan{
+    to{opacity:1;transform:translateY(0)}
+}
+@keyframes movePacket{
+    0%{left:260px;top:420px;opacity:0}
+    10%{opacity:1}
+    50%{left:560px;top:250px}
+    100%{left:860px;top:110px;opacity:0}
+}
+@keyframes movePacket2{
+    0%{left:260px;top:510px;opacity:0}
+    10%{opacity:1}
+    50%{left:560px;top:250px}
+    100%{left:860px;top:110px;opacity:0}
+}
+@media (max-width:900px){
+    .diagram{min-height:980px}
+    .vlan-row{top:520px;justify-content:center}
+    .vlan{width:100%;max-width:320px}
+    .branch,.packet{display:none}
+    .line-main-3{height:90px}
+}
 </style>
 </head>
 <body>
@@ -51,22 +217,56 @@ body{background:#060b16;color:#e2e8f0;font-family:'Inter',sans-serif;margin:0;te
 </div>
 
 <h1>Network Diagram</h1>
-
-<div class="card">
-<h2>Infrastructure Visualization</h2>
-<p>This page shows the logical path between the Internet, FortiGate, the CBS250 switch and the internal VLANs.</p>
-</div>
+<h2>Animated Logical Topology</h2>
 
 <div class="diagram">
-<div class="box internet">Internet</div>
-<div class="line"></div>
-<div class="box firewall">FortiGate 60E</div>
-<div class="line"></div>
-<div class="box switch">Cisco CBS250</div>
-<div class="line"></div>
-<div class="box vlan">VLAN20 – Users</div>
-<div class="box vlan">VLAN30 – Management</div>
-<div class="box vlan">VLAN60 – Guest</div>
+    <div class="packet packet1"></div>
+    <div class="packet packet2"></div>
+
+    <div class="node internet">
+        Internet
+        <span class="label-small">Untrusted external network</span>
+    </div>
+
+    <div class="line line-main-1"><div class="flow"></div></div>
+
+    <div class="node firewall">
+        FortiGate 60E
+        <span class="label-small">NGFW / Policy Enforcement / NAT</span>
+    </div>
+
+    <div class="line line-main-2"><div class="flow" style="animation-delay:.4s"></div></div>
+
+    <div class="node switch">
+        Cisco CBS250
+        <span class="label-small">Core switch / VLAN segmentation</span>
+    </div>
+
+    <div class="line line-main-3"><div class="flow" style="animation-delay:.8s"></div></div>
+
+    <div class="branch left"></div>
+    <div class="branch center"></div>
+    <div class="branch right"></div>
+
+    <div class="vlan-row">
+        <div class="node vlan users">
+            VLAN20
+            <span class="label-small">Users Network</span>
+        </div>
+        <div class="node vlan mgmt">
+            VLAN30
+            <span class="label-small">Management</span>
+        </div>
+        <div class="node vlan guest">
+            VLAN60
+            <span class="label-small">Guest Network</span>
+        </div>
+    </div>
+</div>
+
+<div class="legend">
+    Animated flow represents traffic traversing the firewall and switching layer.<br>
+    Pulsing firewall indicates policy inspection and active control of traffic between zones.
 </div>
 
 </div>
