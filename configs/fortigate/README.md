@@ -1,4 +1,3 @@
-}
 # FortiGate 60E (FG)
 
 ## Device Role
