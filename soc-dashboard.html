@@ -1,10 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SOC Monitoring Dashboard</title>
+
 <style>
 
 body{
 background:#0b1220;
 color:white;
 font-family:Arial;
-margin:0;
 text-align:center;
 }
 
@@ -14,59 +19,76 @@ margin:auto;
 padding:40px;
 }
 
-.nav{
-margin-bottom:30px;
-}
-
-.nav a{
+.metric{
 display:inline-block;
-margin:6px;
-padding:10px 16px;
-border:1px solid #334155;
-border-radius:999px;
-color:#dbeafe;
-text-decoration:none;
-background:#0b1320;
+background:#111827;
+padding:30px;
+margin:15px;
+border-radius:12px;
+min-width:200px;
+font-size:20px;
 }
 
-.nav a:hover{
-background:#1e293b;
+.value{
+font-size:36px;
+color:#22c55e;
 }
 
 </style>
+</head>
 
+<body>
 
+<div class="container">
+
+<h1>SOC Monitoring Dashboard</h1>
 
 <div class="nav">
 
 <a href="index.html">Home</a>
-
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-
 <a href="topology.html">Topology</a>
-
 <a href="network-diagram.html">Network Diagram</a>
-
 <a href="network-zones.html">Network Zones</a>
-
 <a href="attack-paths.html">Attack Simulation</a>
-
-<a href="attack-surface.html">Attack Surface</a>
-
-<a href="architecture-overview.html">Architecture</a>
-
-<a href="architecture-decisions.html">Architecture Decisions</a>
-
-<a href="security-model.html">Security Model</a>
-
-<a href="security-operations.html">Security Operations</a>
-
 <a href="soc-dashboard.html">SOC Dashboard</a>
 
-<a href="device-fortigate.html">FortiGate</a>
+</div>
 
-<a href="device-cbs250.html">CBS250</a>
+<div class="metric">
+Active Sessions
+<div class="value" id="sessions">120</div>
+</div>
 
-<a href="troubleshooting.html">Troubleshooting</a>
+<div class="metric">
+Blocked Attacks
+<div class="value" id="blocked">18</div>
+</div>
+
+<div class="metric">
+Firewall Throughput
+<div class="value" id="throughput">480 Mbps</div>
+</div>
+
+<div class="metric">
+Top Talkers
+<div class="value">10.10.20.100</div>
+</div>
 
 </div>
+
+<script>
+
+setInterval(()=>{
+document.getElementById("sessions").innerHTML =
+Math.floor(Math.random()*300);
+
+document.getElementById("blocked").innerHTML =
+Math.floor(Math.random()*50);
+
+},2000);
+
+</script>
+
+</body>
+</html>
