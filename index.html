@@ -4,300 +4,120 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Enterprise Security Lab</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
-body{
-    background:#060b16;
-    color:#e2e8f0;
-    font-family:'Inter',sans-serif;
-    margin:0;
-    text-align:center;
-}
-
-.container{
-    max-width:1400px;
-    margin:auto;
-    padding:40px 20px 80px;
-}
-
-.nav{
-    margin-bottom:30px;
-}
-
-.nav a{
-    display:inline-block;
-    margin:6px;
-    padding:10px 16px;
-    border:1px solid #334155;
-    border-radius:999px;
-    color:#dbeafe;
-    text-decoration:none;
-    background:#0b1320;
-}
-
-.nav a:hover{
-    background:#1e293b;
-}
-
-.hero{
-    background:#0f172a;
-    border:1px solid #334155;
-    border-radius:18px;
-    padding:30px;
-    margin-bottom:28px;
-    box-shadow:0 8px 24px rgba(0,0,0,.25);
-}
-
-.hero p{
-    max-width:900px;
-    margin:14px auto 0;
-    color:#94a3b8;
-    line-height:1.7;
-}
-
-.badges{
-    margin-top:18px;
-}
-
-.badge{
-    display:inline-block;
-    margin:6px;
-    padding:8px 12px;
-    border-radius:999px;
-    font-size:13px;
-    border:1px solid #334155;
-    background:#0b1320;
-    color:#dbeafe;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:18px;
-    margin-top:26px;
-}
-
-.card{
-    display:block;
-    text-align:left;
-    text-decoration:none;
-    color:#e2e8f0;
-    background:#0f172a;
-    border:1px solid #334155;
-    border-radius:16px;
-    padding:22px;
-    box-shadow:0 8px 24px rgba(0,0,0,.2);
-    transition:transform .18s ease, border-color .18s ease, background .18s ease;
-}
-
-.card:hover{
-    transform:translateY(-4px);
-    border-color:#475569;
-    background:#132033;
-}
-
-.card h3{
-    margin:0 0 10px;
-    font-size:22px;
-}
-
-.card p{
-    margin:0;
-    color:#94a3b8;
-    line-height:1.6;
-}
-
-.section{
-    margin-top:34px;
-    background:#0f172a;
-    border:1px solid #334155;
-    border-radius:16px;
-    padding:24px;
-    text-align:left;
-    box-shadow:0 8px 24px rgba(0,0,0,.2);
-}
-
-.section h3{
-    margin-top:0;
-    font-size:26px;
-}
-
-.section ul{
-    margin:0;
-    padding-left:20px;
-    color:#94a3b8;
-    line-height:1.8;
-}
-
-.footer-note{
-    margin-top:28px;
-    color:#94a3b8;
-    line-height:1.7;
-    text-align:center;
-}
+body{background:#060b16;color:#e2e8f0;font-family:'Inter',sans-serif;margin:0;text-align:center}
+.container{max-width:1400px;margin:auto;padding:40px 20px 80px}
+.nav{margin-bottom:30px}
+.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
+.nav a:hover{background:#1e293b}
+.hero,.section,.card{background:#0f172a;border:1px solid #334155;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.hero{padding:32px 24px;margin-bottom:28px}
+.hero p{max-width:900px;margin:14px auto 0;color:#94a3b8;line-height:1.7}
+.badges{margin-top:18px}
+.badge{display:inline-block;margin:6px;padding:8px 12px;border-radius:999px;font-size:13px;border:1px solid #334155;background:#0b1320;color:#dbeafe}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:26px}
+.card{display:block;text-align:left;text-decoration:none;color:#e2e8f0;padding:22px;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+.card:hover{transform:translateY(-4px);border-color:#475569;background:#132033}
+.card h3{margin:0 0 10px;font-size:22px}
+.card p{margin:0;color:#94a3b8;line-height:1.6}
+.section{margin-top:34px;padding:24px;text-align:left}
+.section h3{margin-top:0;font-size:26px}
+.section ul{margin:0;padding-left:20px;color:#94a3b8;line-height:1.8}
+.footer-note{margin-top:28px;color:#94a3b8;line-height:1.7;text-align:center}
+h1{margin:10px 0 8px;font-size:46px}
+h2{margin:0 0 24px;color:#94a3b8;font-weight:normal}
 </style>
 </head>
 <body>
 <div class="container">
 
-    <div class="nav">
-        <a href="index.html">Home</a>
-        <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-        <a href="topology.html">Topology</a>
-        <a href="network-diagram.html">Network Diagram</a>
-        <a href="network-zones.html">Network Zones</a>
-        <a href="attack-paths.html">Attack Simulation</a>
-        <a href="attack-surface.html">Attack Surface</a>
-        <a href="architecture-overview.html">Architecture</a>
-        <a href="architecture-decisions.html">Architecture Decisions</a>
-        <a href="security-model.html">Security Model</a>
-        <a href="security-operations.html">Security Operations</a>
-        <a href="soc-dashboard.html">SOC Dashboard</a>
-        <a href="device-fortigate.html">FortiGate</a>
-        <a href="device-cbs250.html">CBS250</a>
-        <a href="troubleshooting.html">Troubleshooting</a>
-    </div>
+<div class="nav">
+<a href="index.html">Home</a>
+<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+<a href="topology.html">Topology</a>
+<a href="network-diagram.html">Network Diagram</a>
+<a href="network-zones.html">Network Zones</a>
+<a href="attack-paths.html">Attack Simulation</a>
+<a href="attack-surface.html">Attack Surface</a>
+<a href="architecture-overview.html">Architecture</a>
+<a href="architecture-decisions.html">Architecture Decisions</a>
+<a href="security-model.html">Security Model</a>
+<a href="security-operations.html">Security Operations</a>
+<a href="interactive-security-architecture.html">Architecture Map</a>
+<a href="firewall-policy-map.html">Policy Map</a>
+<a href="soc-timeline.html">SOC Timeline</a>
+<a href="traffic-simulation.html">Traffic Simulation</a>
+<a href="network-telemetry-map.html">Telemetry Map</a>
+<a href="soc-dashboard.html">SOC Dashboard</a>
+<a href="soc-command-center.html">SOC Command Center</a>
+<a href="device-fortigate.html">FortiGate</a>
+<a href="device-cbs250.html">CBS250</a>
+<a href="troubleshooting.html">Troubleshooting</a>
+</div>
 
-    <h1>Enterprise Security Lab</h1>
-    <h2>Network Security Architecture Documentation</h2>
+<h1>Enterprise Security Lab</h1>
+<h2>Network Security Architecture Documentation</h2>
 
-    <div class="hero">
-        <h3>Enterprise-Style Security Lab</h3>
-        <p>
-            This project documents a practical network security home lab built around FortiGate and Cisco CBS250.
-            It demonstrates VLAN segmentation, firewall policy enforcement, management plane protection, attack path analysis,
-            troubleshooting methodology and SOC-oriented monitoring design.
-        </p>
+<div class="hero">
+<h3>Enterprise-Style Security Lab</h3>
+<p>
+This project documents a practical network security home lab built around FortiGate and Cisco CBS250.
+It demonstrates VLAN segmentation, firewall policy enforcement, management plane protection, attack path analysis,
+troubleshooting methodology and SOC-oriented monitoring design.
+</p>
+<div class="badges">
+<span class="badge">FortiGate NGFW</span>
+<span class="badge">Cisco CBS250</span>
+<span class="badge">VLAN Segmentation</span>
+<span class="badge">Zero Trust</span>
+<span class="badge">SOC Visibility</span>
+<span class="badge">Threat Modeling</span>
+<span class="badge">Troubleshooting</span>
+</div>
+</div>
 
-        <div class="badges">
-            <span class="badge">FortiGate NGFW</span>
-            <span class="badge">Cisco CBS250</span>
-            <span class="badge">VLAN Segmentation</span>
-            <span class="badge">Zero Trust</span>
-            <span class="badge">SOC Visibility</span>
-            <span class="badge">Threat Modeling</span>
-            <span class="badge">Troubleshooting</span>
-        </div>
-    </div>
+<div class="grid">
+<a class="card" href="topology.html"><h3>Topology</h3><p>High-level network layout and device placement.</p></a>
+<a class="card" href="network-diagram.html"><h3>Network Diagram</h3><p>Logical view of firewall, switch and VLAN structure.</p></a>
+<a class="card" href="network-zones.html"><h3>Network Zones</h3><p>Security zones for Users, Guest, Management and future enterprise segments.</p></a>
+<a class="card" href="attack-paths.html"><h3>Attack Simulation</h3><p>Blocked lateral movement and policy enforcement behavior.</p></a>
+<a class="card" href="attack-surface.html"><h3>Attack Surface</h3><p>Threat exposure points and mitigations.</p></a>
+<a class="card" href="architecture-overview.html"><h3>Architecture Overview</h3><p>Security architecture and main design principles.</p></a>
+<a class="card" href="architecture-decisions.html"><h3>Architecture Decisions</h3><p>Rationale behind firewall, VLAN and management design choices.</p></a>
+<a class="card" href="security-model.html"><h3>Security Model</h3><p>Trust boundaries and default-deny segmentation logic.</p></a>
+<a class="card" href="security-operations.html"><h3>Security Operations</h3><p>Operational monitoring, validation and SOC-oriented workflows.</p></a>
+<a class="card" href="interactive-security-architecture.html"><h3>Architecture Map</h3><p>Clickable zone-based security architecture.</p></a>
+<a class="card" href="firewall-policy-map.html"><h3>Policy Map</h3><p>Visual representation of allowed and denied traffic flows.</p></a>
+<a class="card" href="soc-timeline.html"><h3>SOC Timeline</h3><p>Incident timeline showing detections and blocked events.</p></a>
+<a class="card" href="traffic-simulation.html"><h3>Traffic Simulation</h3><p>Animated packet flow across the environment.</p></a>
+<a class="card" href="network-telemetry-map.html"><h3>Telemetry Map</h3><p>NDR-style traffic and packet movement view.</p></a>
+<a class="card" href="soc-dashboard.html"><h3>SOC Dashboard</h3><p>Live-style monitoring dashboard with security metrics.</p></a>
+<a class="card" href="soc-command-center.html"><h3>SOC Command Center</h3><p>Wall-style monitoring layout inspired by NOC / SOC rooms.</p></a>
+<a class="card" href="device-fortigate.html"><h3>FortiGate Device Page</h3><p>Firewall role, policies and troubleshooting commands.</p></a>
+<a class="card" href="device-cbs250.html"><h3>Cisco CBS250 Device Page</h3><p>Switch role, management notes and port layout.</p></a>
+<a class="card" href="troubleshooting.html"><h3>Troubleshooting</h3><p>Connectivity validation, packet flow inspection and diagnostics.</p></a>
+</div>
 
-    <div class="grid">
-        <a class="card" href="topology.html">
-            <h3>Topology</h3>
-            <p>High-level view of the network layout, core devices and VLAN connectivity.</p>
-        </a>
+<div class="section">
+<h3>What this project demonstrates</h3>
+<ul>
+<li>Firewall policy architecture</li>
+<li>Inter-VLAN security enforcement</li>
+<li>Guest network isolation</li>
+<li>Management plane protection</li>
+<li>Threat modeling and attack path analysis</li>
+<li>SOC-oriented monitoring and telemetry concepts</li>
+<li>Enterprise-style technical documentation</li>
+<li>Interactive security visualizations</li>
+</ul>
+</div>
 
-        <a class="card" href="network-diagram.html">
-            <h3>Network Diagram</h3>
-            <p>Logical view of firewall, switch and segmented VLAN zones.</p>
-        </a>
-
-        <a class="card" href="network-zones.html">
-            <h3>Network Zones</h3>
-            <p>Security zone design covering Users, Guest, Management and future enterprise segments.</p>
-        </a>
-
-        <a class="card" href="attack-paths.html">
-            <h3>Attack Simulation</h3>
-            <p>Illustrates blocked lateral movement attempts and policy enforcement behavior.</p>
-        </a>
-
-        <a class="card" href="attack-surface.html">
-            <h3>Attack Surface</h3>
-            <p>Documents exposure points, threats and mitigation strategies across the lab.</p>
-        </a>
-
-        <a class="card" href="architecture-overview.html">
-            <h3>Architecture Overview</h3>
-            <p>Summarizes the core security architecture and major design principles.</p>
-        </a>
-
-        <a class="card" href="architecture-decisions.html">
-            <h3>Architecture Decisions</h3>
-            <p>Explains why the lab was designed this way and what trade-offs were made.</p>
-        </a>
-
-        <a class="card" href="security-model.html">
-            <h3>Security Model</h3>
-            <p>Describes trust boundaries, segmentation logic and the default-deny policy model.</p>
-        </a>
-
-        <a class="card" href="security-operations.html">
-            <h3>Security Operations</h3>
-            <p>Operational view of monitoring, policy validation and detection-oriented workflows.</p>
-        </a>
-
-        <a class="card" href="interactive-security-architecture.html">
-            <h3>Interactive Architecture Map</h3>
-            <p>Clickable security zones including Users, Guest, SOC and Servers.</p>
-        </a>
-
-        <a class="card" href="firewall-policy-map.html">
-            <h3>Firewall Policy Map</h3>
-            <p>Visual representation of allowed and denied flows across security zones.</p>
-        </a>
-
-        <a class="card" href="soc-timeline.html">
-            <h3>SOC Timeline</h3>
-            <p>Incident timeline showing blocked events, detections and security response flow.</p>
-        </a>
-
-        <a class="card" href="traffic-simulation.html">
-            <h3>Traffic Simulation</h3>
-            <p>Animated traffic map showing allowed and blocked packet movement between zones.</p>
-        </a>
-
-        <a class="card" href="network-telemetry-map.html">
-            <h3>Network Telemetry Map</h3>
-            <p>NDR-style packet visualization with traffic moving across the environment.</p>
-        </a>
-
-        <a class="card" href="soc-dashboard.html">
-            <h3>SOC Dashboard</h3>
-            <p>Real-time style monitoring dashboard with sessions, attacks, packets/sec and throughput.</p>
-        </a>
-
-        <a class="card" href="soc-command-center.html">
-            <h3>SOC Command Center</h3>
-            <p>Large wall style security operations view inspired by NOC / SOC monitoring rooms.</p>
-        </a>
-
-        <a class="card" href="device-fortigate.html">
-            <h3>FortiGate Device Page</h3>
-            <p>Firewall role, common commands and documentation for the security gateway.</p>
-        </a>
-
-        <a class="card" href="device-cbs250.html">
-            <h3>Cisco CBS250 Device Page</h3>
-            <p>Switch role, management notes and port layout documentation.</p>
-        </a>
-
-        <a class="card" href="troubleshooting.html">
-            <h3>Troubleshooting</h3>
-            <p>Connectivity validation, packet flow analysis and operational diagnostics.</p>
-        </a>
-    </div>
-
-    <div class="section">
-        <h3>What this project demonstrates</h3>
-        <ul>
-            <li>Firewall policy architecture</li>
-            <li>Inter-VLAN security enforcement</li>
-            <li>Guest network isolation</li>
-            <li>Management plane protection</li>
-            <li>Threat modeling and attack path analysis</li>
-            <li>SOC-oriented monitoring and telemetry concepts</li>
-            <li>Enterprise-style technical documentation</li>
-            <li>Interactive security visualizations</li>
-        </ul>
-    </div>
-
-    <div class="footer-note">
-        Built as a portfolio-focused lab for Network Security Engineers, Security Architects and SOC / Blue Team roles.
-    </div>
+<div class="footer-note">
+Built as a portfolio-focused lab for Network Security Engineers, Security Architects and SOC / Blue Team roles.
+</div>
 
 </div>
 </body>
