@@ -1,493 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab - Security Operations</title>
 <style>
-    :root{
-        --bg1:#07111f;
-        --bg2:#111827;
-        --panel:#0f172a;
-        --text:#e5edf8;
-        --muted:#94a3b8;
-        --border:#334155;
-        --users:#10b981;
-        --guest:#f59e0b;
-        --mgmt:#ef4444;
-        --internet:#6366f1;
-        --firewall:#f43f5e;
-        --ok:#22c55e;
-        --deny:#ef4444;
-        --blue:#3b82f6;
-        --cyan:#06b6d4;
-    }
 
-    *{box-sizing:border-box}
+body{
+background:#0b1220;
+color:white;
+font-family:Arial;
+margin:0;
+text-align:center;
+}
 
-    body{
-        margin:0;
-        font-family:Arial, sans-serif;
-        background:linear-gradient(180deg,var(--bg1),var(--bg2));
-        color:var(--text);
-        text-align:center;
-    }
+.container{
+max-width:1200px;
+margin:auto;
+padding:40px;
+}
 
-    .container{
-        max-width:1300px;
-        margin:0 auto;
-        padding:40px 20px 80px;
-    }
+.nav{
+margin-bottom:30px;
+}
 
-    h1{
-        margin:10px 0 8px;
-        font-size:38px;
-    }
+.nav a{
+display:inline-block;
+margin:6px;
+padding:10px 16px;
+border:1px solid #334155;
+border-radius:999px;
+color:#dbeafe;
+text-decoration:none;
+background:#0b1320;
+}
 
-    h2{
-        margin:0 0 24px;
-        color:var(--muted);
-        font-weight:normal;
-    }
+.nav a:hover{
+background:#1e293b;
+}
 
-    .nav{
-        margin-bottom:30px;
-    }
-
-    .nav a{
-        display:inline-block;
-        margin:6px;
-        padding:10px 16px;
-        border:1px solid #334155;
-        border-radius:999px;
-        color:#dbeafe;
-        text-decoration:none;
-        background:#0b1320;
-    }
-
-    .section{
-        background:rgba(15,23,42,.94);
-        border:1px solid rgba(255,255,255,.08);
-        border-radius:18px;
-        padding:24px;
-        margin:0 auto 24px;
-        box-shadow:0 10px 30px rgba(0,0,0,.25);
-        text-align:left;
-    }
-
-    .section h3{
-        margin:0 0 16px;
-        font-size:24px;
-    }
-
-    .section p{
-        color:var(--muted);
-        line-height:1.6;
-    }
-
-    .traffic-diagram{
-        position:relative;
-        min-height:300px;
-        margin-top:10px;
-    }
-
-    .node{
-        position:absolute;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        flex-direction:column;
-        min-width:180px;
-        padding:18px 20px;
-        border-radius:16px;
-        color:#fff;
-        font-weight:bold;
-        box-shadow:0 10px 30px rgba(0,0,0,.25);
-        border:1px solid rgba(255,255,255,.1);
-    }
-
-    .users{
-        left:8%;
-        top:160px;
-        background:var(--users);
-    }
-
-    .guest{
-        left:8%;
-        top:40px;
-        background:var(--guest);
-    }
-
-    .firewall{
-        left:50%;
-        top:100px;
-        transform:translateX(-50%);
-        background:var(--firewall);
-        animation:pulseFirewall 1.8s infinite;
-    }
-
-    .internet{
-        right:8%;
-        top:40px;
-        background:var(--internet);
-    }
-
-    .mgmt{
-        right:8%;
-        top:190px;
-        background:var(--mgmt);
-    }
-
-    .small{
-        margin-top:6px;
-        font-size:12px;
-        font-weight:normal;
-        color:#f8fafc;
-    }
-
-    .path{
-        position:absolute;
-        height:4px;
-        background:#64748b;
-        border-radius:999px;
-        overflow:hidden;
-    }
-
-    .p1{ left:24%; top:90px; width:22%; }
-    .p2{ left:24%; top:210px; width:22%; }
-    .p3{ left:54%; top:90px; width:22%; }
-    .p4{ left:54%; top:220px; width:22%; }
-
-    .packet{
-        position:absolute;
-        width:12px;
-        height:12px;
-        border-radius:50%;
-        z-index:5;
-    }
-
-    .packet-guest{
-        background:#ffd166;
-        box-shadow:0 0 12px rgba(255,209,102,.8);
-        animation:moveGuest 4s linear infinite;
-    }
-
-    .packet-users{
-        background:#34d399;
-        box-shadow:0 0 12px rgba(52,211,153,.8);
-        animation:moveUsers 3.6s linear infinite;
-    }
-
-    .packet-blocked{
-        background:#fb7185;
-        box-shadow:0 0 12px rgba(251,113,133,.8);
-        animation:moveBlocked 2.8s linear infinite;
-    }
-
-    .policy-grid{
-        display:grid;
-        grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-        gap:16px;
-    }
-
-    .policy-btn{
-        border:none;
-        border-radius:14px;
-        padding:18px;
-        background:#0b1320;
-        color:#e5edf8;
-        font-size:16px;
-        cursor:pointer;
-        border:1px solid rgba(255,255,255,.08);
-        text-align:left;
-    }
-
-    .policy-btn:hover{
-        background:#122033;
-    }
-
-    .policy-box{
-        margin-top:18px;
-        padding:18px;
-        background:#0b1320;
-        border:1px solid rgba(255,255,255,.08);
-        border-radius:14px;
-        min-height:130px;
-    }
-
-    .policy-line{
-        margin:8px 0;
-        font-size:16px;
-    }
-
-    .ok{ color:var(--ok); font-weight:bold; }
-    .deny{ color:var(--deny); font-weight:bold; }
-
-    .timeline{
-        position:relative;
-        margin-top:10px;
-    }
-
-    .event{
-        display:flex;
-        gap:16px;
-        align-items:flex-start;
-        margin:18px 0;
-        padding:14px;
-        background:#0b1320;
-        border:1px solid rgba(255,255,255,.06);
-        border-radius:14px;
-    }
-
-    .time{
-        min-width:70px;
-        font-weight:bold;
-        color:var(--blue);
-    }
-
-    .event-text{
-        color:#e5edf8;
-        line-height:1.5;
-    }
-
-    .badge{
-        display:inline-block;
-        margin-left:8px;
-        padding:4px 8px;
-        border-radius:999px;
-        font-size:12px;
-        font-weight:bold;
-    }
-
-    .badge-deny{
-        background:rgba(239,68,68,.18);
-        color:#fca5a5;
-    }
-
-    .badge-alert{
-        background:rgba(59,130,246,.18);
-        color:#93c5fd;
-    }
-
-    .badge-ok{
-        background:rgba(34,197,94,.18);
-        color:#86efac;
-    }
-
-    @keyframes pulseFirewall{
-        0%{box-shadow:0 0 0 0 rgba(244,63,94,.45),0 10px 30px rgba(0,0,0,.25)}
-        70%{box-shadow:0 0 0 18px rgba(244,63,94,0),0 10px 30px rgba(0,0,0,.25)}
-        100%{box-shadow:0 0 0 0 rgba(244,63,94,0),0 10px 30px rgba(0,0,0,.25)}
-    }
-
-    @keyframes moveGuest{
-        0%   { left:24%; top:84px; opacity:0; }
-        10%  { opacity:1; }
-        45%  { left:46%; top:84px; }
-        70%  { left:56%; top:84px; }
-        100% { left:76%; top:84px; opacity:0; }
-    }
-
-    @keyframes moveUsers{
-        0%   { left:24%; top:204px; opacity:0; }
-        10%  { opacity:1; }
-        45%  { left:46%; top:204px; }
-        70%  { left:56%; top:84px; }
-        100% { left:76%; top:84px; opacity:0; }
-    }
-
-    @keyframes moveBlocked{
-        0%   { left:24%; top:84px; opacity:0; }
-        10%  { opacity:1; }
-        60%  { left:49%; top:150px; opacity:1; }
-        100% { left:52%; top:205px; opacity:0; }
-    }
-
-    @media (max-width:1000px){
-        .traffic-diagram{
-            min-height:520px;
-        }
-
-        .guest, .users, .firewall, .internet, .mgmt{
-            position:relative;
-            left:auto;
-            right:auto;
-            top:auto;
-            transform:none;
-            margin:14px auto;
-        }
-
-        .path, .packet{
-            display:none;
-        }
-    }
 </style>
-</head>
-<body>
-<div class="container">
 
-    <h1>Enterprise Security Lab</h1>
-    <h2>Security Operations Viewer</h2>
 
-    <div class="nav">
-        <a href="./">Home</a>
-        <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-        <a href="topology.html">Topology</a>
-        <a href="network-diagram.html">Network Diagram</a>
-        <a href="network-zones.html">Network Zones</a>
-        <a href="attack-paths.html">Attack Simulation</a>
-        <a href="soc-dashboard.html">SOC Dashboard</a>
-        <a href="security-operations.html">Security Ops</a>
-        <a href="device-fortigate.html">FortiGate</a>
-        <a href="device-cbs250.html">CBS250</a>
-    </div>
 
-    <div class="section">
-        <h3>Animated Traffic Flow Between VLAN</h3>
-        <p>This panel visualizes sample traffic moving from Guest and Users networks through the FortiGate firewall. Unauthorized east-west traffic is blocked before reaching protected zones.</p>
+<div class="nav">
 
-        <div class="traffic-diagram">
-            <div class="node guest">
-                Guest VLAN
-                <span class="small">internet-only zone</span>
-            </div>
+<a href="index.html">Home</a>
 
-            <div class="node users">
-                Users VLAN
-                <span class="small">trusted client zone</span>
-            </div>
+<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
 
-            <div class="node firewall">
-                FortiGate NGFW
-                <span class="small">policy enforcement</span>
-            </div>
+<a href="topology.html">Topology</a>
 
-            <div class="node internet">
-                Internet
-                <span class="small">allowed destination</span>
-            </div>
+<a href="network-diagram.html">Network Diagram</a>
 
-            <div class="node mgmt">
-                Management VLAN
-                <span class="small">protected zone</span>
-            </div>
+<a href="network-zones.html">Network Zones</a>
 
-            <div class="path p1"></div>
-            <div class="path p2"></div>
-            <div class="path p3"></div>
-            <div class="path p4"></div>
+<a href="attack-paths.html">Attack Simulation</a>
 
-            <div class="packet packet-guest"></div>
-            <div class="packet packet-users"></div>
-            <div class="packet packet-blocked"></div>
-        </div>
-    </div>
+<a href="attack-surface.html">Attack Surface</a>
 
-    <div class="section">
-        <h3>Interactive Firewall Policy Viewer</h3>
-        <p>Click a policy scenario to display the expected FortiGate decision.</p>
+<a href="architecture-overview.html">Architecture</a>
 
-        <div class="policy-grid">
-            <button class="policy-btn" onclick="showPolicy('userswan')">VLAN20 → WAN</button>
-            <button class="policy-btn" onclick="showPolicy('guestwan')">VLAN60 → WAN</button>
-            <button class="policy-btn" onclick="showPolicy('guestusers')">VLAN60 → VLAN20</button>
-            <button class="policy-btn" onclick="showPolicy('usersmgmt')">VLAN20 → VLAN30</button>
-        </div>
+<a href="architecture-decisions.html">Architecture Decisions</a>
 
-        <div class="policy-box" id="policyBox">
-            <div class="policy-line">Select a policy flow above.</div>
-        </div>
-    </div>
+<a href="security-model.html">Security Model</a>
 
-    <div class="section">
-        <h3>Mini SIEM Event Timeline</h3>
-        <p>This timeline simulates how a security operations team could observe blocked lateral movement attempts in the lab.</p>
+<a href="security-operations.html">Security Operations</a>
 
-        <div class="timeline" id="timeline">
-            <div class="event">
-                <div class="time">12:41</div>
-                <div class="event-text">Guest host 10.10.60.100 initiated access to 10.10.20.100 <span class="badge badge-deny">BLOCKED</span></div>
-            </div>
-            <div class="event">
-                <div class="time">12:41</div>
-                <div class="event-text">FortiGate applied inter-VLAN deny policy <span class="badge badge-alert">POLICY MATCH</span></div>
-            </div>
-            <div class="event">
-                <div class="time">12:42</div>
-                <div class="event-text">SOC monitoring visibility updated blocked flow counter <span class="badge badge-ok">LOGGED</span></div>
-            </div>
-        </div>
-    </div>
+<a href="soc-dashboard.html">SOC Dashboard</a>
+
+<a href="device-fortigate.html">FortiGate</a>
+
+<a href="device-cbs250.html">CBS250</a>
+
+<a href="troubleshooting.html">Troubleshooting</a>
 
 </div>
-
-<script>
-function showPolicy(type){
-    const box = document.getElementById('policyBox');
-
-    if(type === 'userswan'){
-        box.innerHTML = `
-            <div class="policy-line">Source: VLAN20 Users</div>
-            <div class="policy-line">Destination: WAN</div>
-            <div class="policy-line">Decision: <span class="ok">ALLOW</span></div>
-            <div class="policy-line">Reason: Standard user internet access with NAT</div>
-        `;
-    }
-
-    if(type === 'guestwan'){
-        box.innerHTML = `
-            <div class="policy-line">Source: VLAN60 Guest</div>
-            <div class="policy-line">Destination: WAN</div>
-            <div class="policy-line">Decision: <span class="ok">ALLOW</span></div>
-            <div class="policy-line">Reason: Guest internet-only policy</div>
-        `;
-    }
-
-    if(type === 'guestusers'){
-        box.innerHTML = `
-            <div class="policy-line">Source: VLAN60 Guest</div>
-            <div class="policy-line">Destination: VLAN20 Users</div>
-            <div class="policy-line">Decision: <span class="deny">DENY</span></div>
-            <div class="policy-line">Reason: Prevent lateral movement from untrusted guest devices</div>
-        `;
-    }
-
-    if(type === 'usersmgmt'){
-        box.innerHTML = `
-            <div class="policy-line">Source: VLAN20 Users</div>
-            <div class="policy-line">Destination: VLAN30 Management</div>
-            <div class="policy-line">Decision: <span class="deny">DENY</span></div>
-            <div class="policy-line">Reason: Management plane protection</div>
-        `;
-    }
-}
-
-const timelineEvents = [
-    ['12:41','Guest host 10.10.60.100 initiated access to 10.10.20.100','BLOCKED','badge-deny'],
-    ['12:41','FortiGate matched deny policy for Guest → Users flow','POLICY MATCH','badge-alert'],
-    ['12:42','Blocked flow counter incremented on monitoring dashboard','LOGGED','badge-ok'],
-    ['12:43','Guest host attempted access to 10.10.30.2','BLOCKED','badge-deny'],
-    ['12:43','Management plane remained isolated by firewall policy','ENFORCED','badge-alert']
-];
-
-function refreshTimeline(){
-    const timeline = document.getElementById('timeline');
-    const shuffled = [...timelineEvents].sort(() => Math.random() - 0.5).slice(0,3);
-    timeline.innerHTML = '';
-
-    shuffled.forEach(e => {
-        const div = document.createElement('div');
-        div.className = 'event';
-        div.innerHTML = `
-            <div class="time">${e[0]}</div>
-            <div class="event-text">${e[1]} <span class="badge ${e[3]}">${e[2]}</span></div>
-        `;
-        timeline.appendChild(div);
-    });
-}
-
-refreshTimeline();
-setInterval(refreshTimeline, 3000);
-</script>
-</body>
-</html>
