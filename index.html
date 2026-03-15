@@ -14,6 +14,58 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+<style>
+.metrics{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:18px;
+margin:30px 0 10px;
+}
+
+.metric{
+background:#0f172a;
+border:1px solid #334155;
+border-radius:16px;
+padding:22px;
+text-align:left;
+box-shadow:0 8px 24px rgba(0,0,0,.2);
+}
+
+.metric-label{
+font-size:13px;
+color:#94a3b8;
+margin-bottom:8px;
+text-transform:uppercase;
+letter-spacing:.04em;
+}
+
+.metric-value{
+font-size:32px;
+font-weight:700;
+}
+
+.metric.sessions .metric-value{color:#60a5fa;}
+.metric.blocked .metric-value{color:#ef4444;}
+.metric.throughput .metric-value{color:#22c55e;}
+.metric.talker .metric-value{color:#f59e0b;}
+
+.hero{
+background:#0f172a;
+border:1px solid #334155;
+border-radius:16px;
+padding:24px;
+margin-bottom:26px;
+box-shadow:0 8px 24px rgba(0,0,0,.2);
+}
+
+.hero p{
+color:#94a3b8;
+line-height:1.7;
+max-width:960px;
+margin:12px auto 0;
+}
+</style>
+
 </head>
 
 <body>
@@ -48,10 +100,35 @@
 
 <h1>Enterprise Security Lab</h1>
 
+<div class="hero">
+<h2>Interactive Network Security Engineering Lab</h2>
 <p>
-Interactive network security engineering lab demonstrating firewall architecture, VLAN segmentation,
-SOC monitoring and security design principles.
+Enterprise-style home lab demonstrating firewall architecture, VLAN segmentation, SOC monitoring,
+attack simulation and security design principles using FortiGate and Cisco CBS250.
 </p>
+</div>
+
+<div class="metrics">
+    <div class="metric sessions">
+        <div class="metric-label">Active Sessions</div>
+        <div class="metric-value" id="activeSessions">342</div>
+    </div>
+
+    <div class="metric blocked">
+        <div class="metric-label">Blocked Attacks</div>
+        <div class="metric-value" id="blockedAttacks">127</div>
+    </div>
+
+    <div class="metric throughput">
+        <div class="metric-label">Firewall Throughput</div>
+        <div class="metric-value" id="firewallThroughput">1.4 Gbps</div>
+    </div>
+
+    <div class="metric talker">
+        <div class="metric-label">Top Talker</div>
+        <div class="metric-value" id="topTalker">VLAN20</div>
+    </div>
+</div>
 
 <div class="grid">
 
@@ -153,6 +230,24 @@ SOC monitoring and security design principles.
 </div>
 
 </div>
+
+<script>
+function rand(min,max){
+    return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+const talkers = ["VLAN20","VLAN30","VLAN60","10.10.20.100","10.10.60.100","FortiGate WAN"];
+
+function updateMetrics(){
+    document.getElementById("activeSessions").textContent = rand(180,420);
+    document.getElementById("blockedAttacks").textContent = rand(80,180);
+    document.getElementById("firewallThroughput").textContent = (rand(7,18)/10).toFixed(1) + " Gbps";
+    document.getElementById("topTalker").textContent = talkers[rand(0,talkers.length-1)];
+}
+
+updateMetrics();
+setInterval(updateMetrics, 2500);
+</script>
 
 </body>
 </html>
