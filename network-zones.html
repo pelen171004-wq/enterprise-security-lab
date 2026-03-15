@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab - Network Zones</title>
+<style>
+    :root{
+        --bg1:#0b1220;
+        --bg2:#111827;
+        --panel:#0f172a;
+        --text:#e5edf8;
+        --muted:#9fb2cc;
+        --border:#334155;
+        --internet:#6366f1;
+        --users:#10b981;
+        --guest:#f59e0b;
+        --mgmt:#ef4444;
+        --soc:#3b82f6;
+        --servers:#8b5cf6;
+        --backup:#14b8a6;
+        --firewall:#f43f5e;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+        margin:0;
+        font-family:Arial, sans-serif;
+        background:linear-gradient(180deg,var(--bg1),var(--bg2));
+        color:var(--text);
+    }
+
+    .container{
+        max-width:1300px;
+        margin:0 auto;
+        padding:40px 20px 80px;
+        text-align:center;
+    }
+
+    h1{
+        margin:10px 0 8px;
+        font-size:40px;
+    }
+
+    h2{
+        margin:0 0 28px;
+        color:var(--muted);
+        font-weight:normal;
+    }
+
+    .nav{
+        margin-bottom:28px;
+    }
+
+    .nav a{
+        display:inline-block;
+        margin:6px;
+        padding:10px 16px;
+        border:1px solid var(--border);
+        border-radius:999px;
+        color:#dbeafe;
+        text-decoration:none;
+        background:#0b1320;
+    }
+
+    .zones-layout{
+        display:grid;
+        grid-template-columns:1fr 280px 1fr;
+        gap:26px;
+        align-items:start;
+        margin-top:20px;
+    }
+
+    .zone-column{
+        display:flex;
+        flex-direction:column;
+        gap:18px;
+    }
+
+    .zone{
+        border-radius:18px;
+        padding:22px 20px;
+        text-align:left;
+        color:white;
+        box-shadow:0 10px 30px rgba(0,0,0,.22);
+        border:1px solid rgba(255,255,255,.08);
+        min-height:150px;
+    }
+
+    .zone h3{
+        margin:0 0 10px;
+        font-size:24px;
+    }
+
+    .zone p{
+        margin:0 0 10px;
+        line-height:1.5;
+        color:#eef6ff;
+    }
+
+    .zone ul{
+        margin:0;
+        padding-left:18px;
+        line-height:1.6;
+    }
+
+    .internet{ background:var(--internet); }
+    .users{ background:var(--users); }
+    .guest{ background:var(--guest); }
+    .mgmt{ background:var(--mgmt); }
+    .soc{ background:var(--soc); }
+    .servers{ background:var(--servers); }
+    .backup{ background:var(--backup); }
+
+    .core{
+        position:sticky;
+        top:20px;
+        background:var(--panel);
+        border:1px solid rgba(255,255,255,.08);
+        border-radius:22px;
+        padding:24px 20px;
+        box-shadow:0 10px 30px rgba(0,0,0,.25);
+    }
+
+    .fw{
+        background:var(--firewall);
+        border-radius:16px;
+        padding:18px;
+        font-weight:bold;
+        margin-bottom:20px;
+        box-shadow:0 0 0 0 rgba(244,63,94,.5);
+        animation:pulse 1.8s infinite;
+    }
+
+    .core .line{
+        width:4px;
+        height:50px;
+        background:linear-gradient(180deg,#94a3b8,#475569);
+        margin:0 auto;
+        border-radius:10px;
+        position:relative;
+        overflow:hidden;
+    }
+
+    .flow{
+        position:absolute;
+        left:0;
+        width:100%;
+        height:18px;
+        background:linear-gradient(180deg,rgba(147,197,253,0),rgba(147,197,253,.95),rgba(147,197,253,0));
+        animation:moveDown 2s linear infinite;
+    }
+
+    .core-label{
+        margin-top:18px;
+        color:var(--muted);
+        font-size:14px;
+        line-height:1.6;
+    }
+
+    .matrix{
+        margin-top:34px;
+        background:rgba(15,23,42,.92);
+        border:1px solid rgba(255,255,255,.08);
+        border-radius:18px;
+        padding:24px;
+        box-shadow:0 10px 30px rgba(0,0,0,.25);
+        text-align:left;
+    }
+
+    .matrix h3{
+        margin-top:0;
+        font-size:26px;
+    }
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+        margin-top:14px;
+    }
+
+    th, td{
+        border-bottom:1px solid rgba(255,255,255,.08);
+        padding:12px 10px;
+        text-align:left;
+    }
+
+    th{
+        color:#cbd5e1;
+        font-size:14px;
+        text-transform:uppercase;
+        letter-spacing:.04em;
+    }
+
+    .allow{ color:#22c55e; font-weight:bold; }
+    .deny{ color:#f43f5e; font-weight:bold; }
+    .planned{ color:#f59e0b; font-weight:bold; }
+
+    .legend{
+        margin-top:28px;
+        color:var(--muted);
+        line-height:1.7;
+    }
+
+    @keyframes pulse{
+        0%{box-shadow:0 0 0 0 rgba(244,63,94,.45)}
+        70%{box-shadow:0 0 0 18px rgba(244,63,94,0)}
+        100%{box-shadow:0 0 0 0 rgba(244,63,94,0)}
+    }
+
+    @keyframes moveDown{
+        0%{top:-20px; opacity:0}
+        10%{opacity:1}
+        100%{top:100%; opacity:0}
+    }
+
+    @media (max-width:1000px){
+        .zones-layout{
+            grid-template-columns:1fr;
+        }
+        .core{
+            position:relative;
+            top:auto;
+        }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+
+    <h1>Enterprise Security Lab</h1>
+    <h2>Enterprise Network Zones Diagram</h2>
+
+    <div class="nav">
+        <a href="./">Home</a>
+        <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+        <a href="network-diagram.html">Animated Topology</a>
+        <a href="topology.html">Topology</a>
+        <a href="device-fortigate.html">FortiGate</a>
+        <a href="device-cbs250.html">CBS250</a>
+    </div>
+
+    <div class="zones-layout">
+        <div class="zone-column">
+            <div class="zone internet">
+                <h3>Internet</h3>
+                <p>Untrusted external network connected through the ISP modem.</p>
+                <ul>
+                    <li>External threat source</li>
+                    <li>North-south traffic entry point</li>
+                    <li>Controlled by firewall edge policy</li>
+                </ul>
+            </div>
+
+            <div class="zone users">
+                <h3>Users VLAN</h3>
+                <p>Standard internal client network for daily endpoint activity.</p>
+                <ul>
+                    <li>VLAN20</li>
+                    <li>Trusted user devices</li>
+                    <li>Internet access allowed</li>
+                    <li>Management access denied</li>
+                </ul>
+            </div>
+
+            <div class="zone guest">
+                <h3>Guest VLAN</h3>
+                <p>Isolated internet-only access for untrusted endpoints.</p>
+                <ul>
+                    <li>VLAN60</li>
+                    <li>Untrusted device zone</li>
+                    <li>Internet access allowed</li>
+                    <li>Internal access denied</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="core">
+            <div class="fw">FortiGate NGFW</div>
+            <div class="line"><div class="flow"></div></div>
+            <div class="fw" style="background:#3b82f6;">Cisco CBS250</div>
+            <div class="core-label">
+                Central enforcement model:<br>
+                all inter-zone traffic is filtered through the firewall.<br><br>
+                Security architecture principles:<br>
+                least privilege, segmentation, default deny.
+            </div>
+        </div>
+
+        <div class="zone-column">
+            <div class="zone mgmt">
+                <h3>Management VLAN</h3>
+                <p>Dedicated management plane for infrastructure administration.</p>
+                <ul>
+                    <li>VLAN30</li>
+                    <li>Firewall and switch management</li>
+                    <li>Restricted trusted access</li>
+                    <li>Protected from users and guests</li>
+                </ul>
+            </div>
+
+            <div class="zone soc">
+                <h3>SOC / Monitoring</h3>
+                <p>Planned monitoring and detection segment for security visibility.</p>
+                <ul>
+                    <li>VLAN40</li>
+                    <li>Logging and SIEM integration</li>
+                    <li>Centralized monitoring</li>
+                    <li>Security operations tooling</li>
+                </ul>
+            </div>
+
+            <div class="zone servers">
+                <h3>Server Zone</h3>
+                <p>Planned infrastructure and application services segment.</p>
+                <ul>
+                    <li>VLAN50</li>
+                    <li>Internal service hosting</li>
+                    <li>Controlled access from trusted zones</li>
+                    <li>Firewall policy segmentation</li>
+                </ul>
+            </div>
+
+            <div class="zone backup">
+                <h3>Backup Zone</h3>
+                <p>Planned isolated segment for backup and recovery infrastructure.</p>
+                <ul>
+                    <li>VLAN70</li>
+                    <li>Backup repositories</li>
+                    <li>Recovery services</li>
+                    <li>Restricted administrative access</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="matrix">
+        <h3>Zone Access Model</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Source Zone</th>
+                    <th>Destination Zone</th>
+                    <th>Policy</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Users VLAN</td>
+                    <td>Internet</td>
+                    <td class="allow">ALLOW</td>
+                    <td>Standard outbound user traffic</td>
+                </tr>
+                <tr>
+                    <td>Guest VLAN</td>
+                    <td>Internet</td>
+                    <td class="allow">ALLOW</td>
+                    <td>Internet-only guest access</td>
+                </tr>
+                <tr>
+                    <td>Users VLAN</td>
+                    <td>Management VLAN</td>
+                    <td class="deny">DENY</td>
+                    <td>Management plane protection</td>
+                </tr>
+                <tr>
+                    <td>Guest VLAN</td>
+                    <td>Users VLAN</td>
+                    <td class="deny">DENY</td>
+                    <td>Prevents lateral movement</td>
+                </tr>
+                <tr>
+                    <td>Guest VLAN</td>
+                    <td>Management VLAN</td>
+                    <td class="deny">DENY</td>
+                    <td>Blocks administrative access</td>
+                </tr>
+                <tr>
+                    <td>SOC VLAN</td>
+                    <td>Logs / Telemetry</td>
+                    <td class="planned">PLANNED</td>
+                    <td>Future monitoring visibility</td>
+                </tr>
+                <tr>
+                    <td>Servers Zone</td>
+                    <td>Trusted Services</td>
+                    <td class="planned">PLANNED</td>
+                    <td>Controlled service access model</td>
+                </tr>
+                <tr>
+                    <td>Backup Zone</td>
+                    <td>Backup Infrastructure</td>
+                    <td class="planned">PLANNED</td>
+                    <td>Restricted recovery network</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="legend">
+        This diagram represents a segmented enterprise network model with centralized firewall enforcement.  
+        It is designed to support Network Security Engineering, Infrastructure Architecture and SOC-oriented monitoring expansion.
+    </div>
+
+</div>
+</body>
+</html>
