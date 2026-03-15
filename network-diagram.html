@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Network Diagram</title>
+
 <style>
 
 body{
@@ -33,9 +39,40 @@ background:#0b1320;
 background:#1e293b;
 }
 
+.diagram{
+margin-top:40px;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:40px;
+}
+
+.box{
+padding:20px;
+border-radius:12px;
+width:300px;
+font-weight:bold;
+}
+
+.internet{background:#6366f1;}
+.firewall{background:#ef4444;}
+.switch{background:#3b82f6;}
+.vlan{background:#10b981;}
+
+.line{
+width:4px;
+height:40px;
+background:#64748b;
+}
+
 </style>
+</head>
 
+<body>
 
+<div class="container">
+
+<h1>Network Diagram</h1>
 
 <div class="nav">
 
@@ -60,4 +97,25 @@ background:#1e293b;
 <a href="troubleshooting.html">Troubleshooting</a>
 
 </div>
+
+<div class="diagram">
+
+<div class="box internet">Internet</div>
+<div class="line"></div>
+
+<div class="box firewall">FortiGate 60E</div>
+<div class="line"></div>
+
+<div class="box switch">Cisco CBS250</div>
+<div class="line"></div>
+
+<div class="box vlan">VLAN20 – Users</div>
+<div class="box vlan">VLAN30 – Management</div>
+<div class="box vlan">VLAN60 – Guest</div>
+
 </div>
+
+</div>
+
+</body>
+</html>
