@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab – Security Controls Mapping</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+.hero{
+background:linear-gradient(180deg,#0f172a,#0b1320);
+border:1px solid #334155;
+border-radius:16px;
+padding:24px;
+margin-bottom:24px;
+box-shadow:0 8px 24px rgba(0,0,0,.22);
+}
+
+.hero p{
+max-width:980px;
+margin:12px auto 0;
+color:#94a3b8;
+line-height:1.7;
+}
+
+.panel{
+background:linear-gradient(180deg,#0f172a,#0b1320);
+border:1px solid #334155;
+border-radius:16px;
+padding:20px;
+text-align:left;
+box-shadow:0 8px 24px rgba(0,0,0,.22);
+margin-bottom:18px;
+}
+
+.panel h2{
+margin-top:0;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px 10px;
+border-bottom:1px solid #1f2937;
+text-align:left;
+vertical-align:top;
+}
+
+th{
+color:#94a3b8;
+font-size:12px;
+text-transform:uppercase;
+letter-spacing:.04em;
+}
+
+.framework{
+font-weight:700;
+color:#60a5fa;
+}
+
+.note{
+margin-top:14px;
+padding:14px;
+border-radius:12px;
+background:#111827;
+border:1px solid #334155;
+color:#cbd5e1;
+line-height:1.7;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="nav">
+<a href="index.html">Home</a>
+<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+<a href="topology.html">Topology</a>
+<a href="network-diagram.html">Network Diagram</a>
+<a href="network-zones.html">Network Zones</a>
+<a href="attack-paths.html">Attack Simulation</a>
+<a href="attack-surface.html">Attack Surface</a>
+<a href="architecture-overview.html">Architecture</a>
+<a href="architecture-decisions.html">Architecture Decisions</a>
+<a href="security-model.html">Security Model</a>
+<a href="security-operations.html">Security Operations</a>
+<a href="interactive-security-architecture.html">Architecture Map</a>
+<a href="firewall-policy-map.html">Policy Map</a>
+<a href="soc-timeline.html">SOC Timeline</a>
+<a href="traffic-simulation.html">Traffic Simulation</a>
+<a href="network-telemetry-map.html">Telemetry Map</a>
+<a href="soc-dashboard.html">SOC Dashboard</a>
+<a href="soc-command-center.html">SOC Command Center</a>
+<a href="global-attack-map.html">Global Attack Map</a>
+<a href="threat-intelligence-feed.html">Threat Intel Feed</a>
+<a href="executive-security-overview.html">Executive Overview</a>
+<a href="incident-response-case.html">Incident Response</a>
+<a href="security-controls-mapping.html">Controls Mapping</a>
+<a href="device-fortigate.html">FortiGate</a>
+<a href="device-cbs250.html">CBS250</a>
+<a href="troubleshooting.html">Troubleshooting</a>
+</div>
+
+<h1>Security Controls Mapping</h1>
+
+<div class="hero">
+<h2>Control Alignment Across Security Frameworks</h2>
+<p>
+This page maps lab controls and architecture decisions to widely recognized security principles such as segmentation,
+access control, monitoring and incident response, using examples aligned with ISO 27001 and NIST-style thinking.
+</p>
+</div>
+
+<div class="panel">
+    <h2>Controls Mapping Table</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Lab Control</th>
+                <th>Purpose</th>
+                <th>Framework Alignment</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>VLAN Segmentation</td>
+                <td>Separates users, guest, management and future server/security zones.</td>
+                <td><span class="framework">NIST:</span> Network segmentation / boundary protection<br><span class="framework">ISO 27001:</span> Access control & segregation of duties</td>
+            </tr>
+            <tr>
+                <td>Firewall Policy Enforcement</td>
+                <td>Controls and inspects traffic between security zones and internet edge.</td>
+                <td><span class="framework">NIST:</span> Access enforcement / traffic filtering<br><span class="framework">ISO 27001:</span> Network security controls</td>
+            </tr>
+            <tr>
+                <td>Management VLAN Isolation</td>
+                <td>Protects administrative interfaces from standard user and guest access.</td>
+                <td><span class="framework">NIST:</span> Privileged access protection<br><span class="framework">ISO 27001:</span> Administrative access control</td>
+            </tr>
+            <tr>
+                <td>SOC Dashboard & Monitoring</td>
+                <td>Provides visibility into sessions, blocked attacks and telemetry events.</td>
+                <td><span class="framework">NIST:</span> Detection & monitoring<br><span class="framework">ISO 27001:</span> Logging and monitoring</td>
+            </tr>
+            <tr>
+                <td>Incident Response Case Documentation</td>
+                <td>Captures timeline, containment and lessons learned for blocked attack scenarios.</td>
+                <td><span class="framework">NIST:</span> Incident response lifecycle<br><span class="framework">ISO 27001:</span> Information security incident management</td>
+            </tr>
+            <tr>
+                <td>Threat Intelligence Feed</td>
+                <td>Maps IOC, CVE and MITRE ATT&CK style detections to monitoring workflows.</td>
+                <td><span class="framework">NIST:</span> Threat-informed detection<br><span class="framework">ISO 27001:</span> Threat awareness & monitoring support</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Why this matters:</strong><br>
+        This mapping demonstrates that the lab is not only a technical exercise, but also a security architecture and operations exercise
+        aligned with recognized control domains. It shows the ability to connect engineering implementation with governance, risk and control objectives.
+    </div>
+</div>
+
+</div>
+</body>
+</html>
