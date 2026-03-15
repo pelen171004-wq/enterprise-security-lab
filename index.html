@@ -1,234 +1,72 @@
-<!DOCTYPE html>
-<html lang="sk">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Senior Network Security Engineer Portfolio</title>
 <style>
-:root{
-  --bg:#0b1220;
-  --panel:#111827;
-  --panel2:#172033;
-  --text:#e5edf8;
-  --muted:#9fb2cc;
-  --line:#273449;
-  --done:#22c55e;
-  --progress:#f59e0b;
-  --future:#64748b;
-  --accent:#4f8cff;
-}
-*{box-sizing:border-box}
+
 body{
-  margin:0;
-  font-family:Inter,Segoe UI,Arial,sans-serif;
-  background:linear-gradient(180deg,#0a1120,#101826 35%,#0e1724);
-  color:var(--text);
-  line-height:1.5;
+background:#0b1220;
+color:white;
+font-family:Arial;
+margin:0;
+text-align:center;
 }
+
 .container{
-  max-width:1280px;
-  margin:0 auto;
-  padding:28px 20px 40px;
+max-width:1200px;
+margin:auto;
+padding:40px;
 }
-.hero{
-  background:linear-gradient(135deg,#14233e,#0f1a2c 55%,#1a2942);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:28px;
-  margin-bottom:18px;
-  box-shadow:0 12px 40px rgba(0,0,0,.24);
-}
-.hero h1{
-  margin:0 0 10px;
-  font-size:38px;
-}
-.hero p{
-  margin:0;
-  color:var(--muted);
-  max-width:900px;
-}
+
 .nav{
-  margin-top:18px;
+margin-bottom:30px;
 }
+
 .nav a{
-  display:inline-block;
-  margin-right:10px;
-  margin-top:8px;
-  padding:10px 14px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  color:#dbeafe;
-  text-decoration:none;
-  background:#0b1320;
+display:inline-block;
+margin:6px;
+padding:10px 16px;
+border:1px solid #334155;
+border-radius:999px;
+color:#dbeafe;
+text-decoration:none;
+background:#0b1320;
 }
-.grid{
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:18px;
-  margin-top:18px;
+
+.nav a:hover{
+background:#1e293b;
 }
-.card{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:18px;
-  box-shadow:0 8px 28px rgba(0,0,0,.18);
-}
-.card h2{
-  margin:0 0 12px;
-  font-size:22px;
-}
-.portal-links{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
-}
-.portal-link{
-  display:block;
-  text-decoration:none;
-  color:var(--text);
-  background:#0e1625;
-  border:1px solid var(--line);
-  border-left:4px solid var(--accent);
-  border-radius:14px;
-  padding:16px;
-}
-.portal-link strong{
-  display:block;
-  margin-bottom:6px;
-  font-size:18px;
-}
-.badge{
-  display:inline-block;
-  padding:6px 10px;
-  border-radius:999px;
-  border:1px solid var(--line);
-  background:#0b1320;
-  font-size:13px;
-  margin-right:8px;
-  margin-bottom:8px;
-}
-.done{color:var(--done); border-color:var(--done);}
-.progress{color:var(--progress); border-color:var(--progress);}
-.future{color:var(--future); border-color:var(--future);}
-.list{
-  margin:0;
-  padding-left:20px;
-}
-.list li{
-  margin:8px 0;
-}
-.code{
-  background:#0b1320;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:12px;
-  font-family:ui-monospace,Consolas,monospace;
-  white-space:pre-wrap;
-  color:#d8e8ff;
-  font-size:13px;
-}
-@media (max-width:980px){
-  .grid,.portal-links{grid-template-columns:1fr;}
-}
+
 </style>
-</head>
-<body>
-<div class="container">
 
-  <section class="hero">
-    <h1>Senior Network Security Engineer Portfolio</h1>
-    <p>
-      Enterprise Security Lab zameraný na FortiGate segmentation firewall, Cisco switching,
-      management plane protection, guest isolation, inter-VLAN security a troubleshooting workflow.
-    </p>
 
-    <div class="nav">
-      <a href="./">Home</a>
-      <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-      <a href="topology.html">Topology</a>
-      <a href="architecture-overview.html">Architecture</a>
-      <a href="device-fortigate.html">FortiGate</a>
-      <a href="device-cbs250.html">CBS250</a>
-    </div>
-  </section>
 
-  <div class="grid">
-    <section class="card">
-      <h2>Portfolio navigation</h2>
-      <div class="portal-links">
-        <a class="portal-link" href="Enterprise_Lab_Dashboard_v4.html">
-          <strong>Dashboard</strong>
-          Aktuálny stav labu, progress a ďalšie kroky.
-        </a>
+<div class="nav">
 
-        <a class="portal-link" href="topology.html">
-          <strong>Topology</strong>
-          Celková topológia a stav jednotlivých komponentov.
-        </a>
+<a href="index.html">Home</a>
 
-        <a class="portal-link" href="architecture-overview.html">
-          <strong>Architecture Overview</strong>
-          Security zones, trust boundaries a policy model.
-        </a>
+<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
 
-        <a class="portal-link" href="architecture-decisions.html">
-          <strong>Architecture Decisions</strong>
-          Security architecture decisions (ADR) used in the lab design
-        </a>
+<a href="topology.html">Topology</a>
 
-        <a class="portal-link" href="attack-surface.html">
-          <strong>Attack Surface</strong>
-          Security attack paths and mitigations
-        </a>
+<a href="network-diagram.html">Network Diagram</a>
 
-        <a class="portal-link" href="device-fortigate.html">
-          <strong>FortiGate 60E</strong>
-          Firewall architektúra, security role a kľúčové CLI.
-        </a>
+<a href="network-zones.html">Network Zones</a>
 
-        <a class="portal-link" href="device-cbs250.html">
-          <strong>CBS250 Switch</strong>
-          Switching layer, VLAN delivery a trunk/access design.
-        </a>
-      </div>
-    </section>
+<a href="attack-paths.html">Attack Simulation</a>
 
-    <section class="card">
-      <h2>Current engineering status</h2>
-      <span class="badge done">✓ Core network hotové</span>
-      <span class="badge done">✓ Management plane hotové</span>
-      <span class="badge done">✓ Users VLAN20 hotové</span>
-      <span class="badge done">✓ Guest VLAN60 hotové</span>
-      <span class="badge progress">● Inter-VLAN security rozpracované</span>
-      <span class="badge future">◌ Monitoring stack plánovaný</span>
-      <span class="badge future">◌ Server zone plánovaná</span>
-    </section>
-  </div>
+<a href="attack-surface.html">Attack Surface</a>
 
-  <div class="grid">
-    <section class="card">
-      <h2>Scope</h2>
-      <ul class="list">
-        <li>FortiGate policy design</li>
-        <li>VLAN segmentation</li>
-        <li>Management plane hardening</li>
-        <li>Guest isolation</li>
-        <li>Switch trunk/access design</li>
-        <li>Troubleshooting workflow</li>
-      </ul>
-    </section>
+<a href="architecture-overview.html">Architecture</a>
 
-    <section class="card">
-      <h2>Roadmap</h2>
-      <div class="code">1. Inter-VLAN security
-2. FortiGate security profiles
-3. Monitoring / logs / debug workflow
-4. Server / SOC / backup expansion
-5. Wireless + OOB design</div>
-    </section>
-  </div>
+<a href="architecture-decisions.html">Architecture Decisions</a>
+
+<a href="security-model.html">Security Model</a>
+
+<a href="security-operations.html">Security Operations</a>
+
+<a href="soc-dashboard.html">SOC Dashboard</a>
+
+<a href="device-fortigate.html">FortiGate</a>
+
+<a href="device-cbs250.html">CBS250</a>
+
+<a href="troubleshooting.html">Troubleshooting</a>
 
 </div>
-</body>
-</html>
