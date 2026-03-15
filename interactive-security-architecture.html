@@ -3,83 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab – Interactive Security Architecture Map</title>
-
+<title>Enterprise Security Lab – Interactive Security Architecture</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
-body{
-    background:#060b16;
-    color:#e2e8f0;
-    font-family:'Inter',sans-serif;
-    margin:0;
-    text-align:center;
-}
-.container{
-    max-width:1300px;
-    margin:auto;
-    padding:30px;
-}
-h1{
-    margin-bottom:24px;
-}
-.nav{
-    margin-bottom:25px;
-}
-.nav a{
-    display:inline-block;
-    margin:6px;
-    padding:10px 16px;
-    border:1px solid #334155;
-    border-radius:999px;
-    color:#dbeafe;
-    text-decoration:none;
-    background:#0b1320;
-}
-.nav a:hover{
-    background:#1e293b;
-}
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:18px;
-    margin-top:24px;
-}
-.zone{
-    border-radius:14px;
-    padding:22px;
-    text-align:left;
-    cursor:pointer;
-    border:1px solid rgba(255,255,255,.08);
-    box-shadow:0 8px 24px rgba(0,0,0,.25);
-    transition:transform .15s ease, border-color .15s ease;
-}
-.zone:hover{
-    transform:translateY(-3px);
-    border-color:#475569;
-}
-.zone h3{
-    margin:0 0 10px 0;
-}
-.users{background:#065f46}
-.guest{background:#92400e}
-.soc{background:#1d4ed8}
-.servers{background:#6d28d9}
-.panel{
-    margin-top:24px;
-    background:#0f172a;
-    border:1px solid #334155;
-    border-radius:14px;
-    padding:24px;
-    text-align:left;
-    min-height:170px;
-}
-.small{
-    color:#94a3b8;
-    font-size:14px;
-}
+body{background:#060b16;color:#e2e8f0;font-family:'Inter',sans-serif;margin:0;text-align:center}
+.container{max-width:1300px;margin:auto;padding:30px}
+.nav{margin-bottom:25px}
+.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
+.nav a:hover{background:#1e293b}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:24px}
+.zone{border-radius:14px;padding:22px;text-align:left;cursor:pointer;border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 24px rgba(0,0,0,.25);transition:transform .15s ease,border-color .15s ease}
+.zone:hover{transform:translateY(-3px);border-color:#475569}
+.zone h3{margin:0 0 10px 0}
+.users{background:#065f46}.guest{background:#92400e}.soc{background:#1d4ed8}.servers{background:#6d28d9}
+.panel{margin-top:24px;background:#0f172a;border:1px solid #334155;border-radius:14px;padding:24px;text-align:left;min-height:170px}
+.small{color:#94a3b8;font-size:14px}
 </style>
 </head>
 <body>
@@ -88,54 +28,51 @@ h1{
 <div class="nav">
 <a href="index.html">Home</a>
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+<a href="topology.html">Topology</a>
+<a href="network-diagram.html">Network Diagram</a>
+<a href="network-zones.html">Network Zones</a>
+<a href="attack-paths.html">Attack Simulation</a>
+<a href="attack-surface.html">Attack Surface</a>
+<a href="architecture-overview.html">Architecture</a>
+<a href="architecture-decisions.html">Architecture Decisions</a>
+<a href="security-model.html">Security Model</a>
+<a href="security-operations.html">Security Operations</a>
 <a href="interactive-security-architecture.html">Architecture Map</a>
-<a href="attack-paths.html">Attack Visualizer</a>
+<a href="firewall-policy-map.html">Policy Map</a>
+<a href="soc-timeline.html">SOC Timeline</a>
+<a href="traffic-simulation.html">Traffic Simulation</a>
 <a href="network-telemetry-map.html">Telemetry Map</a>
-<a href="soc-command-center.html">SOC Command Center</a>
 <a href="soc-dashboard.html">SOC Dashboard</a>
+<a href="soc-command-center.html">SOC Command Center</a>
+<a href="device-fortigate.html">FortiGate</a>
+<a href="device-cbs250.html">CBS250</a>
+<a href="troubleshooting.html">Troubleshooting</a>
 </div>
 
 <h1>Interactive Security Architecture Map</h1>
 
 <div class="grid">
-    <div class="zone users" onclick="showZone('Users VLAN','Trusted internal workstation zone used for standard user activity.','Allowed: internet access through firewall','Denied: direct management access and unauthorized east-west traffic')">
-        <h3>Users</h3>
-        <div class="small">Trusted client network</div>
-    </div>
-
-    <div class="zone guest" onclick="showZone('Guest VLAN','Untrusted visitor network with internet-only design.','Allowed: outbound internet access','Denied: internal lateral movement to users and management')">
-        <h3>Guest</h3>
-        <div class="small">Untrusted internet-only zone</div>
-    </div>
-
-    <div class="zone soc" onclick="showZone('SOC Zone','Monitoring, logging and security visibility zone for detection workflows.','Purpose: alerting, log review, dashboards','Future use: SIEM, traffic visibility, detections')">
-        <h3>SOC</h3>
-        <div class="small">Monitoring and detection</div>
-    </div>
-
-    <div class="zone servers" onclick="showZone('Server Zone','Internal infrastructure and service hosting segment.','Purpose: controlled service exposure','Access: explicit allow rules only')">
-        <h3>Servers</h3>
-        <div class="small">Controlled infrastructure zone</div>
-    </div>
+<div class="zone users" onclick="showZone('Users VLAN','Trusted internal workstation zone used for standard user activity.','Allowed: internet access through firewall','Denied: direct management access and unauthorized east-west traffic')"><h3>Users</h3><div class="small">Trusted client network</div></div>
+<div class="zone guest" onclick="showZone('Guest VLAN','Untrusted visitor network with internet-only design.','Allowed: outbound internet access','Denied: internal lateral movement to users and management')"><h3>Guest</h3><div class="small">Untrusted internet-only zone</div></div>
+<div class="zone soc" onclick="showZone('SOC Zone','Monitoring, logging and security visibility zone for detection workflows.','Purpose: alerting, log review, dashboards','Future use: SIEM, traffic visibility, detections')"><h3>SOC</h3><div class="small">Monitoring and detection</div></div>
+<div class="zone servers" onclick="showZone('Server Zone','Internal infrastructure and service hosting segment.','Purpose: controlled service exposure','Access: explicit allow rules only')"><h3>Servers</h3><div class="small">Controlled infrastructure zone</div></div>
 </div>
 
 <div class="panel" id="zoneInfo">
-    <h2>Select a zone</h2>
-    <p>Click a zone above to display its security role, trust level and access model.</p>
+<h2>Select a zone</h2>
+<p>Click a zone above to display its security role, trust level and access model.</p>
 </div>
 
 </div>
 
 <script>
 function showZone(title, desc, line1, line2){
-    document.getElementById("zoneInfo").innerHTML = `
-        <h2>${title}</h2>
-        <p>${desc}</p>
-        <p><strong>${line1}</strong></p>
-        <p><strong>${line2}</strong></p>
-    `;
+document.getElementById("zoneInfo").innerHTML = `
+<h2>${title}</h2>
+<p>${desc}</p>
+<p><strong>${line1}</strong></p>
+<p><strong>${line2}</strong></p>`;
 }
 </script>
-
 </body>
 </html>
