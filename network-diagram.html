@@ -223,6 +223,37 @@
         .line-main-3{height:90px}
     }
 </style>
+
+.packet {
+    width:10px;
+    height:10px;
+    background:#00ffcc;
+    border-radius:50%;
+    position:absolute;
+    animation:movePacket 4s linear infinite;
+}
+
+.packet2 {
+    width:10px;
+    height:10px;
+    background:#ffaa00;
+    border-radius:50%;
+    position:absolute;
+    animation:movePacket2 5s linear infinite;
+}
+
+@keyframes movePacket {
+    0%   { left:200px; top:350px; }
+    50%  { left:400px; top:250px; }
+    100% { left:600px; top:120px; }
+}
+
+@keyframes movePacket2 {
+    0%   { left:200px; top:450px; }
+    50%  { left:400px; top:250px; }
+    100% { left:600px; top:120px; }
+}
+
 </head>
 <body>
 <div class="container">
@@ -234,6 +265,9 @@
         <a href="./">Home</a>
         <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
         <a href="topology.html">Topology</a>
+          <div class="packet"></div>
+          <div class="packet2"></div>
+        
         <a href="device-fortigate.html">FortiGate</a>
         <a href="device-cbs250.html">CBS250</a>
     </div>
