@@ -1,149 +1,72 @@
-<!DOCTYPE html>
-<html lang="sk">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Troubleshooting - Enterprise Security Lab</title>
 <style>
-:root{
-  --bg:#0b1220;
-  --panel:#111827;
-  --text:#e5edf8;
-  --muted:#9fb2cc;
-  --line:#273449;
-  --accent:#4f8cff;
-}
-*{box-sizing:border-box}
+
 body{
-  margin:0;
-  font-family:Inter,Segoe UI,Arial,sans-serif;
-  background:linear-gradient(180deg,#0a1120,#101826 35%,#0e1724);
-  color:var(--text);
-  line-height:1.55;
+background:#0b1220;
+color:white;
+font-family:Arial;
+margin:0;
+text-align:center;
 }
+
 .container{
-  max-width:1280px;
-  margin:0 auto;
-  padding:28px 20px 40px;
+max-width:1200px;
+margin:auto;
+padding:40px;
 }
-.hero{
-  background:linear-gradient(135deg,#14233e,#0f1a2c 55%,#1a2942);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:24px;
-  margin-bottom:18px;
+
+.nav{
+margin-bottom:30px;
 }
-.hero h1{margin:0 0 8px;font-size:34px}
-.hero p{margin:0;color:var(--muted)}
-.nav{margin-top:14px}
+
 .nav a{
-  display:inline-block;
-  margin-right:10px;
-  margin-top:8px;
-  padding:8px 12px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  color:#dbeafe;
-  text-decoration:none;
-  background:#0b1320;
+display:inline-block;
+margin:6px;
+padding:10px 16px;
+border:1px solid #334155;
+border-radius:999px;
+color:#dbeafe;
+text-decoration:none;
+background:#0b1320;
 }
-.card{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:18px;
-  margin-bottom:18px;
+
+.nav a:hover{
+background:#1e293b;
 }
-.card h2{margin:0 0 12px;font-size:22px}
-.list{margin:0;padding-left:20px}
-.list li{margin:8px 0}
-.code{
-  background:#0b1320;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:12px;
-  font-family:ui-monospace,Consolas,monospace;
-  white-space:pre-wrap;
-  color:#d8e8ff;
-  font-size:13px;
-}
+
 </style>
-</head>
-<body>
-<div class="container">
 
-  <section class="hero">
-    <h1>Troubleshooting Workflow</h1>
-    <p>Praktický debugging flow pre FortiGate, CBS250 a VLAN segmentáciu.</p>
-    <div class="nav">
-      <a href="./">Home</a>
-      <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-      <a href="topology.html">Topology</a>
-      <a href="architecture-overview.html">Architecture</a>
-      <a href="device-fortigate.html">FortiGate</a>
-      <a href="device-cbs250.html">CBS250</a>
-    </div>
-  </section>
 
-  <section class="card">
-    <h2>1. Troubleshooting flow</h2>
-    <div class="code">L1 / link up?
-↓
-VLAN correct?
-↓
-Client IP / mask / gateway correct?
-↓
-Can client ping gateway?
-↓
-Is route present on firewall?
-↓
-Does firewall policy match?
-↓
-Is NAT enabled if going to WAN?
-↓
-DNS works?
-↓
-Debug flow / sniffer if still broken</div>
-  </section>
 
-  <section class="card">
-    <h2>2. FortiGate commands</h2>
-    <div class="code">show system interface
-show firewall policy
-show full-configuration firewall local-in-policy
-get router info routing-table all
-execute ping 8.8.8.8
-diagnose firewall iprope lookup ...
-diagnose debug flow ...
-diagnose sniffer packet any 'host 1.1.1.1' 4</div>
-  </section>
+<div class="nav">
 
-  <section class="card">
-    <h2>3. CBS250 commands</h2>
-    <div class="code">show vlan
-show interfaces status
-show interfaces switchport
-show running-config
-show mac address-table
-show spanning-tree
-interface giX
-switchport mode access
-switchport access vlan 20
-switchport mode trunk</div>
-  </section>
+<a href="index.html">Home</a>
 
-  <section class="card">
-    <h2>4. Typical problem patterns</h2>
-    <ul class="list">
-      <li>Klient je v zlej VLAN</li>
-      <li>Chýba default gateway</li>
-      <li>FortiGate policy nepasuje na src/dst intf</li>
-      <li>Chýba NAT smerom na WAN</li>
-      <li>DNS funguje zle, ale routing je v poriadku</li>
-      <li>Management access blokuje local-in policy alebo trusted host</li>
-    </ul>
-  </section>
+<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+
+<a href="topology.html">Topology</a>
+
+<a href="network-diagram.html">Network Diagram</a>
+
+<a href="network-zones.html">Network Zones</a>
+
+<a href="attack-paths.html">Attack Simulation</a>
+
+<a href="attack-surface.html">Attack Surface</a>
+
+<a href="architecture-overview.html">Architecture</a>
+
+<a href="architecture-decisions.html">Architecture Decisions</a>
+
+<a href="security-model.html">Security Model</a>
+
+<a href="security-operations.html">Security Operations</a>
+
+<a href="soc-dashboard.html">SOC Dashboard</a>
+
+<a href="device-fortigate.html">FortiGate</a>
+
+<a href="device-cbs250.html">CBS250</a>
+
+<a href="troubleshooting.html">Troubleshooting</a>
 
 </div>
-</body>
-</html>
