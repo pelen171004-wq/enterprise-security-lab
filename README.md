@@ -6,9 +6,18 @@
 ![Security](https://img.shields.io/badge/Security-Zero_Trust-orange)
 ![Project](https://img.shields.io/badge/Project-Enterprise_Lab-purple)
 
-Enterprise-style Network Security Lab demonstrating firewall architecture, VLAN segmentation and security design principles.
+Enterprise-style **Network Security Lab** demonstrating firewall architecture, VLAN segmentation and security design principles.
 
-This repository documents a practical home lab focused on network security engineering, firewall policy design and traffic troubleshooting.
+This repository documents a practical home lab focused on:
+
+- network security engineering
+- firewall policy architecture
+- VLAN segmentation
+- traffic troubleshooting
+- infrastructure security design
+- threat modeling
+
+The project simulates a **segmented enterprise network** built around a FortiGate NGFW and Cisco CBS250 switch.
 
 ---
 
@@ -20,11 +29,12 @@ https://pelen171004-wq.github.io/enterprise-security-lab/
 
 The portal contains:
 
-- Architecture diagrams
-- Device configuration documentation
-- Security design decisions
-- Threat modeling
-- Troubleshooting playbooks
+- architecture diagrams
+- device configuration documentation
+- security architecture decisions
+- threat modeling
+- troubleshooting playbooks
+- interactive topology
 
 ---
 
@@ -32,7 +42,7 @@ The portal contains:
 
 ![Enterprise Security Lab Architecture](lab-architecture-v2.jpg)
 
-Simplified topology:
+### Simplified Topology
 
 Internet  
 │  
@@ -42,58 +52,63 @@ FortiGate 60E (NGFW)
 │  
 Cisco CBS250 (Core Switch)  
 │  
-VLAN20 – Users Network  
-VLAN30 – Management Network  
-VLAN60 – Guest Network  
+├── VLAN20 – Users Network  
+├── VLAN30 – Management Network  
+└── VLAN60 – Guest Network  
 
-Planned zones:
+### Planned Network Zones
 
-VLAN40 – SOC Monitoring  
-VLAN50 – Server Zone  
-VLAN70 – Backup Zone  
+Future expansion of the lab includes additional enterprise infrastructure zones:
+
+- VLAN40 – SOC / Security Monitoring
+- VLAN50 – Server Infrastructure
+- VLAN70 – Backup Systems
 
 ---
 
 # Network Security Zones
 
-Internet  
-Untrusted external network
-
-Firewall  
-Primary security enforcement point
-
-Users VLAN  
-Standard internal client network
-
-Guest VLAN  
-Isolated internet-only network
-
-Management VLAN  
-Administrative access to infrastructure
-
-Server Zone (planned)  
-Infrastructure services
-
-Backup Zone (planned)  
-Backup systems
+| Zone | Description |
+|-----|-------------|
+| Internet | Untrusted external network |
+| Firewall | Primary security enforcement point |
+| Users VLAN | Internal client devices |
+| Guest VLAN | Internet-only isolated network |
+| Management VLAN | Administrative device access |
+| Server Zone (planned) | Infrastructure services |
+| Backup Zone (planned) | Backup infrastructure |
 
 ---
 
 # Infrastructure Components
 
-FortiGate 60E  
-Next-Generation Firewall performing routing, NAT and policy enforcement
+## FortiGate 60E
 
-Cisco CBS250  
-Layer 2 switching and VLAN segmentation
+Next-Generation Firewall responsible for:
 
-Technologies used:
+- inter-VLAN routing
+- firewall policy enforcement
+- NAT to the internet
+- DHCP services
+- traffic inspection
+
+## Cisco CBS250
+
+Layer 2 switch responsible for:
 
 - VLAN segmentation
-- Firewall policies
+- trunk connectivity to firewall
+- endpoint access ports
+- infrastructure connectivity
+
+### Technologies Used
+
+- VLAN segmentation
+- firewall policy enforcement
 - NAT
 - DHCP
-- Network troubleshooting tools
+- packet inspection
+- traffic analysis
 
 ---
 
@@ -101,98 +116,88 @@ Technologies used:
 
 This project demonstrates practical experience in:
 
-- Network segmentation design
-- Firewall policy architecture
-- Infrastructure security design
-- Network troubleshooting
-- Security monitoring architecture
-- Threat modeling
-- Security frameworks alignment
-- Architecture documentation
+- network segmentation design
+- firewall policy architecture
+- infrastructure security design
+- network troubleshooting
+- security monitoring architecture
+- threat modeling
+- security frameworks alignment
+- architecture documentation
 
 ---
 
 # Security Architecture
 
-Key security principles implemented:
+Key security design principles implemented in this lab:
 
 - VLAN-based network segmentation
-- Inter-VLAN firewall enforcement
-- Guest network isolation
-- Management plane protection
-- Zero Trust inspired architecture
-- Explicit allow / deny firewall policies
-- Default-deny security model
+- firewall enforced inter-VLAN routing
+- guest network isolation
+- management plane protection
+- explicit allow / deny firewall model
+- default deny east-west traffic
+
+The architecture follows a **least privilege network model** where traffic must be explicitly permitted.
 
 ---
 
 # Firewall Policy Matrix
 
-The firewall enforces strict segmentation between network zones.
-
-Traffic between VLANs must pass through the FortiGate firewall where security policies are evaluated.
+Traffic between VLANs is inspected by the FortiGate firewall.
 
 | Source Zone | Destination Zone | Service | Action | Description |
 |-------------|------------------|--------|--------|-------------|
 | Users VLAN (20) | Internet | ANY | ALLOW | Standard user internet access |
-| Guest VLAN (60) | Internet | ANY | ALLOW | Guest internet access only |
-| Users VLAN (20) | Management VLAN (30) | ANY | DENY | Prevent access to infrastructure management |
-| Guest VLAN (60) | Users VLAN (20) | ANY | DENY | Prevent lateral movement from guest devices |
-| Guest VLAN (60) | Management VLAN (30) | ANY | DENY | Block access to management interfaces |
-| Any Internal VLAN | Any Internal VLAN | ANY | DENY | Default deny for inter-VLAN traffic |
+| Guest VLAN (60) | Internet | ANY | ALLOW | Guest internet access |
+| Users VLAN (20) | Management VLAN (30) | ANY | DENY | Protect management plane |
+| Guest VLAN (60) | Users VLAN (20) | ANY | DENY | Prevent lateral movement |
+| Guest VLAN (60) | Management VLAN (30) | ANY | DENY | Block infrastructure access |
+| Any Internal VLAN | Any Internal VLAN | ANY | DENY | Default deny inter-VLAN |
 
-Security model used in this lab follows the **least privilege principle** and a **default deny security posture**.
-
-All traffic must be explicitly permitted by firewall policy.
+This policy model follows a **Zero Trust inspired segmentation approach**.
 
 ---
 
 # Security Controls Implemented
 
-Network Segmentation  
-VLAN architecture implemented on Cisco CBS250
-
-Firewall Enforcement  
-Traffic control using FortiGate NGFW policies
-
-Guest Isolation  
-Dedicated VLAN with internet-only access
-
-Management Protection  
-Separate MGMT VLAN with restricted access
-
-Inter-VLAN Security  
-Traffic filtered through firewall policies
-
-Threat Modeling  
-Documented attack surface and threats
-
-Architecture Governance  
+| Control | Implementation |
+|-------|----------------|
+| Network Segmentation | VLAN architecture on Cisco CBS250 |
+| Firewall Enforcement | FortiGate NGFW policy model |
+| Guest Isolation | Dedicated internet-only VLAN |
+| Management Protection | Separate management network |
+| Inter-VLAN Security | Firewall enforced traffic filtering |
+| Threat Modeling | Documented attack surface analysis |
+| Security Architecture | Zero Trust design principles |
 
 ---
 
-# Device Configuration Map
+# Device Configuration Repository
 
-Sanitized configuration snapshots and device notes are stored in the repository.
+Sanitized configuration snapshots and device documentation are stored in the repository.
 
 ## Firewall
 
-- [FortiGate Configuration Folder](configs/fortigate/)
+- [FortiGate Configuration Notes](configs/fortigate/README.md)
 - [FortiGate Config Snapshot](configs/fortigate/fortigate-config.txt)
 
 ## Switching
 
-- [Cisco CBS250 Configuration Folder](configs/cisco-cbs250/)
+- [Cisco CBS250 Device Notes](configs/cisco-cbs250/README.md)
 - [SWA Config Snapshot](configs/cisco-cbs250/swa-config.txt)
 
-## Troubleshooting Notes
+## Troubleshooting
 
-- [Troubleshooting Folder](troubleshooting/)
+- [Troubleshooting Notes](troubleshooting/README.md)
 
-Architecture Decision Records (ADR)
+Configuration snapshots document:
 
-Framework Alignment  
-Zero Trust + CIS Controls
+- VLAN architecture
+- firewall policies
+- routing
+- NAT configuration
+- management access design
 
 ---
 
@@ -200,38 +205,16 @@ Zero Trust + CIS Controls
 
 Potential attack vectors and mitigations.
 
-Internet Edge  
-Threat: Port scanning  
-Mitigation: Firewall policy enforcement
+| Attack Surface | Threat | Mitigation |
+|---------------|-------|-----------|
+| Internet Edge | Port scanning | Firewall policy enforcement |
+| Guest Network | Untrusted devices | VLAN isolation |
+| User Network | Compromised endpoint | Inter-VLAN firewall rules |
+| Management Plane | Unauthorized access | Management VLAN isolation |
 
-Guest Network  
-Threat: Untrusted devices  
-Mitigation: VLAN isolation
-
-User Network  
-Threat: Compromised endpoint  
-Mitigation: Inter-VLAN firewall rules
-
-Management Plane  
-Threat: Unauthorized access  
-Mitigation: MGMT VLAN isolation
-
-Attack surface documentation:
+Full documentation:
 
 https://pelen171004-wq.github.io/enterprise-security-lab/attack-surface.html
-
----
-
-# Security Framework Alignment
-
-Architecture decisions:
-
-https://pelen171004-wq.github.io/enterprise-security-lab/architecture-decisions.html
-
-Security frameworks referenced:
-
-Zero Trust Network Architecture  
-CIS Critical Security Controls
 
 ---
 
@@ -239,20 +222,19 @@ CIS Critical Security Controls
 
 Firewall behaviour and segmentation were validated using FortiGate diagnostic tools.
 
-Key troubleshooting techniques used in this lab include:
+Troubleshooting techniques used in this lab include:
 
-FortiGate debug flow  
-Session table analysis  
-Packet capture inspection  
+- FortiGate debug flow
+- session table inspection
+- packet capture analysis
+- NAT verification
 
-These techniques allow verification of:
+These tools allow verification of:
 
 - firewall policy enforcement
 - NAT translation
 - traffic direction
-- active session states
-
-Example investigation confirmed that unauthorized traffic between security zones is correctly blocked by the firewall.
+- session state
 
 ---
 
@@ -260,13 +242,11 @@ Example investigation confirmed that unauthorized traffic between security zones
 
 Threat modeling identifies potential attack scenarios across network zones.
 
-Documentation available in:
-
-Threat model documentation:
-
 | Document | Description |
 |--------|-------------|
 | [THREAT-001 Network Zones](threat-model/THREAT-001-network-zones.md) | Network segmentation threat analysis |
+
+Threat modeling supports the segmented architecture and security controls implemented in this lab.
 
 ---
 
@@ -277,6 +257,7 @@ Operational troubleshooting includes:
 - connectivity debugging
 - firewall policy validation
 - packet flow inspection
+- session analysis
 - network diagnostics
 
 Troubleshooting playbook:
@@ -285,85 +266,56 @@ https://pelen171004-wq.github.io/enterprise-security-lab/troubleshooting.html
 
 ---
 
+# Security Framework Alignment
+
+The architecture aligns with common industry security frameworks.
+
+### Zero Trust Architecture
+
+- network segmentation
+- explicit trust boundaries
+- least privilege traffic model
+
+### CIS Critical Security Controls
+
+- secure network infrastructure
+- network monitoring
+- traffic inspection
+
+Architecture decision documentation:
+
+https://pelen171004-wq.github.io/enterprise-security-lab/architecture-decisions.html
+
+---
+
 # Lab Roadmap
 
 Future development phases.
 
-Phase 1 – Core Network Security (Current)
+## Phase 1 – Core Network Security (Current)
 
-FortiGate deployment  
-Cisco switching  
-VLAN segmentation  
-Guest isolation  
-Management network  
-Firewall policy enforcement  
+- FortiGate deployment
+- Cisco switching
+- VLAN segmentation
+- guest network isolation
+- management network
+- firewall policy enforcement
 
-Phase 2 – Security Monitoring
+## Phase 2 – Security Monitoring
 
-SOC VLAN  
-Log collection  
-SIEM integration  
-Traffic monitoring  
+- SOC VLAN
+- centralized logging
+- SIEM integration
+- network monitoring
 
-Phase 3 – Infrastructure Expansion
+## Phase 3 – Infrastructure Expansion
 
-Server zone  
-Backup infrastructure  
-Security service segmentation  
+- server infrastructure zone
+- backup infrastructure
+- security service segmentation
 
-Phase 4 – Enterprise Features
+## Phase 4 – Enterprise Features
 
-Firewall High Availability  
-Configuration backup automation  
-Security incident response playbooks  
-
----
-
----
-
-# Device Configuration Map
-
-Sanitized configuration snapshots and device notes are stored in the repository.
-
-## Firewall
-
-- [FortiGate Configuration Folder](configs/fortigate/)
-- [FortiGate Config Snapshot](configs/fortigate/fortigate-config.txt)
-
-## Switching
-
-- [Cisco CBS250 Configuration Folder](configs/cisco-cbs250/)
-- [SWA Config Snapshot](configs/cisco-cbs250/swa-config.txt)
-
-## Troubleshooting Notes
-
-- [Troubleshooting Folder](troubleshooting/)
-
-# Architecture Decision Records
-
-Architecture Decision Records document why design choices were made.
-
-Examples include:
-
-Network segmentation model  
-Firewall policy architecture  
-Management plane protection  
-
-Documentation portal:
-
-https://pelen171004-wq.github.io/enterprise-security-lab/architecture-decisions.html
-
-
-# Device Configurations
-
-The repository also contains sanitized configuration snapshots of lab devices.
-
-configs/
-
-These configurations document:
-
-- VLAN architecture
-- firewall policies
-- routing
-- NAT configuration
-- management access model
+- firewall high availability
+- automated configuration backups
+- security incident response playbooks
