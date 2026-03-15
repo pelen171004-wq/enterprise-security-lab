@@ -1,22 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Attack Simulation</title>
-
 <style>
 
 body{
 background:#0b1220;
 color:white;
 font-family:Arial;
+margin:0;
 text-align:center;
 }
 
 .container{
-max-width:1000px;
+max-width:1200px;
 margin:auto;
 padding:40px;
+}
+
+.nav{
+margin-bottom:30px;
 }
 
 .nav a{
@@ -30,50 +29,44 @@ text-decoration:none;
 background:#0b1320;
 }
 
-.attack{
-margin-top:60px;
-font-size:24px;
-}
-
-.blocked{
-color:red;
-font-weight:bold;
-animation:blink 1s infinite;
-}
-
-@keyframes blink{
-0%,100%{opacity:1}
-50%{opacity:0.3}
+.nav a:hover{
+background:#1e293b;
 }
 
 </style>
-</head>
 
-<body>
 
-<div class="container">
-
-<h1>Enterprise Security Lab</h1>
-<h2>Attack Path Simulation</h2>
 
 <div class="nav">
-<a href="./">Home</a>
+
+<a href="index.html">Home</a>
+
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+
 <a href="topology.html">Topology</a>
+
 <a href="network-diagram.html">Network Diagram</a>
+
 <a href="network-zones.html">Network Zones</a>
+
 <a href="attack-paths.html">Attack Simulation</a>
+
+<a href="attack-surface.html">Attack Surface</a>
+
+<a href="architecture-overview.html">Architecture</a>
+
+<a href="architecture-decisions.html">Architecture Decisions</a>
+
+<a href="security-model.html">Security Model</a>
+
+<a href="security-operations.html">Security Operations</a>
+
 <a href="soc-dashboard.html">SOC Dashboard</a>
+
 <a href="device-fortigate.html">FortiGate</a>
+
 <a href="device-cbs250.html">CBS250</a>
-</div>
 
-<div class="attack">
-Guest VLAN → Users VLAN
-<br>
-<span class="blocked">BLOCKED BY FIREWALL</span>
-</div>
+<a href="troubleshooting.html">Troubleshooting</a>
 
 </div>
-</body>
-</html>
