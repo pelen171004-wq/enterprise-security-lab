@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab – Executive Security Overview</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+.hero{
+background:linear-gradient(180deg,#0f172a,#0b1320);
+border:1px solid #334155;
+border-radius:16px;
+padding:24px;
+margin-bottom:24px;
+box-shadow:0 8px 24px rgba(0,0,0,.22);
+}
+
+.hero p{
+max-width:980px;
+margin:12px auto 0;
+color:#94a3b8;
+line-height:1.7;
+}
+
+.kpi-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:18px;
+margin-bottom:24px;
+}
+
+.kpi{
+background:linear-gradient(180deg,#0f172a,#0b1320);
+border:1px solid #334155;
+border-radius:16px;
+padding:20px;
+text-align:left;
+box-shadow:0 8px 24px rgba(0,0,0,.22);
+}
+
+.kpi-label{
+font-size:12px;
+text-transform:uppercase;
+letter-spacing:.05em;
+color:#94a3b8;
+margin-bottom:8px;
+}
+
+.kpi-value{
+font-size:32px;
+font-weight:700;
+}
+
+.red{color:#ef4444;}
+.orange{color:#f59e0b;}
+.green{color:#22c55e;}
+.blue{color:#60a5fa;}
+
+.main-grid{
+display:grid;
+grid-template-columns:1.1fr .9fr;
+gap:18px;
+}
+
+.panel{
+background:linear-gradient(180deg,#0f172a,#0b1320);
+border:1px solid #334155;
+border-radius:16px;
+padding:22px;
+text-align:left;
+box-shadow:0 8px 24px rgba(0,0,0,.22);
+}
+
+.panel h2{
+margin-top:0;
+}
+
+.risk-list{
+margin:0;
+padding:0;
+list-style:none;
+}
+
+.risk-list li{
+padding:14px 0;
+border-bottom:1px solid #1f2937;
+display:flex;
+justify-content:space-between;
+gap:14px;
+align-items:flex-start;
+}
+
+.risk-list li:last-child{
+border-bottom:none;
+}
+
+.badge{
+display:inline-block;
+padding:4px 8px;
+border-radius:999px;
+font-size:11px;
+font-weight:700;
+border:1px solid transparent;
+white-space:nowrap;
+}
+
+.badge.high{
+background:rgba(239,68,68,.14);
+color:#fca5a5;
+border-color:rgba(239,68,68,.3);
+}
+
+.badge.medium{
+background:rgba(245,158,11,.14);
+color:#fcd34d;
+border-color:rgba(245,158,11,.3);
+}
+
+.badge.low{
+background:rgba(34,197,94,.14);
+color:#86efac;
+border-color:rgba(34,197,94,.3);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px 10px;
+border-bottom:1px solid #1f2937;
+text-align:left;
+vertical-align:top;
+}
+
+th{
+color:#94a3b8;
+font-size:12px;
+text-transform:uppercase;
+letter-spacing:.04em;
+}
+
+.summary-box{
+margin-top:18px;
+padding:16px;
+border-radius:12px;
+background:#111827;
+border:1px solid #334155;
+line-height:1.7;
+color:#cbd5e1;
+}
+
+@media (max-width:980px){
+.main-grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="nav">
+<a href="index.html">Home</a>
+<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+<a href="topology.html">Topology</a>
+<a href="network-diagram.html">Network Diagram</a>
+<a href="network-zones.html">Network Zones</a>
+<a href="attack-paths.html">Attack Simulation</a>
+<a href="attack-surface.html">Attack Surface</a>
+<a href="architecture-overview.html">Architecture</a>
+<a href="architecture-decisions.html">Architecture Decisions</a>
+<a href="security-model.html">Security Model</a>
+<a href="security-operations.html">Security Operations</a>
+<a href="interactive-security-architecture.html">Architecture Map</a>
+<a href="firewall-policy-map.html">Policy Map</a>
+<a href="soc-timeline.html">SOC Timeline</a>
+<a href="traffic-simulation.html">Traffic Simulation</a>
+<a href="network-telemetry-map.html">Telemetry Map</a>
+<a href="soc-dashboard.html">SOC Dashboard</a>
+<a href="soc-command-center.html">SOC Command Center</a>
+<a href="global-attack-map.html">Global Attack Map</a>
+<a href="threat-intelligence-feed.html">Threat Intel Feed</a>
+<a href="executive-security-overview.html">Executive Overview</a>
+<a href="incident-response-case.html">Incident Response</a>
+<a href="security-controls-mapping.html">Controls Mapping</a>
+<a href="device-fortigate.html">FortiGate</a>
+<a href="device-cbs250.html">CBS250</a>
+<a href="troubleshooting.html">Troubleshooting</a>
+</div>
+
+<h1>Executive Security Overview</h1>
+
+<div class="hero">
+<h2>Management-Level Security Summary</h2>
+<p>
+This page presents a leadership-focused view of the lab environment, highlighting overall security posture,
+key risks, blocked activity and improvement priorities in a concise executive format.
+</p>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi">
+        <div class="kpi-label">Overall Risk Score</div>
+        <div class="kpi-value orange" id="riskScore">62 / 100</div>
+    </div>
+    <div class="kpi">
+        <div class="kpi-label">Blocked Attacks This Week</div>
+        <div class="kpi-value red" id="blockedWeek">148</div>
+    </div>
+    <div class="kpi">
+        <div class="kpi-label">Protected Assets</div>
+        <div class="kpi-value blue" id="assets">24</div>
+    </div>
+    <div class="kpi">
+        <div class="kpi-label">Control Effectiveness</div>
+        <div class="kpi-value green" id="controlEffectiveness">91%</div>
+    </div>
+</div>
+
+<div class="main-grid">
+
+    <div class="panel">
+        <h2>Top 5 Security Risks</h2>
+        <ul class="risk-list">
+            <li>
+                <div>
+                    <strong>Guest to internal access attempts</strong><br>
+                    <span class="muted">Repeated attempts from untrusted segment toward protected zones.</span>
+                </div>
+                <span class="badge high">High</span>
+            </li>
+            <li>
+                <div>
+                    <strong>Management plane exposure</strong><br>
+                    <span class="muted">Administrative access must remain isolated and tightly controlled.</span>
+                </div>
+                <span class="badge high">High</span>
+            </li>
+            <li>
+                <div>
+                    <strong>Excessive trust between internal segments</strong><br>
+                    <span class="muted">Requires continued enforcement of least-privilege inter-zone policy.</span>
+                </div>
+                <span class="badge medium">Medium</span>
+            </li>
+            <li>
+                <div>
+                    <strong>Credential abuse attempts</strong><br>
+                    <span class="muted">Monitoring needed for login anomalies and brute-force indicators.</span>
+                </div>
+                <span class="badge medium">Medium</span>
+            </li>
+            <li>
+                <div>
+                    <strong>Visibility gaps outside monitored zones</strong><br>
+                    <span class="muted">Future enhancement with deeper logging and SIEM-style correlation.</span>
+                </div>
+                <span class="badge low">Low</span>
+            </li>
+        </ul>
+
+        <div class="summary-box">
+            <strong>Executive Summary:</strong><br>
+            The current lab demonstrates strong segmentation and effective firewall enforcement. Primary risks relate to
+            untrusted guest behavior, management protection and the need for continued monitoring maturity. Core controls are effective,
+            but expanding telemetry and incident correlation would further improve resilience.
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>Recommended Actions</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Priority</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Continue strict guest isolation and monitor denied attempts.</td>
+                    <td class="red"><strong>High</strong></td>
+                </tr>
+                <tr>
+                    <td>Expand SOC visibility and threat correlation across zones.</td>
+                    <td class="orange"><strong>Medium</strong></td>
+                </tr>
+                <tr>
+                    <td>Harden management access with tighter administrative segmentation.</td>
+                    <td class="red"><strong>High</strong></td>
+                </tr>
+                <tr>
+                    <td>Map additional controls to NIST / ISO style frameworks.</td>
+                    <td class="blue"><strong>Medium</strong></td>
+                </tr>
+                <tr>
+                    <td>Develop repeatable incident response drill documentation.</td>
+                    <td class="green"><strong>Low</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</div>
+
+<script>
+function rand(min,max){
+    return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+function updateExecutive(){
+    document.getElementById("riskScore").textContent = rand(54,72) + " / 100";
+    document.getElementById("blockedWeek").textContent = rand(110,190);
+    document.getElementById("assets").textContent = rand(18,30);
+    document.getElementById("controlEffectiveness").textContent = rand(88,96) + "%";
+}
+
+updateExecutive();
+setInterval(updateExecutive, 4000);
+</script>
+
+</body>
+</html>
