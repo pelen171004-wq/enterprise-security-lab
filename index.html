@@ -11,11 +11,9 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
 .hero{
 background:#0f172a;
 border:1px solid #334155;
@@ -94,7 +92,6 @@ margin-right:30px;
 0%{transform:translateX(0);}
 100%{transform:translateX(-100%);}
 }
-
 </style>
 
 </head>
@@ -125,6 +122,9 @@ margin-right:30px;
 <a href="soc-command-center.html">SOC Command Center</a>
 <a href="global-attack-map.html">Global Attack Map</a>
 <a href="threat-intelligence-feed.html">Threat Intel Feed</a>
+<a href="executive-security-overview.html">Executive Overview</a>
+<a href="incident-response-case.html">Incident Response</a>
+<a href="security-controls-mapping.html">Controls Mapping</a>
 <a href="device-fortigate.html">FortiGate</a>
 <a href="device-cbs250.html">CBS250</a>
 <a href="troubleshooting.html">Troubleshooting</a>
@@ -134,14 +134,12 @@ margin-right:30px;
 <h1>Enterprise Security Lab</h1>
 
 <div class="hero">
-
 <h2>Interactive Network Security Engineering Lab</h2>
-
 <p>
 Enterprise security home lab demonstrating VLAN segmentation, firewall policy enforcement,
-network monitoring and SOC-style threat detection using FortiGate firewall and Cisco CBS250 switch.
+network monitoring, threat intelligence and SOC-style detection workflows using FortiGate firewall
+and Cisco CBS250 switch.
 </p>
-
 </div>
 
 <div class="metrics">
@@ -169,25 +167,15 @@ network monitoring and SOC-style threat detection using FortiGate firewall and C
 </div>
 
 <div class="ticker">
-
 <div class="ticker-track">
-
 <div class="ticker-content" id="ticker">
-
 <span class="alert">[ALERT] Guest VLAN blocked</span>
-
 <span class="info">[INFO] Users internet OK</span>
-
 <span class="warn">[WARN] MGMT login attempt</span>
-
 <span class="ok">[OK] Firewall policy sync successful</span>
-
 <span class="alert">[ALERT] Guest VLAN port scan blocked</span>
-
 </div>
-
 </div>
-
 </div>
 
 <div class="grid">
@@ -237,6 +225,11 @@ network monitoring and SOC-style threat detection using FortiGate firewall and C
 <p>SOC monitoring and response workflows.</p>
 </a>
 
+<a class="card mgmt" href="interactive-security-architecture.html">
+<h2>Architecture Map</h2>
+<p>Clickable enterprise security architecture map.</p>
+</a>
+
 <a class="card firewall" href="firewall-policy-map.html">
 <h2>Firewall Policy Map</h2>
 <p>Traffic flows and security enforcement.</p>
@@ -252,6 +245,21 @@ network monitoring and SOC-style threat detection using FortiGate firewall and C
 <p>Central monitoring console.</p>
 </a>
 
+<a class="card soc" href="soc-timeline.html">
+<h2>SOC Timeline</h2>
+<p>Incident timeline and detection events.</p>
+</a>
+
+<a class="card users" href="traffic-simulation.html">
+<h2>Traffic Simulation</h2>
+<p>Animated packet flow between VLAN segments.</p>
+</a>
+
+<a class="card soc" href="network-telemetry-map.html">
+<h2>Telemetry Map</h2>
+<p>Network telemetry and monitoring visualization.</p>
+</a>
+
 <a class="card soc" href="global-attack-map.html">
 <h2>Global Attack Map</h2>
 <p>Simulated worldwide cyber attack visualization.</p>
@@ -260,6 +268,21 @@ network monitoring and SOC-style threat detection using FortiGate firewall and C
 <a class="card soc" href="threat-intelligence-feed.html">
 <h2>Threat Intelligence Feed</h2>
 <p>MITRE ATT&CK mapping, CVE detections and IOC monitoring.</p>
+</a>
+
+<a class="card ops" href="executive-security-overview.html">
+<h2>Executive Overview</h2>
+<p>Management-level risk summary and recommended actions.</p>
+</a>
+
+<a class="card attack" href="incident-response-case.html">
+<h2>Incident Response Case</h2>
+<p>Documented blocked lateral movement and containment workflow.</p>
+</a>
+
+<a class="card ops" href="security-controls-mapping.html">
+<h2>Controls Mapping</h2>
+<p>Maps lab controls to security framework principles.</p>
 </a>
 
 <a class="card firewall" href="device-fortigate.html">
@@ -282,27 +305,20 @@ network monitoring and SOC-style threat detection using FortiGate firewall and C
 </div>
 
 <script>
-
 function rand(min,max){
 return Math.floor(Math.random()*(max-min+1))+min;
 }
 
 function updateMetrics(){
-
 document.getElementById("sessions").textContent = rand(200,450);
-
 document.getElementById("attacks").textContent = rand(80,180);
-
 document.getElementById("throughput").textContent = (rand(8,15)/10).toFixed(1)+" Gbps";
-
-const talkers=["VLAN20","VLAN30","VLAN60","10.10.20.100"];
-
-document.getElementById("talker").textContent = talkers[rand(0,3)];
-
+const talkers=["VLAN20","VLAN30","VLAN60","10.10.20.100","FortiGate WAN"];
+document.getElementById("talker").textContent = talkers[rand(0,talkers.length-1)];
 }
 
+updateMetrics();
 setInterval(updateMetrics,3000);
-
 </script>
 
 </body>
