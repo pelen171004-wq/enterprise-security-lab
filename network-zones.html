@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Network Zones</title>
+
 <style>
 
 body{
@@ -9,7 +15,7 @@ text-align:center;
 }
 
 .container{
-max-width:1200px;
+max-width:1100px;
 margin:auto;
 padding:40px;
 }
@@ -34,39 +40,56 @@ background:#1e293b;
 }
 
 </style>
+</head>
 
+<body>
 
+<div class="container">
+
+<h1>Enterprise Network Zones</h1>
 
 <div class="nav">
 
 <a href="index.html">Home</a>
-
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-
 <a href="topology.html">Topology</a>
-
 <a href="network-diagram.html">Network Diagram</a>
-
 <a href="network-zones.html">Network Zones</a>
-
 <a href="attack-paths.html">Attack Simulation</a>
-
 <a href="attack-surface.html">Attack Surface</a>
-
 <a href="architecture-overview.html">Architecture</a>
-
 <a href="architecture-decisions.html">Architecture Decisions</a>
-
 <a href="security-model.html">Security Model</a>
-
 <a href="security-operations.html">Security Operations</a>
-
+<a href="interactive-security-architecture.html">Interactive Architecture</a>
 <a href="soc-dashboard.html">SOC Dashboard</a>
-
 <a href="device-fortigate.html">FortiGate</a>
-
 <a href="device-cbs250.html">CBS250</a>
-
 <a href="troubleshooting.html">Troubleshooting</a>
 
 </div>
+
+<p>
+The lab implements a zone-based network architecture inspired by enterprise
+security segmentation models.
+</p>
+
+<h2>Security Zones</h2>
+
+<ul>
+<li>Users – internal workstation network</li>
+<li>Guest – untrusted internet-only network</li>
+<li>Management – administrative access to devices</li>
+<li>SOC – monitoring and security visibility</li>
+<li>Servers – internal infrastructure services</li>
+<li>Backup – backup storage and recovery systems</li>
+</ul>
+
+<p>
+Traffic between zones is controlled by firewall policies.
+</p>
+
+</div>
+
+</body>
+</html>
