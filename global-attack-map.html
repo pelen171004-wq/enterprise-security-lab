@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab – Global Cyber Attack Map</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+.hero{
+background:linear-gradient(180deg,#0f172a,#0b1320);
+border:1px solid #334155;
+border-radius:16px;
+padding:24px;
+margin-bottom:24px;
+box-shadow:0 8px 24px rgba(0,0,0,.22);
+}
+
+.hero p{
+max-width:980px;
+margin:12px auto 0;
+color:#94a3b8;
+line-height:1.7;
+}
+
+.top-metrics{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:18px;
+margin-bottom:24px;
+}
+
+.metric-box{
+background:linear-gradient(180deg,#0f172a,#0b1320);
+border:1px solid #334155;
+border-radius:16px;
+padding:20px;
+text-align:left;
+box-shadow:0 8px 24px rgba(0,0,0,.22);
+}
+
+.metric-label{
+font-size:12px;
+text-transform:uppercase;
+letter-spacing:.06em;
+color:#94a3b8;
+margin-bottom:8px;
+}
+
+.metric-value{
+font-size:30px;
+font-weight:700;
+}
+
+.red{color:#ef4444;}
+.blue{color:#60a5fa;}
+.green{color:#22c55e;}
+.orange{color:#f59e0b;}
+
+.map-panel{
+background:linear-gradient(180deg,#0f172a,#0b1320);
+border:1px solid #334155;
+border-radius:18px;
+padding:18px;
+box-shadow:0 8px 24px rgba(0,0,0,.22);
+margin-bottom:24px;
+}
+
+.map-wrap{
+position:relative;
+width:100%;
+height:620px;
+border-radius:14px;
+overflow:hidden;
+background:
+radial-gradient(circle at center, rgba(59,130,246,.08), transparent 40%),
+linear-gradient(180deg,#07111f,#0b1320);
+border:1px solid #1f2937;
+}
+
+.world{
+position:absolute;
+inset:0;
+}
+
+.world svg{
+width:100%;
+height:100%;
+opacity:.24;
+}
+
+.continent{
+fill:#60a5fa;
+stroke:#93c5fd;
+stroke-width:1.2;
+}
+
+.gridline{
+position:absolute;
+inset:0;
+background:
+linear-gradient(to right, rgba(148,163,184,.06) 1px, transparent 1px),
+linear-gradient(to bottom, rgba(148,163,184,.06) 1px, transparent 1px);
+background-size:60px 60px;
+pointer-events:none;
+}
+
+.city{
+position:absolute;
+width:10px;
+height:10px;
+border-radius:999px;
+background:#93c5fd;
+box-shadow:0 0 10px rgba(147,197,253,.8);
+z-index:3;
+}
+
+.city::after{
+content:"";
+position:absolute;
+inset:-6px;
+border-radius:999px;
+border:1px solid rgba(147,197,253,.35);
+}
+
+.attack-line{
+position:absolute;
+height:2px;
+transform-origin:left center;
+border-radius:999px;
+z-index:2;
+opacity:.9;
+}
+
+.attack-line.red{
+background:linear-gradient(90deg, rgba(239,68,68,.05), rgba(239,68,68,.95));
+box-shadow:0 0 10px rgba(239,68,68,.45);
+}
+
+.attack-line.orange{
+background:linear-gradient(90deg, rgba(245,158,11,.05), rgba(245,158,11,.95));
+box-shadow:0 0 10px rgba(245,158,11,.4);
+}
+
+.attack-line.blue{
+background:linear-gradient(90deg, rgba(56,189,248,.05), rgba(56,189,248,.95));
+box-shadow:0 0 10px rgba(56,189,248,.4);
+}
+
+.attack-pulse{
+position:absolute;
+width:10px;
+height:10px;
+border-radius:999px;
+z-index:4;
+}
+
+.attack-pulse.red{
+background:#ef4444;
+box-shadow:0 0 14px rgba(239,68,68,.85);
+}
+
+.attack-pulse.orange{
+background:#f59e0b;
+box-shadow:0 0 14px rgba(245,158,11,.85);
+}
+
+.attack-pulse.blue{
+background:#38bdf8;
+box-shadow:0 0 14px rgba(56,189,248,.85);
+}
+
+.side-grid{
+display:grid;
+grid-template-columns:1.1fr .9fr;
+gap:18px;
+}
+
+.panel{
+background:linear-gradient(180deg,#0f172a,#0b1320);
+border:1px solid #334155;
+border-radius:16px;
+padding:20px;
+text-align:left;
+box-shadow:0 8px 24px rgba(0,0,0,.22);
+}
+
+.panel h2{
+margin:0 0 14px;
+font-size:22px;
+}
+
+.event-stream{
+max-height:280px;
+overflow:auto;
+}
+
+.event{
+padding:10px 0;
+border-bottom:1px solid #1f2937;
+font-size:14px;
+}
+
+.badge{
+display:inline-block;
+padding:4px 8px;
+border-radius:999px;
+font-size:11px;
+font-weight:700;
+margin-right:8px;
+}
+
+.badge.critical{
+background:rgba(239,68,68,.14);
+color:#fca5a5;
+border:1px solid rgba(239,68,68,.35);
+}
+
+.badge.medium{
+background:rgba(245,158,11,.14);
+color:#fcd34d;
+border:1px solid rgba(245,158,11,.35);
+}
+
+.badge.low{
+background:rgba(56,189,248,.14);
+color:#7dd3fc;
+border:1px solid rgba(56,189,248,.35);
+}
+
+.rank-list{
+margin:0;
+padding:0;
+list-style:none;
+}
+
+.rank-list li{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 0;
+border-bottom:1px solid #1f2937;
+font-size:14px;
+}
+
+.country{
+color:#e5e7eb;
+}
+
+.count{
+font-weight:700;
+}
+
+.legend{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+margin-top:16px;
+font-size:13px;
+color:#94a3b8;
+}
+
+.legend span{
+display:inline-flex;
+align-items:center;
+gap:8px;
+}
+
+.dot{
+width:10px;
+height:10px;
+border-radius:999px;
+display:inline-block;
+}
+
+.dot.red{background:#ef4444;}
+.dot.orange{background:#f59e0b;}
+.dot.blue{background:#38bdf8;}
+
+@media (max-width:980px){
+.side-grid{
+grid-template-columns:1fr;
+}
+
+.map-wrap{
+height:460px;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="nav">
+<a href="index.html">Home</a>
+<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+<a href="topology.html">Topology</a>
+<a href="network-diagram.html">Network Diagram</a>
+<a href="network-zones.html">Network Zones</a>
+<a href="attack-paths.html">Attack Simulation</a>
+<a href="attack-surface.html">Attack Surface</a>
+<a href="architecture-overview.html">Architecture</a>
+<a href="architecture-decisions.html">Architecture Decisions</a>
+<a href="security-model.html">Security Model</a>
+<a href="security-operations.html">Security Operations</a>
+<a href="interactive-security-architecture.html">Architecture Map</a>
+<a href="firewall-policy-map.html">Policy Map</a>
+<a href="soc-timeline.html">SOC Timeline</a>
+<a href="traffic-simulation.html">Traffic Simulation</a>
+<a href="network-telemetry-map.html">Telemetry Map</a>
+<a href="soc-dashboard.html">SOC Dashboard</a>
+<a href="soc-command-center.html">SOC Command Center</a>
+<a href="global-attack-map.html">Global Attack Map</a>
+<a href="device-fortigate.html">FortiGate</a>
+<a href="device-cbs250.html">CBS250</a>
+<a href="troubleshooting.html">Troubleshooting</a>
+</div>
+
+<h1>Global Cyber Attack Map</h1>
+
+<div class="hero">
+<h2>Real-Time Style Threat Visualization</h2>
+<p>
+This simulated threat map visualizes global attack flows, event intensity and high-volume threat regions,
+inspired by large-scale cyber threat intelligence dashboards.
+</p>
+</div>
+
+<div class="top-metrics">
+    <div class="metric-box">
+        <div class="metric-label">Live Attack Events</div>
+        <div class="metric-value red" id="liveEvents">248</div>
+    </div>
+    <div class="metric-box">
+        <div class="metric-label">Blocked Intrusions</div>
+        <div class="metric-value orange" id="blockedIntrusions">91</div>
+    </div>
+    <div class="metric-box">
+        <div class="metric-label">Protected Regions</div>
+        <div class="metric-value blue" id="regions">42</div>
+    </div>
+    <div class="metric-box">
+        <div class="metric-label">Sensor Health</div>
+        <div class="metric-value green" id="health">99.8%</div>
+    </div>
+</div>
+
+<div class="map-panel">
+    <div class="map-wrap" id="mapWrap">
+
+        <div class="gridline"></div>
+
+        <div class="world">
+            <svg viewBox="0 0 1000 500" preserveAspectRatio="none" aria-hidden="true">
+                <path class="continent" d="M115,145 L165,120 L220,130 L250,155 L235,190 L180,205 L135,185 Z"></path>
+                <path class="continent" d="M255,110 L340,95 L420,110 L485,135 L505,175 L470,205 L390,210 L310,190 L260,160 Z"></path>
+                <path class="continent" d="M325,235 L365,250 L385,300 L360,365 L325,405 L290,360 L292,300 Z"></path>
+                <path class="continent" d="M520,120 L600,105 L700,118 L785,145 L840,190 L800,225 L710,220 L620,205 L550,175 Z"></path>
+                <path class="continent" d="M640,245 L705,255 L735,315 L700,385 L650,395 L618,340 L620,285 Z"></path>
+                <path class="continent" d="M820,350 L860,360 L888,388 L862,410 L822,402 Z"></path>
+            </svg>
+        </div>
+
+        <!-- major city anchor points -->
+        <div class="city" style="left:18%; top:30%"></div>
+        <div class="city" style="left:26%; top:34%"></div>
+        <div class="city" style="left:33%; top:48%"></div>
+        <div class="city" style="left:51%; top:28%"></div>
+        <div class="city" style="left:57%; top:30%"></div>
+        <div class="city" style="left:65%; top:34%"></div>
+        <div class="city" style="left:71%; top:48%"></div>
+        <div class="city" style="left:80%; top:72%"></div>
+
+    </div>
+
+    <div class="legend">
+        <span><i class="dot red"></i> Critical attack flow</span>
+        <span><i class="dot orange"></i> Medium severity event</span>
+        <span><i class="dot blue"></i> Reconnaissance / low severity</span>
+    </div>
+</div>
+
+<div class="side-grid">
+    <div class="panel">
+        <h2>Live Event Stream</h2>
+        <div class="event-stream" id="eventStream">
+            <div class="event"><span class="badge critical">CRITICAL</span> DDoS attempt detected from APAC to EU edge.</div>
+            <div class="event"><span class="badge medium">MEDIUM</span> Credential spray activity observed against public login endpoint.</div>
+            <div class="event"><span class="badge low">LOW</span> Reconnaissance traffic spike recorded from multiple regions.</div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>Top Source Regions</h2>
+        <ul class="rank-list" id="sourceRegions">
+            <li><span class="country">North America</span><span class="count">182</span></li>
+            <li><span class="country">Europe</span><span class="count">159</span></li>
+            <li><span class="country">East Asia</span><span class="count">147</span></li>
+            <li><span class="country">South America</span><span class="count">88</span></li>
+            <li><span class="country">Africa</span><span class="count">61</span></li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<script>
+const mapWrap = document.getElementById("mapWrap");
+
+const points = [
+    {x:18, y:30, name:"North America"},
+    {x:26, y:34, name:"East US"},
+    {x:33, y:48, name:"South America"},
+    {x:51, y:28, name:"Western Europe"},
+    {x:57, y:30, name:"Eastern Europe"},
+    {x:65, y:34, name:"Middle East / Asia"},
+    {x:71, y:48, name:"South Asia"},
+    {x:80, y:72, name:"Australia"}
+];
+
+const eventSamples = [
+    {sev:"critical", text:"Ransomware delivery attempt blocked at edge gateway."},
+    {sev:"critical", text:"High-volume DDoS pattern detected against exposed service."},
+    {sev:"medium", text:"Brute-force login activity blocked by policy engine."},
+    {sev:"medium", text:"Suspicious east-west scan behavior observed from guest zone."},
+    {sev:"low", text:"Automated reconnaissance traffic identified and tracked."},
+    {sev:"low", text:"Threat intel correlation matched known scanning infrastructure."}
+];
+
+function rand(min, max){
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function pick(arr){
+    return arr[rand(0, arr.length - 1)];
+}
+
+function createAttack(){
+    const from = pick(points);
+    let to = pick(points);
+    while(to === from){
+        to = pick(points);
+    }
+
+    const severityRoll = rand(1,10);
+    let color = "blue";
+    if(severityRoll >= 8) color = "red";
+    else if(severityRoll >= 5) color = "orange";
+
+    const line = document.createElement("div");
+    line.className = `attack-line ${color}`;
+
+    const pulse = document.createElement("div");
+    pulse.className = `attack-pulse ${color}`;
+
+    const x1 = from.x / 100 * mapWrap.clientWidth;
+    const y1 = from.y / 100 * mapWrap.clientHeight;
+    const x2 = to.x / 100 * mapWrap.clientWidth;
+    const y2 = to.y / 100 * mapWrap.clientHeight;
+
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const length = Math.sqrt(dx*dx + dy*dy);
+    const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+
+    line.style.left = x1 + "px";
+    line.style.top = y1 + "px";
+    line.style.width = length + "px";
+    line.style.transform = `rotate(${angle}deg)`;
+
+    pulse.style.left = (x1 - 5) + "px";
+    pulse.style.top = (y1 - 5) + "px";
+    pulse.style.transition = "all 1.8s linear";
+
+    mapWrap.appendChild(line);
+    mapWrap.appendChild(pulse);
+
+    requestAnimationFrame(() => {
+        pulse.style.left = (x2 - 5) + "px";
+        pulse.style.top = (y2 - 5) + "px";
+        pulse.style.opacity = "0.1";
+    });
+
+    setTimeout(() => {
+        line.remove();
+        pulse.remove();
+    }, 1900);
+}
+
+function updateMetrics(){
+    document.getElementById("liveEvents").textContent = rand(180, 360);
+    document.getElementById("blockedIntrusions").textContent = rand(60, 140);
+    document.getElementById("regions").textContent = rand(35, 58);
+    document.getElementById("health").textContent = (99 + rand(1,9)/10).toFixed(1) + "%";
+}
+
+function updateEvents(){
+    const stream = document.getElementById("eventStream");
+    const sample = pick(eventSamples);
+
+    const div = document.createElement("div");
+    div.className = "event";
+
+    const sevLabel = sample.sev.toUpperCase();
+    div.innerHTML = `<span class="badge ${sample.sev}">${sevLabel}</span> ${sample.text}`;
+
+    stream.prepend(div);
+
+    while(stream.children.length > 8){
+        stream.removeChild(stream.lastChild);
+    }
+}
+
+function updateRegions(){
+    const list = document.getElementById("sourceRegions");
+    const regions = [
+        ["North America", rand(120,220)],
+        ["Europe", rand(110,210)],
+        ["East Asia", rand(90,190)],
+        ["South America", rand(50,120)],
+        ["Africa", rand(30,90)]
+    ];
+
+    list.innerHTML = regions.map(([name,count]) =>
+        `<li><span class="country">${name}</span><span class="count">${count}</span></li>`
+    ).join("");
+}
+
+updateMetrics();
+updateEvents();
+updateRegions();
+
+setInterval(createAttack, 650);
+setInterval(updateMetrics, 2600);
+setInterval(updateEvents, 3200);
+setInterval(updateRegions, 4200);
+</script>
+
+</body>
+</html>
