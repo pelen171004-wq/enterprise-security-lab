@@ -15,155 +15,61 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+
 .hero{
 background:#0f172a;
 border:1px solid #334155;
 border-radius:16px;
 padding:24px;
-margin-bottom:26px;
-box-shadow:0 8px 24px rgba(0,0,0,.2);
+margin-bottom:30px;
 }
 
 .hero p{
 color:#94a3b8;
 line-height:1.7;
-max-width:960px;
-margin:12px auto 0;
+max-width:900px;
+margin:auto;
 }
 
 .metrics{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:18px;
-margin:30px 0 18px;
+margin-bottom:24px;
 }
 
 .metric{
 background:#0f172a;
 border:1px solid #334155;
-border-radius:16px;
-padding:22px;
+border-radius:14px;
+padding:18px;
 text-align:left;
-box-shadow:0 8px 24px rgba(0,0,0,.2);
 }
 
 .metric-label{
-font-size:13px;
-color:#94a3b8;
-margin-bottom:8px;
-text-transform:uppercase;
-letter-spacing:.04em;
-}
-
-.metric-value{
-font-size:32px;
-font-weight:700;
-}
-
-.metric.sessions .metric-value{color:#60a5fa;}
-.metric.blocked .metric-value{color:#ef4444;}
-.metric.throughput .metric-value{color:#22c55e;}
-.metric.talker .metric-value{color:#f59e0b;}
-
-.live-panels{
-display:grid;
-grid-template-columns:1.2fr 1fr;
-gap:18px;
-margin:0 0 24px;
-}
-
-.panel{
-background:#0f172a;
-border:1px solid #334155;
-border-radius:16px;
-padding:22px;
-box-shadow:0 8px 24px rgba(0,0,0,.2);
-text-align:left;
-}
-
-.panel h2{
-margin:0 0 14px;
-font-size:22px;
-}
-
-.graph{
-height:180px;
-background:linear-gradient(180deg,#111827,#020617);
-border:1px solid #1f2937;
-border-radius:12px;
-position:relative;
-overflow:hidden;
-}
-
-.graph-grid{
-position:absolute;
-inset:0;
-background:
-linear-gradient(to right, rgba(148,163,184,.08) 1px, transparent 1px),
-linear-gradient(to top, rgba(148,163,184,.08) 1px, transparent 1px);
-background-size:32px 32px;
-pointer-events:none;
-}
-
-.bar{
-position:absolute;
-bottom:0;
-width:10px;
-border-radius:4px 4px 0 0;
-background:linear-gradient(180deg,#38bdf8,#2563eb);
-}
-
-.graph-stats{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:12px;
-margin-top:16px;
-}
-
-.stat{
-background:#111827;
-border:1px solid #334155;
-border-radius:12px;
-padding:12px;
-}
-
-.stat-label{
 font-size:12px;
 color:#94a3b8;
 text-transform:uppercase;
-margin-bottom:6px;
 }
 
-.stat-value{
-font-size:20px;
+.metric-value{
+font-size:28px;
 font-weight:700;
-color:#e2e8f0;
+margin-top:6px;
 }
 
 .ticker{
-margin:0 0 28px;
 background:#0f172a;
 border:1px solid #334155;
 border-radius:14px;
 overflow:hidden;
-box-shadow:0 8px 24px rgba(0,0,0,.2);
-}
-
-.ticker-title{
-padding:12px 16px;
-text-align:left;
-font-size:13px;
-text-transform:uppercase;
-letter-spacing:.06em;
-color:#94a3b8;
-border-bottom:1px solid #1f2937;
+margin-bottom:30px;
 }
 
 .ticker-track{
 white-space:nowrap;
 overflow:hidden;
-position:relative;
-height:48px;
+height:40px;
 display:flex;
 align-items:center;
 }
@@ -176,7 +82,7 @@ font-weight:600;
 }
 
 .ticker-content span{
-margin-right:36px;
+margin-right:30px;
 }
 
 .alert{color:#ef4444;}
@@ -184,123 +90,11 @@ margin-right:36px;
 .warn{color:#f59e0b;}
 .ok{color:#22c55e;}
 
-.attack-graph{
-background:#0f172a;
-border:1px solid #334155;
-border-radius:16px;
-padding:24px;
-margin:0 0 28px;
-box-shadow:0 8px 24px rgba(0,0,0,.2);
-}
-
-.attack-graph h2{
-margin-top:0;
-margin-bottom:18px;
-}
-
-.attack-stage-wrap{
-position:relative;
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:20px;
-flex-wrap:wrap;
-}
-
-.attack-stage{
-flex:1 1 220px;
-min-width:220px;
-padding:22px 18px;
-border-radius:16px;
-font-weight:700;
-position:relative;
-z-index:2;
-text-align:center;
-}
-
-.attack-guest{
-background:#3b1d12;
-border:2px solid #f59e0b;
-color:#fde68a;
-}
-
-.attack-fw{
-background:#3b1212;
-border:2px solid #ef4444;
-color:#fecaca;
-animation:pulseFirewall 1.8s infinite;
-}
-
-.attack-block{
-background:#14211a;
-border:2px solid #22c55e;
-color:#bbf7d0;
-}
-
-.attack-line{
-position:absolute;
-top:50%;
-left:12%;
-right:12%;
-height:4px;
-background:#334155;
-transform:translateY(-50%);
-z-index:1;
-border-radius:999px;
-}
-
-.attack-packet{
-position:absolute;
-top:50%;
-left:12%;
-width:16px;
-height:16px;
-margin-top:-8px;
-border-radius:999px;
-background:#fb7185;
-box-shadow:0 0 14px rgba(251,113,133,.8);
-z-index:3;
-animation:attackPacket 3.2s linear infinite;
-}
-
-.section-title{
-margin:12px 0 10px;
-}
-
 @keyframes tickerMove{
 0%{transform:translateX(0);}
 100%{transform:translateX(-100%);}
 }
 
-@keyframes pulseFirewall{
-0%{box-shadow:0 0 0 0 rgba(239,68,68,.4);}
-70%{box-shadow:0 0 0 18px rgba(239,68,68,0);}
-100%{box-shadow:0 0 0 0 rgba(239,68,68,0);}
-}
-
-@keyframes attackPacket{
-0%{left:12%;opacity:0;}
-10%{opacity:1;}
-45%{left:48%;}
-75%{left:74%;}
-100%{left:88%;opacity:0;}
-}
-
-@media (max-width:900px){
-.live-panels{
-grid-template-columns:1fr;
-}
-.attack-stage-wrap{
-flex-direction:column;
-}
-.attack-line,
-.attack-packet{
-display:none;
-}
-.graph-stats{
-grid-template-columns:1fr;
-}
-}
 </style>
 
 </head>
@@ -310,6 +104,7 @@ grid-template-columns:1fr;
 <div class="container">
 
 <div class="nav">
+
 <a href="index.html">Home</a>
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
 <a href="topology.html">Topology</a>
@@ -328,196 +123,152 @@ grid-template-columns:1fr;
 <a href="network-telemetry-map.html">Telemetry Map</a>
 <a href="soc-dashboard.html">SOC Dashboard</a>
 <a href="soc-command-center.html">SOC Command Center</a>
+<a href="global-attack-map.html">Global Attack Map</a>
 <a href="device-fortigate.html">FortiGate</a>
 <a href="device-cbs250.html">CBS250</a>
 <a href="troubleshooting.html">Troubleshooting</a>
+
 </div>
 
 <h1>Enterprise Security Lab</h1>
 
 <div class="hero">
+
 <h2>Interactive Network Security Engineering Lab</h2>
+
 <p>
-Enterprise-style home lab demonstrating firewall architecture, VLAN segmentation, SOC monitoring,
-attack simulation and security design principles using FortiGate and Cisco CBS250.
+Enterprise security home lab demonstrating VLAN segmentation, firewall policy enforcement,
+network monitoring and SOC-style threat detection using FortiGate firewall and Cisco CBS250 switch.
 </p>
+
 </div>
 
 <div class="metrics">
-    <div class="metric sessions">
-        <div class="metric-label">Active Sessions</div>
-        <div class="metric-value" id="activeSessions">312</div>
-    </div>
 
-    <div class="metric blocked">
-        <div class="metric-label">Blocked Attacks</div>
-        <div class="metric-value" id="blockedAttacks">127</div>
-    </div>
-
-    <div class="metric throughput">
-        <div class="metric-label">Firewall Throughput</div>
-        <div class="metric-value" id="firewallThroughput">1.2 Gbps</div>
-    </div>
-
-    <div class="metric talker">
-        <div class="metric-label">Top Talker</div>
-        <div class="metric-value" id="topTalker">VLAN20</div>
-    </div>
+<div class="metric">
+<div class="metric-label">Active Sessions</div>
+<div class="metric-value" id="sessions">312</div>
 </div>
 
-<div class="live-panels">
-    <div class="panel">
-        <h2>Live Threat Counter</h2>
-        <div class="graph" id="trafficGraph">
-            <div class="graph-grid"></div>
-        </div>
+<div class="metric">
+<div class="metric-label">Blocked Attacks</div>
+<div class="metric-value" id="attacks">127</div>
+</div>
 
-        <div class="graph-stats">
-            <div class="stat">
-                <div class="stat-label">Packets / sec</div>
-                <div class="stat-value" id="ppsValue">842</div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">Peak</div>
-                <div class="stat-value" id="peakValue">1130</div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">Drops</div>
-                <div class="stat-value" id="dropValue">18</div>
-            </div>
-        </div>
-    </div>
+<div class="metric">
+<div class="metric-label">Firewall Throughput</div>
+<div class="metric-value" id="throughput">1.2 Gbps</div>
+</div>
 
-    <div class="panel">
-        <h2>Animated Attack Graph</h2>
+<div class="metric">
+<div class="metric-label">Top Talker</div>
+<div class="metric-value" id="talker">VLAN20</div>
+</div>
 
-        <div class="attack-stage-wrap">
-            <div class="attack-line"></div>
-            <div class="attack-packet"></div>
-
-            <div class="attack-stage attack-guest">
-                Guest VLAN
-            </div>
-
-            <div class="attack-stage attack-fw">
-                Firewall
-            </div>
-
-            <div class="attack-stage attack-block" id="attackBlockLabel">
-                BLOCK
-            </div>
-        </div>
-    </div>
 </div>
 
 <div class="ticker">
-    <div class="ticker-title">SOC Alert Ticker</div>
-    <div class="ticker-track">
-        <div class="ticker-content" id="tickerContent">
-            <span class="alert">[ALERT] Guest VLAN blocked</span>
-            <span class="info">[INFO] Users internet OK</span>
-            <span class="warn">[WARN] MGMT login attempt</span>
-            <span class="ok">[OK] Firewall policy sync successful</span>
-            <span class="alert">[ALERT] Guest VLAN port scan blocked</span>
-        </div>
-    </div>
+
+<div class="ticker-track">
+
+<div class="ticker-content" id="ticker">
+
+<span class="alert">[ALERT] Guest VLAN blocked</span>
+
+<span class="info">[INFO] Users internet OK</span>
+
+<span class="warn">[WARN] MGMT login attempt</span>
+
+<span class="ok">[OK] Firewall policy sync successful</span>
+
+<span class="alert">[ALERT] Guest VLAN port scan blocked</span>
+
+</div>
+
+</div>
+
 </div>
 
 <div class="grid">
 
-<a class="card switch" href="topology.html">
-<h2>Network Topology</h2>
-<p>High-level overview of network layout and infrastructure components.</p>
+<a class="card arch" href="topology.html">
+<h2>Topology</h2>
+<p>High-level network architecture.</p>
 </a>
 
-<a class="card mgmt" href="network-diagram.html">
+<a class="card arch" href="network-diagram.html">
 <h2>Network Diagram</h2>
-<p>Logical architecture of firewall, switching layer and VLAN segmentation.</p>
+<p>Firewall and VLAN architecture.</p>
 </a>
 
 <a class="card mgmt" href="network-zones.html">
 <h2>Network Zones</h2>
-<p>Enterprise segmentation model: Users, Guest, Management, SOC and Servers.</p>
+<p>Enterprise security segmentation.</p>
 </a>
 
 <a class="card attack" href="attack-paths.html">
 <h2>Attack Simulation</h2>
-<p>Demonstrates blocked lateral movement and firewall enforcement.</p>
+<p>Firewall blocking attack paths.</p>
 </a>
 
 <a class="card attack" href="attack-surface.html">
 <h2>Attack Surface</h2>
-<p>Threat exposure analysis and mitigation strategy.</p>
+<p>Threat exposure analysis.</p>
 </a>
 
-<a class="card mgmt" href="architecture-overview.html">
+<a class="card arch" href="architecture-overview.html">
 <h2>Architecture Overview</h2>
-<p>Security architecture principles and network design approach.</p>
+<p>Security design principles.</p>
 </a>
 
-<a class="card firewall" href="architecture-decisions.html">
+<a class="card arch" href="architecture-decisions.html">
 <h2>Architecture Decisions</h2>
-<p>Design reasoning behind firewall policies and VLAN segmentation.</p>
+<p>Design reasoning and tradeoffs.</p>
 </a>
 
 <a class="card ops" href="security-model.html">
 <h2>Security Model</h2>
-<p>Trust boundaries and Zero Trust inspired network design.</p>
+<p>Trust boundaries and segmentation logic.</p>
 </a>
 
 <a class="card ops" href="security-operations.html">
 <h2>Security Operations</h2>
-<p>SOC processes, monitoring workflows and incident response logic.</p>
-</a>
-
-<a class="card mgmt" href="interactive-security-architecture.html">
-<h2>Interactive Architecture</h2>
-<p>Clickable enterprise network security architecture map.</p>
+<p>SOC monitoring and response workflows.</p>
 </a>
 
 <a class="card firewall" href="firewall-policy-map.html">
 <h2>Firewall Policy Map</h2>
-<p>Visualized policy enforcement and traffic flow control.</p>
-</a>
-
-<a class="card soc" href="soc-timeline.html">
-<h2>SOC Timeline</h2>
-<p>Security incident timeline and detection events.</p>
-</a>
-
-<a class="card users" href="traffic-simulation.html">
-<h2>Traffic Simulation</h2>
-<p>Animated packet flows between VLAN segments.</p>
-</a>
-
-<a class="card soc" href="network-telemetry-map.html">
-<h2>Telemetry Map</h2>
-<p>Visualization of network monitoring and telemetry data.</p>
+<p>Traffic flows and security enforcement.</p>
 </a>
 
 <a class="card soc" href="soc-dashboard.html">
 <h2>SOC Dashboard</h2>
-<p>Security metrics including active sessions and blocked threats.</p>
+<p>Security monitoring metrics.</p>
 </a>
 
 <a class="card soc" href="soc-command-center.html">
 <h2>SOC Command Center</h2>
-<p>Central monitoring panel for security operations.</p>
+<p>Central security monitoring console.</p>
+</a>
+
+<a class="card soc" href="global-attack-map.html">
+<h2>Global Attack Map</h2>
+<p>Simulated worldwide cyber attack visualization.</p>
 </a>
 
 <a class="card firewall" href="device-fortigate.html">
-<h2>FortiGate Firewall</h2>
-<p>Firewall configuration, NAT, routing and policy enforcement.</p>
+<h2>FortiGate</h2>
+<p>Firewall configuration.</p>
 </a>
 
 <a class="card switch" href="device-cbs250.html">
-<h2>Cisco CBS250 Switch</h2>
-<p>Layer 2 switching, VLAN segmentation and infrastructure connectivity.</p>
+<h2>Cisco CBS250</h2>
+<p>Switch VLAN configuration.</p>
 </a>
 
 <a class="card ops" href="troubleshooting.html">
 <h2>Troubleshooting</h2>
-<p>Diagnostics, debugging and network troubleshooting workflows.</p>
+<p>Debugging network and firewall issues.</p>
 </a>
 
 </div>
@@ -525,73 +276,27 @@ attack simulation and security design principles using FortiGate and Cisco CBS25
 </div>
 
 <script>
+
 function rand(min,max){
-    return Math.floor(Math.random()*(max-min+1))+min;
+return Math.floor(Math.random()*(max-min+1))+min;
 }
-
-const talkers = ["VLAN20","VLAN30","VLAN60","10.10.20.100","10.10.60.100","FortiGate WAN"];
-const attackLabels = ["BLOCK","DENY","STOPPED","REJECTED"];
-const tickerItems = [
-    '<span class="alert">[ALERT] Guest VLAN blocked</span>',
-    '<span class="info">[INFO] Users internet OK</span>',
-    '<span class="warn">[WARN] MGMT login attempt</span>',
-    '<span class="ok">[OK] Firewall policy sync successful</span>',
-    '<span class="alert">[ALERT] Guest VLAN port scan blocked</span>',
-    '<span class="info">[INFO] VLAN20 throughput normal</span>',
-    '<span class="warn">[WARN] Elevated DNS requests from guest zone</span>'
-];
-
-const graph = document.getElementById("trafficGraph");
-let barCount = 0;
-let peak = 1130;
 
 function updateMetrics(){
-    const sessions = rand(180,420);
-    const blocked = rand(80,180);
-    const throughput = (rand(7,18)/10).toFixed(1) + " Gbps";
-    const topTalker = talkers[rand(0,talkers.length-1)];
-    const pps = rand(620,1180);
-    const drops = rand(4,28);
 
-    if(pps > peak){ peak = pps; }
+document.getElementById("sessions").textContent = rand(200,450);
 
-    document.getElementById("activeSessions").textContent = sessions;
-    document.getElementById("blockedAttacks").textContent = blocked;
-    document.getElementById("firewallThroughput").textContent = throughput;
-    document.getElementById("topTalker").textContent = topTalker;
-    document.getElementById("ppsValue").textContent = pps;
-    document.getElementById("peakValue").textContent = peak;
-    document.getElementById("dropValue").textContent = drops;
-    document.getElementById("attackBlockLabel").textContent = attackLabels[rand(0,attackLabels.length-1)];
+document.getElementById("attacks").textContent = rand(80,180);
 
-    const bar = document.createElement("div");
-    bar.className = "bar";
-    bar.style.height = Math.max(18, Math.min(160, (pps / 1180) * 160)) + "px";
-    bar.style.left = (barCount * 12) + "px";
-    graph.appendChild(bar);
-    barCount++;
+document.getElementById("throughput").textContent = (rand(8,15)/10).toFixed(1)+" Gbps";
 
-    const bars = graph.querySelectorAll(".bar");
-    if(bars.length > 70){
-        bars[0].remove();
-        barCount--;
-        const remainingBars = graph.querySelectorAll(".bar");
-        remainingBars.forEach((b, i) => {
-            b.style.left = (i * 12) + "px";
-        });
-    }
+const talkers=["VLAN20","VLAN30","VLAN60","10.10.20.100"];
+
+document.getElementById("talker").textContent = talkers[rand(0,3)];
+
 }
 
-function updateTicker(){
-    const shuffled = [...tickerItems].sort(() => Math.random() - 0.5);
-    document.getElementById("tickerContent").innerHTML = shuffled.join('');
-}
+setInterval(updateMetrics,3000);
 
-updateMetrics();
-updateTicker();
-
-setInterval(updateMetrics, 2000);
-setInterval(updateTicker, 8000);
 </script>
 
 </body>
