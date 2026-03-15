@@ -3,50 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab - Security Operations</title>
+<title>Enterprise Security Lab – Security Operations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#0b1220;color:white;font-family:Arial,sans-serif;text-align:center}
-.container{max-width:1100px;margin:auto;padding:40px 20px 80px}
+body{background:#0b1220;color:#fff;font-family:'Inter',sans-serif;margin:0;text-align:center}
+.container{max-width:1100px;margin:auto;padding:40px}
 .nav{margin-bottom:30px}
 .nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
 .nav a:hover{background:#1e293b}
-.panel{background:#111827;padding:24px;border-radius:18px;text-align:left;line-height:1.7}
-h1{font-size:38px}
-h2{color:#94a3b8;font-weight:normal}
+.card{background:#111827;padding:25px;border-radius:10px;border:1px solid #334155;margin-top:30px;text-align:left}
 </style>
 </head>
 <body>
 <div class="container">
-    <h1>Security Operations</h1>
-    <h2>Enterprise Security Lab</h2>
+<div class="nav">
+<a href="index.html">Home</a>
+<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+<a href="topology.html">Topology</a>
+<a href="network-diagram.html">Network Diagram</a>
+<a href="network-zones.html">Network Zones</a>
+<a href="attack-paths.html">Attack Simulation</a>
+<a href="attack-surface.html">Attack Surface</a>
+<a href="architecture-overview.html">Architecture</a>
+<a href="architecture-decisions.html">Architecture Decisions</a>
+<a href="security-model.html">Security Model</a>
+<a href="security-operations.html">Security Operations</a>
+<a href="soc-dashboard.html">SOC Dashboard</a>
+<a href="device-fortigate.html">FortiGate</a>
+<a href="device-cbs250.html">CBS250</a>
+<a href="troubleshooting.html">Troubleshooting</a>
+</div>
 
-    <div class="nav">
-        <a href="index.html">Home</a>
-        <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-        <a href="topology.html">Topology</a>
-        <a href="network-diagram.html">Network Diagram</a>
-        <a href="network-zones.html">Network Zones</a>
-        <a href="attack-paths.html">Attack Simulation</a>
-        <a href="attack-surface.html">Attack Surface</a>
-        <a href="architecture-overview.html">Architecture</a>
-        <a href="architecture-decisions.html">Architecture Decisions</a>
-        <a href="security-model.html">Security Model</a>
-        <a href="security-operations.html">Security Operations</a>
-        <a href="interactive-security-architecture.html">Interactive Architecture</a>
-        <a href="firewall-policy-map.html">Policy Map</a>
-        <a href="soc-timeline.html">SOC Timeline</a>
-        <a href="traffic-simulation.html">Traffic Simulation</a>
-        <a href="soc-dashboard.html">SOC Dashboard</a>
-        <a href="device-fortigate.html">FortiGate</a>
-        <a href="device-cbs250.html">CBS250</a>
-        <a href="troubleshooting.html">Troubleshooting</a>
-    </div>
+<h1>Security Operations</h1>
 
-    <div class="panel">
-        <p>This section covers the operational perspective of the lab, including visibility, blocked flow analysis, simulated SOC events and firewall policy validation.</p>
-        <p>The main focus is to show how segmentation decisions can be observed and interpreted from a Blue Team or SOC point of view.</p>
-        <p>Related views include the SOC Dashboard, Policy Map, Traffic Simulation and SOC Timeline pages.</p>
-    </div>
+<div class="card">
+<h2>SOC Operations Model</h2>
+<p>Security monitoring includes traffic inspection, blocked flow analysis and policy validation.</p>
+<p>Operational visibility is built around firewall behavior, troubleshooting data and simulated SOC views.</p>
+</div>
+
 </div>
 </body>
 </html>
