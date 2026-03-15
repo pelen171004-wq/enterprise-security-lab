@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>FortiGate Firewall</title>
+
 <style>
 
 body{
@@ -9,7 +15,7 @@ text-align:center;
 }
 
 .container{
-max-width:1200px;
+max-width:1000px;
 margin:auto;
 padding:40px;
 }
@@ -33,12 +39,27 @@ background:#0b1320;
 background:#1e293b;
 }
 
+.section{
+background:#111827;
+padding:20px;
+margin-top:20px;
+border-radius:12px;
+text-align:left;
+}
+
 </style>
 
+</head>
 
+<body>
+
+<div class="container">
+
+<h1>FortiGate 60E</h1>
+<h2>Next-Generation Firewall</h2>
 
 <div class="nav">
-  
+
 <a href="index.html">Home</a>
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
 <a href="topology.html">Topology</a>
@@ -59,9 +80,53 @@ background:#1e293b;
 <a href="device-cbs250.html">CBS250</a>
 <a href="troubleshooting.html">Troubleshooting</a>
 
+</div>
 
+<div class="section">
 
+<h3>Role</h3>
+
+<p>
+FortiGate acts as the central security enforcement point
+for the Enterprise Security Lab.
+</p>
+
+<ul>
+<li>Inter-VLAN routing</li>
+<li>Firewall policy enforcement</li>
+<li>NAT to WAN</li>
+<li>DHCP services</li>
+<li>Traffic inspection</li>
+</ul>
+
+</div>
+
+<div class="section">
+
+<h3>Security Policies</h3>
+
+<ul>
+<li>Users → WAN ✔</li>
+<li>Guest → WAN ✔</li>
+<li>Users → MGMT ❌</li>
+<li>Guest → Users ❌</li>
+</ul>
+
+</div>
+
+<div class="section">
+
+<h3>Troubleshooting Commands</h3>
+
+<pre>
+diagnose debug flow
+diagnose sys session list
+diagnose sniffer packet any
+</pre>
 
 </div>
 
 </div>
+
+</body>
+</html>
