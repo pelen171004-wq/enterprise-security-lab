@@ -4,111 +4,36 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Enterprise Security Lab – Network Telemetry Map</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
-body{
-    background:#060b16;
-    color:#e2e8f0;
-    font-family:'Inter',sans-serif;
-    margin:0;
-    text-align:center;
-}
-.container{
-    max-width:1300px;
-    margin:auto;
-    padding:30px;
-}
-.nav{
-    margin-bottom:25px;
-}
-.nav a{
-    display:inline-block;
-    margin:6px;
-    padding:10px 16px;
-    border:1px solid #334155;
-    border-radius:999px;
-    color:#dbeafe;
-    text-decoration:none;
-    background:#0b1320;
-}
-.nav a:hover{
-    background:#1e293b;
-}
-.map{
-    position:relative;
-    height:520px;
-    margin-top:30px;
-}
-.node{
-    position:absolute;
-    width:200px;
-    padding:18px;
-    border-radius:14px;
-    font-weight:700;
-    border:1px solid rgba(255,255,255,.1);
-    box-shadow:0 8px 24px rgba(0,0,0,.25);
-}
+body{background:#060b16;color:#e2e8f0;font-family:'Inter',sans-serif;margin:0;text-align:center}
+.container{max-width:1300px;margin:auto;padding:30px}
+.nav{margin-bottom:25px}
+.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
+.nav a:hover{background:#1e293b}
+.map{position:relative;height:520px;margin-top:30px}
+.node{position:absolute;width:200px;padding:18px;border-radius:14px;font-weight:700;border:1px solid rgba(255,255,255,.1);box-shadow:0 8px 24px rgba(0,0,0,.25)}
 .users{left:60px;top:100px;background:#065f46}
 .guest{left:60px;top:320px;background:#92400e}
 .firewall{left:50%;top:190px;transform:translateX(-50%);background:#b91c1c}
 .internet{right:60px;top:100px;background:#4338ca}
 .mgmt{right:60px;top:320px;background:#1d4ed8}
-.path{
-    position:absolute;
-    height:4px;
-    background:#475569;
-    border-radius:999px;
-}
+.path{position:absolute;height:4px;background:#475569;border-radius:999px}
 .path1{left:260px;top:150px;width:300px}
 .path2{left:260px;top:370px;width:300px}
 .path3{left:730px;top:150px;width:250px}
 .path4{left:730px;top:370px;width:250px}
-.packet{
-    position:absolute;
-    width:12px;
-    height:12px;
-    border-radius:999px;
-}
+.packet{position:absolute;width:12px;height:12px;border-radius:999px}
 .packet.p1{background:#22c55e;box-shadow:0 0 14px rgba(34,197,94,.8);animation:flowUsers 4s linear infinite}
 .packet.p2{background:#f59e0b;box-shadow:0 0 14px rgba(245,158,11,.8);animation:flowGuest 5s linear infinite}
 .packet.p3{background:#ef4444;box-shadow:0 0 14px rgba(239,68,68,.8);animation:flowBlocked 3.4s linear infinite}
-.panel{
-    background:#0f172a;
-    border:1px solid #334155;
-    border-radius:14px;
-    padding:24px;
-    text-align:left;
-    margin-top:24px;
-}
-@keyframes flowUsers{
-    0%{left:265px;top:145px;opacity:0}
-    10%{opacity:1}
-    40%{left:555px;top:145px}
-    70%{left:735px;top:145px}
-    100%{left:975px;top:145px;opacity:0}
-}
-@keyframes flowGuest{
-    0%{left:265px;top:365px;opacity:0}
-    10%{opacity:1}
-    40%{left:555px;top:365px}
-    70%{left:735px;top:145px}
-    100%{left:975px;top:145px;opacity:0}
-}
-@keyframes flowBlocked{
-    0%{left:265px;top:365px;opacity:0}
-    10%{opacity:1}
-    70%{left:570px;top:365px;opacity:1}
-    100%{left:625px;top:365px;opacity:0}
-}
-@media (max-width:1050px){
-    .map{height:auto;display:flex;flex-direction:column;gap:16px;align-items:center}
-    .node{position:relative;left:auto;right:auto;top:auto;transform:none}
-    .path,.packet{display:none}
-}
+.panel{background:#0f172a;border:1px solid #334155;border-radius:14px;padding:24px;text-align:left;margin-top:24px}
+@keyframes flowUsers{0%{left:265px;top:145px;opacity:0}10%{opacity:1}40%{left:555px;top:145px}70%{left:735px;top:145px}100%{left:975px;top:145px;opacity:0}}
+@keyframes flowGuest{0%{left:265px;top:365px;opacity:0}10%{opacity:1}40%{left:555px;top:365px}70%{left:735px;top:145px}100%{left:975px;top:145px;opacity:0}}
+@keyframes flowBlocked{0%{left:265px;top:365px;opacity:0}10%{opacity:1}70%{left:570px;top:365px;opacity:1}100%{left:625px;top:365px;opacity:0}}
+@media (max-width:1050px){.map{height:auto;display:flex;flex-direction:column;gap:16px;align-items:center}.node{position:relative;left:auto;right:auto;top:auto;transform:none}.path,.packet{display:none}}
 </style>
 </head>
 <body>
@@ -117,35 +42,49 @@ body{
 <div class="nav">
 <a href="index.html">Home</a>
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+<a href="topology.html">Topology</a>
+<a href="network-diagram.html">Network Diagram</a>
+<a href="network-zones.html">Network Zones</a>
+<a href="attack-paths.html">Attack Simulation</a>
+<a href="attack-surface.html">Attack Surface</a>
+<a href="architecture-overview.html">Architecture</a>
+<a href="architecture-decisions.html">Architecture Decisions</a>
+<a href="security-model.html">Security Model</a>
+<a href="security-operations.html">Security Operations</a>
 <a href="interactive-security-architecture.html">Architecture Map</a>
-<a href="attack-paths.html">Attack Visualizer</a>
+<a href="firewall-policy-map.html">Policy Map</a>
+<a href="soc-timeline.html">SOC Timeline</a>
+<a href="traffic-simulation.html">Traffic Simulation</a>
 <a href="network-telemetry-map.html">Telemetry Map</a>
-<a href="soc-command-center.html">SOC Command Center</a>
 <a href="soc-dashboard.html">SOC Dashboard</a>
+<a href="soc-command-center.html">SOC Command Center</a>
+<a href="device-fortigate.html">FortiGate</a>
+<a href="device-cbs250.html">CBS250</a>
+<a href="troubleshooting.html">Troubleshooting</a>
 </div>
 
 <h1>Network Telemetry Map</h1>
 
 <div class="map">
-    <div class="node users">Users VLAN20</div>
-    <div class="node guest">Guest VLAN60</div>
-    <div class="node firewall">FortiGate NGFW</div>
-    <div class="node internet">Internet</div>
-    <div class="node mgmt">MGMT VLAN30</div>
+<div class="node users">Users VLAN20</div>
+<div class="node guest">Guest VLAN60</div>
+<div class="node firewall">FortiGate NGFW</div>
+<div class="node internet">Internet</div>
+<div class="node mgmt">MGMT VLAN30</div>
 
-    <div class="path path1"></div>
-    <div class="path path2"></div>
-    <div class="path path3"></div>
-    <div class="path path4"></div>
+<div class="path path1"></div>
+<div class="path path2"></div>
+<div class="path path3"></div>
+<div class="path path4"></div>
 
-    <div class="packet p1"></div>
-    <div class="packet p2"></div>
-    <div class="packet p3"></div>
+<div class="packet p1"></div>
+<div class="packet p2"></div>
+<div class="packet p3"></div>
 </div>
 
 <div class="panel">
-    <h2>Telemetry Interpretation</h2>
-    <p>Green traffic represents standard users reaching the internet. Amber traffic represents guest internet-only activity. Red traffic represents blocked internal movement attempts, similar to what an NDR or SOC platform would highlight.</p>
+<h2>Telemetry Interpretation</h2>
+<p>Green traffic represents normal users reaching the internet. Amber traffic represents guest internet-only activity. Red traffic represents blocked internal movement attempts.</p>
 </div>
 
 </div>
