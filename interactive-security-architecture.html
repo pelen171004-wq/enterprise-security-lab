@@ -8,6 +8,23 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+:root{
+    --users:#10b981;
+    --users-border:#34d399;
+
+    --guest:#f59e0b;
+    --guest-border:#fbbf24;
+
+    --mgmt:#2563eb;
+    --mgmt-border:#60a5fa;
+
+    --soc:#1d4ed8;
+    --soc-border:#60a5fa;
+
+    --servers:#7c3aed;
+    --servers-border:#a78bfa;
+}
+
 body{
     background:#060b16;
     color:#e2e8f0;
@@ -15,14 +32,17 @@ body{
     margin:0;
     text-align:center;
 }
+
 .container{
     max-width:1300px;
     margin:auto;
     padding:30px 20px 80px;
 }
+
 .nav{
     margin-bottom:25px;
 }
+
 .nav a{
     display:inline-block;
     margin:6px;
@@ -33,33 +53,79 @@ body{
     text-decoration:none;
     background:#0b1320;
 }
-.nav a:hover{background:#1e293b}
+
+.nav a:hover{
+    background:#1e293b;
+}
+
+h1{
+    margin:10px 0 22px;
+    font-size:42px;
+}
+
 .grid{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     gap:18px;
     margin-top:24px;
 }
+
 .zone{
     border-radius:14px;
     padding:22px;
     text-align:left;
     cursor:pointer;
-    border:1px solid rgba(255,255,255,.08);
+    border:2px solid rgba(255,255,255,.08);
     box-shadow:0 8px 24px rgba(0,0,0,.25);
     transition:transform .15s ease,border-color .15s ease, box-shadow .2s ease;
     animation:floatIn .6s ease both;
 }
+
 .zone:hover{
     transform:translateY(-4px) scale(1.01);
-    border-color:#475569;
     box-shadow:0 12px 28px rgba(0,0,0,.3);
 }
-.zone h3{margin:0 0 10px 0}
-.users{background:#065f46;animation-delay:.1s}
-.guest{background:#92400e;animation-delay:.2s}
-.soc{background:#1d4ed8;animation-delay:.3s}
-.servers{background:#6d28d9;animation-delay:.4s}
+
+.zone h3{
+    margin:0 0 10px 0;
+}
+
+.small{
+    color:#e5e7eb;
+    font-size:14px;
+    opacity:.9;
+}
+
+.users{
+    background:var(--users);
+    border-color:var(--users-border);
+    animation-delay:.1s;
+}
+
+.guest{
+    background:var(--guest);
+    border-color:var(--guest-border);
+    animation-delay:.2s;
+}
+
+.mgmt{
+    background:var(--mgmt);
+    border-color:var(--mgmt-border);
+    animation-delay:.3s;
+}
+
+.soc{
+    background:var(--soc);
+    border-color:var(--soc-border);
+    animation-delay:.4s;
+}
+
+.servers{
+    background:var(--servers);
+    border-color:var(--servers-border);
+    animation-delay:.5s;
+}
+
 .panel{
     margin-top:24px;
     background:#0f172a;
@@ -67,10 +133,25 @@ body{
     border-radius:14px;
     padding:24px;
     text-align:left;
-    min-height:170px;
+    min-height:190px;
     transition:all .25s ease;
 }
-.small{color:#94a3b8;font-size:14px}
+
+.panel h2{
+    margin-top:0;
+}
+
+.meta{
+    margin-top:12px;
+    display:inline-block;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:13px;
+    background:#111827;
+    border:1px solid #334155;
+    color:#cbd5e1;
+}
+
 @keyframes floatIn{
     from{opacity:0;transform:translateY(14px)}
     to{opacity:1;transform:translateY(0)}
@@ -107,22 +188,27 @@ body{
 <h1>Interactive Security Architecture Map</h1>
 
 <div class="grid">
-    <div class="zone users" onclick="showZone('Users VLAN','Trusted internal workstation zone used for standard user activity.','Allowed: internet access through firewall','Denied: direct management access and unauthorized east-west traffic')">
+    <div class="zone users" onclick="showZone('Users VLAN20','Trusted internal workstation zone used for standard user activity.','Internet access is allowed through firewall inspection.','Direct access to management resources is restricted.','Users VLAN / Trusted client zone')">
         <h3>Users</h3>
         <div class="small">Trusted client network</div>
     </div>
 
-    <div class="zone guest" onclick="showZone('Guest VLAN','Untrusted visitor network with internet-only design.','Allowed: outbound internet access','Denied: internal lateral movement to users and management')">
+    <div class="zone guest" onclick="showZone('Guest VLAN60','Untrusted visitor network with internet-only design.','Outbound internet access is permitted.','Internal lateral movement is blocked by policy.','Guest VLAN / Untrusted zone')">
         <h3>Guest</h3>
         <div class="small">Untrusted internet-only zone</div>
     </div>
 
-    <div class="zone soc" onclick="showZone('SOC Zone','Monitoring, logging and security visibility zone for detection workflows.','Purpose: alerting, log review, dashboards','Future use: SIEM, traffic visibility, detections')">
+    <div class="zone mgmt" onclick="showZone('Management VLAN30','Dedicated administrative zone for device management and infrastructure control.','Used for switch and firewall administration.','Protected from normal user and guest access.','MGMT VLAN / Protected admin zone')">
+        <h3>MGMT</h3>
+        <div class="small">Protected administration zone</div>
+    </div>
+
+    <div class="zone soc" onclick="showZone('SOC VLAN40','Monitoring, logging and security visibility zone for detection workflows.','Purpose: alerting, dashboards, event correlation.','Future expansion for SIEM and monitoring tools.','SOC VLAN / Monitoring zone')">
         <h3>SOC</h3>
         <div class="small">Monitoring and detection</div>
     </div>
 
-    <div class="zone servers" onclick="showZone('Server Zone','Internal infrastructure and service hosting segment.','Purpose: controlled service exposure','Access: explicit allow rules only')">
+    <div class="zone servers" onclick="showZone('Servers VLAN50','Controlled infrastructure and service hosting segment.','Purpose: internal services and protected workloads.','Access allowed only through explicit firewall policy.','Servers VLAN / Restricted service zone')">
         <h3>Servers</h3>
         <div class="small">Controlled infrastructure zone</div>
     </div>
@@ -136,7 +222,7 @@ body{
 </div>
 
 <script>
-function showZone(title, desc, line1, line2){
+function showZone(title, desc, line1, line2, meta){
     const panel = document.getElementById("zoneInfo");
     panel.style.opacity = 0.25;
     setTimeout(() => {
@@ -145,6 +231,7 @@ function showZone(title, desc, line1, line2){
             <p>${desc}</p>
             <p><strong>${line1}</strong></p>
             <p><strong>${line2}</strong></p>
+            <div class="meta">${meta}</div>
         `;
         panel.style.opacity = 1;
     }, 120);
