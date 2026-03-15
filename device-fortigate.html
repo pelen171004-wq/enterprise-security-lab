@@ -1,78 +1,111 @@
 <!DOCTYPE html>
-<html lang="sk">
+<html>
 <head>
-<meta charset="utf-8">
-<title>FortiGate 60E - Enterprise Lab</title>
+<meta charset="UTF-8">
+<title>FortiGate 60E - Enterprise Security Lab</title>
+
 <style>
+
 body{
 background:#0b1220;
-color:#e5edf8;
+color:white;
 font-family:Arial;
+margin:0;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
 padding:40px;
 }
 
-.card{
-background:#111827;
-padding:25px;
-border-radius:12px;
-margin-bottom:20px;
-border:1px solid #273449;
+.nav a{
+display:inline-block;
+margin:6px;
+padding:10px 16px;
+border:1px solid #334155;
+border-radius:999px;
+color:#dbeafe;
+text-decoration:none;
+background:#0b1320;
 }
 
-h1{
-margin-top:0;
+.section{
+background:#111827;
+padding:20px;
+margin-top:20px;
+border-radius:12px;
 }
 
 code{
-background:#0b1320;
-padding:10px;
 display:block;
-border-radius:8px;
+background:#020617;
+padding:10px;
+margin-top:10px;
+border-radius:6px;
+color:#22c55e;
 }
+
 </style>
 </head>
 
 <body>
 
+<div class="container">
+
 <h1>FortiGate 60E</h1>
+<h2>Firewall Documentation</h2>
 
-<div class="card">
+<div class="nav">
+<a href="./">Home</a>
+<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+<a href="topology.html">Topology</a>
+<a href="network-diagram.html">Network Diagram</a>
+<a href="network-zones.html">Network Zones</a>
+<a href="attack-paths.html">Attack Simulation</a>
+<a href="soc-dashboard.html">SOC Dashboard</a>
+<a href="device-fortigate.html">FortiGate</a>
+<a href="device-cbs250.html">CBS250</a>
+</div>
 
-<h2>Role in architecture</h2>
-
+<div class="section">
+<h3>Role</h3>
+<p>FortiGate acts as the central security enforcement point in the lab.</p>
 <ul>
-<li>VLAN gateway</li>
-<li>Firewall segmentation</li>
+<li>Inter-VLAN routing</li>
+<li>Firewall policy enforcement</li>
 <li>NAT to WAN</li>
-<li>Security policy enforcement</li>
-
+<li>DHCP services</li>
+<li>Management protection</li>
 </ul>
-
 </div>
 
-<div class="card">
-
-<h2>Status</h2>
-
-✓ VLAN interfaces  
-✓ Users internet  
-✓ Guest isolation  
-● Inter-VLAN security  
-
+<div class="section">
+<h3>Interfaces</h3>
+<ul>
+<li>VLAN20 – Users</li>
+<li>VLAN30 – Management</li>
+<li>VLAN60 – Guest</li>
+</ul>
 </div>
 
-<div class="card">
-
-<h2>Key commands</h2>
+<div class="section">
+<h3>Example Troubleshooting</h3>
 
 <code>
-show system interface
-show firewall policy
-get router info routing-table all
 diagnose debug flow
+</code>
+
+<code>
+diagnose sys session list
+</code>
+
+<code>
+diagnose sniffer packet any "host 10.10.20.100" 4
 </code>
 
 </div>
 
+</div>
 </body>
 </html>
