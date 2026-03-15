@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Network Topology</title>
+
 <style>
 
 body{
@@ -9,7 +15,7 @@ text-align:center;
 }
 
 .container{
-max-width:1200px;
+max-width:1100px;
 margin:auto;
 padding:40px;
 }
@@ -34,39 +40,61 @@ background:#1e293b;
 }
 
 </style>
+</head>
 
+<body>
 
+<div class="container">
+
+<h1>Network Topology</h1>
 
 <div class="nav">
 
 <a href="index.html">Home</a>
-
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-
 <a href="topology.html">Topology</a>
-
 <a href="network-diagram.html">Network Diagram</a>
-
 <a href="network-zones.html">Network Zones</a>
-
 <a href="attack-paths.html">Attack Simulation</a>
-
 <a href="attack-surface.html">Attack Surface</a>
-
 <a href="architecture-overview.html">Architecture</a>
-
 <a href="architecture-decisions.html">Architecture Decisions</a>
-
 <a href="security-model.html">Security Model</a>
-
 <a href="security-operations.html">Security Operations</a>
-
+<a href="interactive-security-architecture.html">Interactive Architecture</a>
 <a href="soc-dashboard.html">SOC Dashboard</a>
-
 <a href="device-fortigate.html">FortiGate</a>
-
 <a href="device-cbs250.html">CBS250</a>
-
 <a href="troubleshooting.html">Troubleshooting</a>
 
 </div>
+
+<p>
+This page documents the physical and logical topology of the Enterprise Security Lab.
+</p>
+
+<p>
+The environment is built around a FortiGate firewall acting as the primary
+security enforcement point and a Cisco CBS250 switch providing VLAN segmentation.
+</p>
+
+<h2>Core Components</h2>
+
+<ul>
+<li>FortiGate 60E – Next Generation Firewall</li>
+<li>Cisco CBS250 – Core Switch</li>
+<li>Vodafone ISP modem – Internet uplink</li>
+</ul>
+
+<h2>Network Structure</h2>
+
+<ul>
+<li>VLAN20 – Users Network</li>
+<li>VLAN30 – Management Network</li>
+<li>VLAN60 – Guest Network</li>
+</ul>
+
+</div>
+
+</body>
+</html>
