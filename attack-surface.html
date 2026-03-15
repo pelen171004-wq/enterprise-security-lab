@@ -1,121 +1,72 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Attack Surface – Enterprise Security Lab</title>
-
 <style>
 
 body{
-font-family:Arial;
-background:#0f172a;
+background:#0b1220;
 color:white;
-margin:40px;
+font-family:Arial;
+margin:0;
+text-align:center;
 }
 
-.card{
-background:#1e293b;
-padding:20px;
-margin-bottom:20px;
-border-radius:8px;
+.container{
+max-width:1200px;
+margin:auto;
+padding:40px;
 }
 
-h1{color:#60a5fa}
+.nav{
+margin-bottom:30px;
+}
 
 .nav a{
-margin-right:15px;
-color:#93c5fd;
+display:inline-block;
+margin:6px;
+padding:10px 16px;
+border:1px solid #334155;
+border-radius:999px;
+color:#dbeafe;
 text-decoration:none;
+background:#0b1320;
+}
+
+.nav a:hover{
+background:#1e293b;
 }
 
 </style>
-</head>
 
-<body>
+
 
 <div class="nav">
 
-<a href="./index.html">Home</a>
+<a href="index.html">Home</a>
+
+<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+
 <a href="topology.html">Topology</a>
+
+<a href="network-diagram.html">Network Diagram</a>
+
+<a href="network-zones.html">Network Zones</a>
+
+<a href="attack-paths.html">Attack Simulation</a>
+
+<a href="attack-surface.html">Attack Surface</a>
+
 <a href="architecture-overview.html">Architecture</a>
+
 <a href="architecture-decisions.html">Architecture Decisions</a>
 
-</div>
+<a href="security-model.html">Security Model</a>
 
-<h1>Network Attack Surface</h1>
+<a href="security-operations.html">Security Operations</a>
 
-<div class="card">
+<a href="soc-dashboard.html">SOC Dashboard</a>
 
-<h2>Internet Edge</h2>
+<a href="device-fortigate.html">FortiGate</a>
 
-Threat:
-<ul>
-<li>Port scanning</li>
-<li>Exploit attempts</li>
-<li>Brute force</li>
-</ul>
+<a href="device-cbs250.html">CBS250</a>
 
-Mitigation:
-<ul>
-<li>FortiGate firewall</li>
-<li>NAT policy control</li>
-<li>Closed inbound ports</li>
-</ul>
+<a href="troubleshooting.html">Troubleshooting</a>
 
 </div>
-
-<div class="card">
-
-<h2>Guest Network</h2>
-
-Threat:
-<ul>
-<li>Malicious guest device</li>
-<li>Lateral movement</li>
-</ul>
-
-Mitigation:
-<ul>
-<li>Guest VLAN isolation</li>
-<li>Internet-only policy</li>
-</ul>
-
-</div>
-
-<div class="card">
-
-<h2>User Network</h2>
-
-Threat:
-<ul>
-<li>Compromised endpoint</li>
-<li>Internal reconnaissance</li>
-</ul>
-
-Mitigation:
-<ul>
-<li>Inter-VLAN firewall rules</li>
-<li>Segmentation</li>
-</ul>
-
-</div>
-
-<div class="card">
-
-<h2>Management Plane</h2>
-
-Threat:
-<ul>
-<li>Unauthorized admin access</li>
-</ul>
-
-Mitigation:
-<ul>
-<li>Management VLAN</li>
-<li>Restricted access</li>
-</ul>
-
-</div>
-
-</body>
-</html>
