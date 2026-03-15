@@ -3,27 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab - Troubleshooting</title>
+<title>Enterprise Security Lab – Troubleshooting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#0b1220;color:white;font-family:Arial,sans-serif;text-align:center}
-.container{max-width:1100px;margin:auto;padding:40px 20px 80px}
+body{background:#0b1220;color:#fff;font-family:'Inter',sans-serif;margin:0;text-align:center}
+.container{max-width:1100px;margin:auto;padding:40px}
 .nav{margin-bottom:30px}
 .nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
 .nav a:hover{background:#1e293b}
-.panel{background:#111827;padding:24px;border-radius:18px;text-align:left;line-height:1.8}
-h1{font-size:38px}
-h2{color:#94a3b8;font-weight:normal}
-code{display:block;background:#020617;padding:10px;border-radius:8px;margin:10px 0;color:#86efac}
+.card{background:#111827;padding:25px;border-radius:10px;border:1px solid #334155;margin-top:30px;text-align:left}
+pre{background:#020617;padding:12px;border-radius:10px;overflow:auto;color:#86efac}
 </style>
 </head>
 <body>
 <div class="container">
-    <h1>Troubleshooting</h1>
-    <h2>Enterprise Security Lab</h2>
-
-    
-    <div class="nav">
-
+<div class="nav">
 <a href="index.html">Home</a>
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
 <a href="topology.html">Topology</a>
@@ -35,25 +31,23 @@ code{display:block;background:#020617;padding:10px;border-radius:8px;margin:10px
 <a href="architecture-decisions.html">Architecture Decisions</a>
 <a href="security-model.html">Security Model</a>
 <a href="security-operations.html">Security Operations</a>
-<a href="interactive-security-architecture.html">Interactive Architecture</a>
-<a href="firewall-policy-map.html">Policy Map</a>
-<a href="soc-timeline.html">SOC Timeline</a>
-<a href="traffic-simulation.html">Traffic Simulation</a>
 <a href="soc-dashboard.html">SOC Dashboard</a>
 <a href="device-fortigate.html">FortiGate</a>
 <a href="device-cbs250.html">CBS250</a>
 <a href="troubleshooting.html">Troubleshooting</a>
-
 </div>
-    </div>
 
-    <div class="panel">
-        <p>Common troubleshooting workflow used in the lab:</p>
-        <code>diagnose debug flow</code>
-        <code>diagnose sys session list</code>
-        <code>diagnose sniffer packet any "host 10.10.20.100" 4</code>
-        <p>These commands are used to validate routing, policy matches, NAT translation and packet path behavior through the firewall.</p>
-    </div>
+<h1>Troubleshooting</h1>
+
+<div class="card">
+<h2>Diagnostic Workflow</h2>
+<pre>ping
+diagnose debug flow
+diagnose sys session list
+diagnose sniffer packet</pre>
+<p>These tools are used to validate connectivity, policy matches, NAT behavior and packet flow through the firewall.</p>
+</div>
+
 </div>
 </body>
 </html>
