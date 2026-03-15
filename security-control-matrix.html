@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Firewall Policy Matrix</title>
+
+<style>
+
+body{
+background:#0b1220;
+color:white;
+font-family:Arial;
+text-align:center;
+}
+
+table{
+margin:auto;
+border-collapse:collapse;
+width:70%;
+}
+
+td,th{
+border:1px solid #334155;
+padding:15px;
+}
+
+.allow{
+color:#22c55e;
+}
+
+.deny{
+color:#ef4444;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Firewall Policy Matrix</h1>
+
+<table>
+
+<tr>
+<th>Source</th>
+<th>Destination</th>
+<th>Policy</th>
+</tr>
+
+<tr>
+<td>VLAN20 Users</td>
+<td>Internet</td>
+<td class="allow">✔ ALLOW</td>
+</tr>
+
+<tr>
+<td>VLAN60 Guest</td>
+<td>Internet</td>
+<td class="allow">✔ ALLOW</td>
+</tr>
+
+<tr>
+<td>VLAN60 Guest</td>
+<td>VLAN20 Users</td>
+<td class="deny">❌ DENY</td>
+</tr>
+
+<tr>
+<td>VLAN20 Users</td>
+<td>VLAN30 Management</td>
+<td class="deny">❌ DENY</td>
+</tr>
+
+</table>
+
+</body>
+</html>
