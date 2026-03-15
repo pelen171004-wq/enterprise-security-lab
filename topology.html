@@ -1,23 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Enterprise Security Lab - Topology</title>
-
 <style>
 
 body{
 background:#0b1220;
 color:white;
 font-family:Arial;
-text-align:center;
 margin:0;
+text-align:center;
 }
 
 .container{
-max-width:1100px;
+max-width:1200px;
 margin:auto;
 padding:40px;
+}
+
+.nav{
+margin-bottom:30px;
 }
 
 .nav a{
@@ -31,64 +29,44 @@ text-decoration:none;
 background:#0b1320;
 }
 
-.node{
-display:inline-block;
-padding:20px;
-margin:20px;
-border-radius:12px;
-min-width:160px;
-}
-
-.internet{background:#6366f1}
-.firewall{background:#ef4444}
-.switch{background:#3b82f6}
-.vlan{background:#10b981}
-
-.line{
-height:4px;
-background:#64748b;
-margin:10px auto;
-width:200px;
+.nav a:hover{
+background:#1e293b;
 }
 
 </style>
-</head>
 
-<body>
 
-<div class="container">
-
-<h1>Enterprise Security Lab</h1>
-<h2>Network Topology</h2>
 
 <div class="nav">
-<a href="./">Home</a>
+
+<a href="index.html">Home</a>
+
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+
 <a href="topology.html">Topology</a>
+
 <a href="network-diagram.html">Network Diagram</a>
+
 <a href="network-zones.html">Network Zones</a>
+
 <a href="attack-paths.html">Attack Simulation</a>
+
+<a href="attack-surface.html">Attack Surface</a>
+
+<a href="architecture-overview.html">Architecture</a>
+
+<a href="architecture-decisions.html">Architecture Decisions</a>
+
+<a href="security-model.html">Security Model</a>
+
+<a href="security-operations.html">Security Operations</a>
+
 <a href="soc-dashboard.html">SOC Dashboard</a>
+
 <a href="device-fortigate.html">FortiGate</a>
+
 <a href="device-cbs250.html">CBS250</a>
-</div>
 
-<div class="node internet">Internet</div>
-
-<div class="line"></div>
-
-<div class="node firewall">FortiGate 60E</div>
-
-<div class="line"></div>
-
-<div class="node switch">Cisco CBS250</div>
-
-<div class="line"></div>
-
-<div class="node vlan">VLAN20 Users</div>
-<div class="node vlan">VLAN30 Management</div>
-<div class="node vlan">VLAN60 Guest</div>
+<a href="troubleshooting.html">Troubleshooting</a>
 
 </div>
-</body>
-</html>
