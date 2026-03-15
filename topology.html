@@ -2,54 +2,24 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Network Topology</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab – Network Topology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-
-body{
-background:#0b1220;
-color:white;
-font-family:Arial;
-margin:0;
-text-align:center;
-}
-
-.container{
-max-width:1100px;
-margin:auto;
-padding:40px;
-}
-
-.nav{
-margin-bottom:30px;
-}
-
-.nav a{
-display:inline-block;
-margin:6px;
-padding:10px 16px;
-border:1px solid #334155;
-border-radius:999px;
-color:#dbeafe;
-text-decoration:none;
-background:#0b1320;
-}
-
-.nav a:hover{
-background:#1e293b;
-}
-
+body{background:#0b1220;color:#fff;font-family:'Inter',sans-serif;margin:0;text-align:center}
+.container{max-width:1100px;margin:auto;padding:40px}
+.nav{margin-bottom:30px}
+.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
+.nav a:hover{background:#1e293b}
+.card{background:#111827;padding:25px;border-radius:10px;border:1px solid #334155;margin-top:30px;text-align:left}
+ul{text-align:left}
 </style>
 </head>
-
 <body>
-
 <div class="container">
-
-<h1>Network Topology</h1>
-
 <div class="nav">
-
 <a href="index.html">Home</a>
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
 <a href="topology.html">Topology</a>
@@ -61,44 +31,26 @@ background:#1e293b;
 <a href="architecture-decisions.html">Architecture Decisions</a>
 <a href="security-model.html">Security Model</a>
 <a href="security-operations.html">Security Operations</a>
-<a href="interactive-security-architecture.html">Interactive Architecture</a>
-<a href="firewall-policy-map.html">Policy Map</a>
-<a href="soc-timeline.html">SOC Timeline</a>
-<a href="traffic-simulation.html">Traffic Simulation</a>
 <a href="soc-dashboard.html">SOC Dashboard</a>
 <a href="device-fortigate.html">FortiGate</a>
 <a href="device-cbs250.html">CBS250</a>
 <a href="troubleshooting.html">Troubleshooting</a>
-
-</div>
 </div>
 
-<p>
-This page documents the physical and logical topology of the Enterprise Security Lab.
-</p>
+<h1>Network Topology</h1>
 
-<p>
-The environment is built around a FortiGate firewall acting as the primary
-security enforcement point and a Cisco CBS250 switch providing VLAN segmentation.
-</p>
-
-<h2>Core Components</h2>
-
+<div class="card">
+<h2>Infrastructure Layout</h2>
+<p>The lab network is segmented using VLAN architecture with a FortiGate firewall acting as the central security gateway.</p>
 <ul>
-<li>FortiGate 60E – Next Generation Firewall</li>
-<li>Cisco CBS250 – Core Switch</li>
-<li>Vodafone ISP modem – Internet uplink</li>
+<li>Internet uplink through ISP modem</li>
+<li>FortiGate 60E for inter-VLAN routing and policy enforcement</li>
+<li>Cisco CBS250 for Layer 2 access switching</li>
+<li>VLAN20 Users, VLAN30 Management and VLAN60 Guest</li>
 </ul>
-
-<h2>Network Structure</h2>
-
-<ul>
-<li>VLAN20 – Users Network</li>
-<li>VLAN30 – Management Network</li>
-<li>VLAN60 – Guest Network</li>
-</ul>
-
+<p>This topology reflects a simple enterprise security design with clear trust boundaries.</p>
 </div>
 
+</div>
 </body>
 </html>
