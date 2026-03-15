@@ -63,7 +63,7 @@
     .diagram{
         position:relative;
         width:100%;
-        min-height:760px;
+        min-height:820px;
         margin:0 auto;
     }
 
@@ -74,6 +74,7 @@
         display:flex;
         align-items:center;
         justify-content:center;
+        flex-direction:column;
         text-align:center;
         padding:18px 26px;
         border-radius:14px;
@@ -181,6 +182,28 @@
         width:20%;
     }
 
+    .packet{
+        width:10px;
+        height:10px;
+        background:#00ffcc;
+        border-radius:50%;
+        position:absolute;
+        box-shadow:0 0 12px rgba(0,255,204,.8);
+        animation:movePacket 4s linear infinite;
+        z-index:20;
+    }
+
+    .packet2{
+        width:10px;
+        height:10px;
+        background:#ffaa00;
+        border-radius:50%;
+        position:absolute;
+        box-shadow:0 0 12px rgba(255,170,0,.8);
+        animation:movePacket2 5s linear infinite;
+        z-index:20;
+    }
+
     .legend{
         margin-top:40px;
         color:var(--muted);
@@ -206,6 +229,24 @@
         }
     }
 
+    @keyframes movePacket{
+        0%   { left:22%; top:610px; opacity:0; }
+        15%  { opacity:1; }
+        40%  { left:34%; top:510px; }
+        65%  { left:50%; top:380px; }
+        85%  { left:50%; top:230px; }
+        100% { left:50%; top:95px; opacity:0; }
+    }
+
+    @keyframes movePacket2{
+        0%   { left:78%; top:610px; opacity:0; }
+        15%  { opacity:1; }
+        40%  { left:66%; top:510px; }
+        65%  { left:50%; top:380px; }
+        85%  { left:50%; top:230px; }
+        100% { left:50%; top:95px; opacity:0; }
+    }
+
     @media (max-width:900px){
         .diagram{min-height:980px}
         .vlan-row{
@@ -221,39 +262,24 @@
         }
         .branch{display:none}
         .line-main-3{height:90px}
+
+        @keyframes movePacket{
+            0%   { left:50%; top:760px; opacity:0; }
+            15%  { opacity:1; }
+            45%  { left:50%; top:500px; }
+            75%  { left:50%; top:300px; }
+            100% { left:50%; top:95px; opacity:0; }
+        }
+
+        @keyframes movePacket2{
+            0%   { left:50%; top:800px; opacity:0; }
+            15%  { opacity:1; }
+            45%  { left:50%; top:540px; }
+            75%  { left:50%; top:320px; }
+            100% { left:50%; top:95px; opacity:0; }
+        }
     }
 </style>
-
-.packet {
-    width:10px;
-    height:10px;
-    background:#00ffcc;
-    border-radius:50%;
-    position:absolute;
-    animation:movePacket 4s linear infinite;
-}
-
-.packet2 {
-    width:10px;
-    height:10px;
-    background:#ffaa00;
-    border-radius:50%;
-    position:absolute;
-    animation:movePacket2 5s linear infinite;
-}
-
-@keyframes movePacket {
-    0%   { left:200px; top:350px; }
-    50%  { left:400px; top:250px; }
-    100% { left:600px; top:120px; }
-}
-
-@keyframes movePacket2 {
-    0%   { left:200px; top:450px; }
-    50%  { left:400px; top:250px; }
-    100% { left:600px; top:120px; }
-}
-
 </head>
 <body>
 <div class="container">
@@ -265,14 +291,14 @@
         <a href="./">Home</a>
         <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
         <a href="topology.html">Topology</a>
-          <div class="packet"></div>
-          <div class="packet2"></div>
-        
         <a href="device-fortigate.html">FortiGate</a>
         <a href="device-cbs250.html">CBS250</a>
     </div>
 
     <div class="diagram">
+
+        <div class="packet"></div>
+        <div class="packet2"></div>
 
         <div class="node internet">
             Internet
