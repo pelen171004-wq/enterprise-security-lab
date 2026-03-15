@@ -3,115 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab – Attack Path Visualizer</title>
-
+<title>Enterprise Security Lab – Attack Simulation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
-body{
-    background:#060b16;
-    color:#e2e8f0;
-    font-family:'Inter',sans-serif;
-    margin:0;
-    text-align:center;
-}
-.container{
-    max-width:1200px;
-    margin:auto;
-    padding:30px;
-}
-.nav{
-    margin-bottom:25px;
-}
-.nav a{
-    display:inline-block;
-    margin:6px;
-    padding:10px 16px;
-    border:1px solid #334155;
-    border-radius:999px;
-    color:#dbeafe;
-    text-decoration:none;
-    background:#0b1320;
-}
-.nav a:hover{
-    background:#1e293b;
-}
-.visual{
-    position:relative;
-    height:320px;
-    margin-top:30px;
-}
-.node{
-    position:absolute;
-    width:220px;
-    padding:20px;
-    border-radius:14px;
-    font-weight:700;
-    border:1px solid rgba(255,255,255,.1);
-    box-shadow:0 8px 24px rgba(0,0,0,.25);
-}
-.guest{
-    left:60px;
-    top:110px;
-    background:#92400e;
-}
-.firewall{
-    left:50%;
-    top:95px;
-    transform:translateX(-50%);
-    background:#b91c1c;
-    animation:pulse 1.6s infinite;
-}
-.block{
-    right:60px;
-    top:110px;
-    background:#111827;
-    color:#ef4444;
-    border:1px solid #ef4444;
-}
-.line{
-    position:absolute;
-    height:4px;
-    background:#475569;
-    border-radius:999px;
-}
-.line1{left:285px;top:160px;width:260px}
-.line2{right:285px;top:160px;width:260px}
-.packet{
-    position:absolute;
-    width:14px;
-    height:14px;
-    border-radius:999px;
-    background:#ef4444;
-    box-shadow:0 0 14px rgba(239,68,68,.75);
-    animation:attackMove 2.8s linear infinite;
-}
-.panel{
-    background:#0f172a;
-    border:1px solid #334155;
-    border-radius:14px;
-    padding:24px;
-    text-align:left;
-    margin-top:24px;
-}
-@keyframes pulse{
-    0%{box-shadow:0 0 0 0 rgba(239,68,68,.4),0 8px 24px rgba(0,0,0,.25)}
-    70%{box-shadow:0 0 0 18px rgba(239,68,68,0),0 8px 24px rgba(0,0,0,.25)}
-    100%{box-shadow:0 0 0 0 rgba(239,68,68,0),0 8px 24px rgba(0,0,0,.25)}
-}
-@keyframes attackMove{
-    0%{left:290px;top:155px;opacity:0}
-    10%{opacity:1}
-    55%{left:545px;top:155px;opacity:1}
-    100%{left:620px;top:155px;opacity:0}
-}
-@media (max-width:980px){
-    .visual{height:auto;display:flex;flex-direction:column;gap:16px;align-items:center}
-    .node{position:relative;left:auto;right:auto;top:auto;transform:none}
-    .line,.packet{display:none}
-}
+body{background:#060b16;color:#e2e8f0;font-family:'Inter',sans-serif;margin:0;text-align:center}
+.container{max-width:1100px;margin:auto;padding:40px 20px 80px}
+.nav{margin-bottom:30px}
+.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
+.nav a:hover{background:#1e293b}
+.card{background:#0f172a;border:1px solid #334155;border-radius:14px;padding:24px;text-align:left}
+.block{color:#f87171;font-weight:700}
 </style>
 </head>
 <body>
@@ -120,29 +23,35 @@ body{
 <div class="nav">
 <a href="index.html">Home</a>
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+<a href="topology.html">Topology</a>
+<a href="network-diagram.html">Network Diagram</a>
+<a href="network-zones.html">Network Zones</a>
+<a href="attack-paths.html">Attack Simulation</a>
+<a href="attack-surface.html">Attack Surface</a>
+<a href="architecture-overview.html">Architecture</a>
+<a href="architecture-decisions.html">Architecture Decisions</a>
+<a href="security-model.html">Security Model</a>
+<a href="security-operations.html">Security Operations</a>
 <a href="interactive-security-architecture.html">Architecture Map</a>
-<a href="attack-paths.html">Attack Visualizer</a>
+<a href="firewall-policy-map.html">Policy Map</a>
+<a href="soc-timeline.html">SOC Timeline</a>
+<a href="traffic-simulation.html">Traffic Simulation</a>
 <a href="network-telemetry-map.html">Telemetry Map</a>
-<a href="soc-command-center.html">SOC Command Center</a>
 <a href="soc-dashboard.html">SOC Dashboard</a>
+<a href="soc-command-center.html">SOC Command Center</a>
+<a href="device-fortigate.html">FortiGate</a>
+<a href="device-cbs250.html">CBS250</a>
+<a href="troubleshooting.html">Troubleshooting</a>
 </div>
 
-<h1>Attack Path Visualizer</h1>
+<h1>Attack Simulation</h1>
 
-<div class="visual">
-    <div class="node guest">Guest VLAN</div>
-    <div class="node firewall">FortiGate Firewall</div>
-    <div class="node block">BLOCK</div>
-
-    <div class="line line1"></div>
-    <div class="line line2"></div>
-    <div class="packet"></div>
-</div>
-
-<div class="panel">
-    <h2>Attack Flow</h2>
-    <p><strong>Guest → Firewall → Block</strong></p>
-    <p>This visualizer represents an untrusted guest endpoint attempting to access protected internal resources. The firewall inspects the flow and blocks it according to the segmentation policy model.</p>
+<div class="card">
+<h2>Guest VLAN Attack Attempt</h2>
+<p>Simulated attack path:</p>
+<p><strong>Guest VLAN → Users VLAN</strong></p>
+<p class="block">BLOCKED BY FIREWALL POLICY</p>
+<p>This demonstrates how segmentation and explicit deny rules prevent lateral movement between zones.</p>
 </div>
 
 </div>
