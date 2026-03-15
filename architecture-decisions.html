@@ -1,118 +1,72 @@
-<!DOCTYPE html>
-<html lang="sk">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Architecture Decisions - Enterprise Security Lab</title>
 <style>
-:root{
-  --bg:#0b1220;
-  --panel:#111827;
-  --text:#e5edf8;
-  --muted:#9fb2cc;
-  --line:#273449;
-  --accent:#4f8cff;
-}
-*{box-sizing:border-box}
+
 body{
-  margin:0;
-  font-family:Inter,Segoe UI,Arial,sans-serif;
-  background:linear-gradient(180deg,#0a1120,#101826 35%,#0e1724);
-  color:var(--text);
-  line-height:1.55;
+background:#0b1220;
+color:white;
+font-family:Arial;
+margin:0;
+text-align:center;
 }
+
 .container{
-  max-width:1280px;
-  margin:0 auto;
-  padding:28px 20px 40px;
+max-width:1200px;
+margin:auto;
+padding:40px;
 }
-.hero{
-  background:linear-gradient(135deg,#14233e,#0f1a2c 55%,#1a2942);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:24px;
-  margin-bottom:18px;
+
+.nav{
+margin-bottom:30px;
 }
-.hero h1{margin:0 0 8px;font-size:34px}
-.hero p{margin:0;color:var(--muted)}
-.nav{margin-top:14px}
+
 .nav a{
-  display:inline-block;
-  margin-right:10px;
-  margin-top:8px;
-  padding:8px 12px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  color:#dbeafe;
-  text-decoration:none;
-  background:#0b1320;
+display:inline-block;
+margin:6px;
+padding:10px 16px;
+border:1px solid #334155;
+border-radius:999px;
+color:#dbeafe;
+text-decoration:none;
+background:#0b1320;
 }
-.card{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:16px;
-  padding:18px;
-  margin-bottom:18px;
+
+.nav a:hover{
+background:#1e293b;
 }
-.decision{
-  display:block;
-  text-decoration:none;
-  color:var(--text);
-  background:#0e1625;
-  border:1px solid var(--line);
-  border-left:4px solid var(--accent);
-  border-radius:14px;
-  padding:16px;
-  margin-bottom:14px;
-}
-.decision strong{
-  display:block;
-  margin-bottom:6px;
-  font-size:18px;
-}
-.muted{color:var(--muted)}
+
 </style>
-</head>
-<body>
-<div class="container">
 
-  <section class="hero">
-    <h1>Architecture Decisions</h1>
-    <p>Kľúčové architektonické rozhodnutia použité v Enterprise Security Labe.</p>
-    <div class="nav">
-      <a href="./">Home</a>
-      <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-      <a href="topology.html">Topology</a>
-      <a href="architecture-overview.html">Architecture</a>
-      <a href="security-model.html">Security Model</a>
-      <a href="troubleshooting.html">Troubleshooting</a>
-    </div>
-  </section>
 
-  <section class="card">
-    <a class="decision" href="architecture-decisions/ADR-001-network-segmentation.md">
-      <strong>ADR-001: Network Segmentation</strong>
-      Rozhodnutie oddeliť Users, Management a Guest zóny pomocou VLAN a enforcementu na FortiGate.
-    </a>
 
-    <a class="decision" href="architecture-decisions/ADR-002-firewall-policy-model.md">
-      <strong>ADR-002: Firewall Policy Model</strong>
-      Explicitný allow/deny model s dôrazom na least privilege a default-deny mindset.
-    </a>
+<div class="nav">
 
-    <a class="decision" href="architecture-decisions/ADR-003-management-plane-protection.md">
-      <strong>ADR-003: Management Plane Protection</strong>
-      Management prístup iba z MGMT VLAN, trusted host a oddelený break-glass prístup.
-    </a>
-  </section>
+<a href="index.html">Home</a>
 
-  <section class="card">
-    <p class="muted">
-      Architecture Decision Records vysvetľujú nie len čo bolo nakonfigurované,
-      ale aj prečo bol zvolený konkrétny security a network design.
-    </p>
-  </section>
+<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+
+<a href="topology.html">Topology</a>
+
+<a href="network-diagram.html">Network Diagram</a>
+
+<a href="network-zones.html">Network Zones</a>
+
+<a href="attack-paths.html">Attack Simulation</a>
+
+<a href="attack-surface.html">Attack Surface</a>
+
+<a href="architecture-overview.html">Architecture</a>
+
+<a href="architecture-decisions.html">Architecture Decisions</a>
+
+<a href="security-model.html">Security Model</a>
+
+<a href="security-operations.html">Security Operations</a>
+
+<a href="soc-dashboard.html">SOC Dashboard</a>
+
+<a href="device-fortigate.html">FortiGate</a>
+
+<a href="device-cbs250.html">CBS250</a>
+
+<a href="troubleshooting.html">Troubleshooting</a>
 
 </div>
-</body>
-</html>
