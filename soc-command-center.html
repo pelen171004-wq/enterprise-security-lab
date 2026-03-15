@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab – SOC Command Center</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+    background:#030712;
+    color:#e5e7eb;
+    font-family:'Inter',sans-serif;
+    margin:0;
+}
+.container{
+    max-width:1500px;
+    margin:auto;
+    padding:24px;
+}
+.nav{
+    text-align:center;
+    margin-bottom:20px;
+}
+.nav a{
+    display:inline-block;
+    margin:6px;
+    padding:10px 16px;
+    border:1px solid #334155;
+    border-radius:999px;
+    color:#dbeafe;
+    text-decoration:none;
+    background:#0b1320;
+}
+.nav a:hover{
+    background:#1e293b;
+}
+.title{
+    text-align:center;
+    margin-bottom:22px;
+}
+.wall{
+    display:grid;
+    grid-template-columns:2fr 1.2fr 1.2fr;
+    gap:16px;
+}
+.panel{
+    background:#0b1220;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:18px;
+    box-shadow:0 8px 24px rgba(0,0,0,.3);
+}
+.panel h3{
+    margin-top:0;
+}
+.big{
+    min-height:320px;
+}
+.mid{
+    min-height:150px;
+}
+.metric{
+    font-size:34px;
+    font-weight:700;
+}
+.red{color:#ef4444}
+.green{color:#22c55e}
+.orange{color:#f59e0b}
+.blue{color:#60a5fa}
+.stream{
+    max-height:240px;
+    overflow:auto;
+    text-align:left;
+}
+.event{
+    padding:10px 0;
+    border-bottom:1px solid #1f2937;
+    font-size:14px;
+}
+.grid-mini{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+}
+.bar-wrap{
+    margin:16px 0;
+}
+.bar-label{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+    color:#cbd5e1;
+    font-size:14px;
+}
+.bar{
+    height:14px;
+    background:#1e293b;
+    border-radius:999px;
+    overflow:hidden;
+}
+.fill{
+    height:100%;
+    border-radius:999px;
+    transition:width .8s ease;
+}
+.fill-blue{background:linear-gradient(90deg,#2563eb,#06b6d4)}
+.fill-red{background:linear-gradient(90deg,#dc2626,#ef4444)}
+.fill-green{background:linear-gradient(90deg,#16a34a,#22c55e)}
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+th,td{
+    padding:10px;
+    border-bottom:1px solid #1f2937;
+    text-align:left;
+}
+th{
+    color:#94a3b8;
+    font-size:12px;
+    text-transform:uppercase;
+}
+@media (max-width:1100px){
+    .wall{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="nav">
+<a href="index.html">Home</a>
+<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+<a href="interactive-security-architecture.html">Architecture Map</a>
+<a href="attack-paths.html">Attack Visualizer</a>
+<a href="network-telemetry-map.html">Telemetry Map</a>
+<a href="soc-command-center.html">SOC Command Center</a>
+<a href="soc-dashboard.html">SOC Dashboard</a>
+</div>
+
+<div class="title">
+    <h1>SOC Command Center</h1>
+    <p>Large wall style security operations overview</p>
+</div>
+
+<div class="wall">
+
+    <div class="panel big">
+        <h3>Threat Event Stream</h3>
+        <div class="stream" id="eventStream">
+            <div class="event">12:41 – Guest attempted internal access – blocked</div>
+            <div class="event">12:42 – Users traffic to WAN allowed</div>
+            <div class="event">12:43 – MGMT plane protection policy matched</div>
+            <div class="event">12:44 – Guest DNS activity increased</div>
+        </div>
+    </div>
+
+    <div class="panel mid">
+        <h3>Blocked Attacks</h3>
+        <div class="metric red" id="blockedAttacks">14</div>
+    </div>
+
+    <div class="panel mid">
+        <h3>Active Sessions</h3>
+        <div class="metric blue" id="activeSessions">61</div>
+    </div>
+
+    <div class="panel mid">
+        <h3>Packets / sec</h3>
+        <div class="metric orange" id="pps">224</div>
+    </div>
+
+    <div class="panel mid">
+        <h3>Throughput</h3>
+        <div class="metric green" id="throughput">168 Mbps</div>
+    </div>
+
+    <div class="panel big">
+        <h3>Traffic Composition</h3>
+
+        <div class="bar-wrap">
+            <div class="bar-label"><span>Users VLAN</span><span id="usersPct">57%</span></div>
+            <div class="bar"><div class="fill fill-blue" id="usersBar" style="width:57%"></div></div>
+        </div>
+
+        <div class="bar-wrap">
+            <div class="bar-label"><span>Guest VLAN</span><span id="guestPct">25%</span></div>
+            <div class="bar"><div class="fill fill-green" id="guestBar" style="width:25%"></div></div>
+        </div>
+
+        <div class="bar-wrap">
+            <div class="bar-label"><span>Blocked Flows</span><span id="dropPct">18%</span></div>
+            <div class="bar"><div class="fill fill-red" id="dropBar" style="width:18%"></div></div>
+        </div>
+    </div>
+
+    <div class="panel big">
+        <h3>Top Talkers</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Source</th>
+                    <th>Destination</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="talkers">
+                <tr><td>10.10.20.100</td><td>1.1.1.1</td><td class="green">Allowed</td></tr>
+                <tr><td>10.10.60.100</td><td>8.8.8.8</td><td class="green">Allowed</td></tr>
+                <tr><td>10.10.60.100</td><td>10.10.20.100</td><td class="red">Blocked</td></tr>
+                <tr><td>10.10.20.100</td><td>10.10.30.2</td><td class="red">Blocked</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</div>
+
+<script>
+function rand(min,max){
+    return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+const eventSamples = [
+    "Guest attempted internal access – blocked by policy",
+    "Users traffic to WAN allowed",
+    "MGMT protection rule matched",
+    "Guest DNS activity spike observed",
+    "Blocked east-west flow logged",
+    "Session count increased on Users VLAN"
+];
+
+function updateCenter(){
+    document.getElementById("blockedAttacks").textContent = rand(8,22);
+    document.getElementById("activeSessions").textContent = rand(40,85);
+    document.getElementById("pps").textContent = rand(160,320);
+    document.getElementById("throughput").textContent = rand(90,240) + " Mbps";
+
+    const users = rand(45,65);
+    const guest = rand(18,32);
+    const drop = 100 - users - guest;
+
+    document.getElementById("usersPct").textContent = users + "%";
+    document.getElementById("guestPct").textContent = guest + "%";
+    document.getElementById("dropPct").textContent = drop + "%";
+
+    document.getElementById("usersBar").style.width = users + "%";
+    document.getElementById("guestBar").style.width = guest + "%";
+    document.getElementById("dropBar").style.width = drop + "%";
+
+    const stream = document.getElementById("eventStream");
+    const div = document.createElement("div");
+    div.className = "event";
+    div.textContent = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) + " – " + eventSamples[rand(0,eventSamples.length-1)];
+    stream.prepend(div);
+
+    while(stream.children.length > 8){
+        stream.removeChild(stream.lastChild);
+    }
+}
+
+setInterval(updateCenter, 2500);
+</script>
+</body>
+</html>
