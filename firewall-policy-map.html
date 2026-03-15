@@ -3,248 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab - Firewall Policy Map</title>
+<title>Enterprise Security Lab – Firewall Policy Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
-    --bg1:#07111f;
-    --bg2:#111827;
-    --panel:#0f172a;
-    --text:#e5edf8;
-    --muted:#94a3b8;
-    --border:#334155;
-    --users:#10b981;
-    --guest:#f59e0b;
-    --mgmt:#ef4444;
-    --wan:#6366f1;
-    --ok:#22c55e;
-    --deny:#ef4444;
-    --fw:#f43f5e;
-}
-*{box-sizing:border-box}
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:linear-gradient(180deg,var(--bg1),var(--bg2));
-    color:var(--text);
-    text-align:center;
-}
-.container{
-    max-width:1280px;
-    margin:0 auto;
-    padding:40px 20px 80px;
-}
-h1{
-    margin:10px 0 8px;
-    font-size:38px;
-}
-h2{
-    margin:0 0 24px;
-    color:var(--muted);
-    font-weight:normal;
-}
-.nav{
-    margin-bottom:30px;
-}
-.nav a{
-    display:inline-block;
-    margin:6px;
-    padding:10px 16px;
-    border:1px solid #334155;
-    border-radius:999px;
-    color:#dbeafe;
-    text-decoration:none;
-    background:#0b1320;
-}
-.nav a:hover{
-    background:#1e293b;
-}
-.diagram{
-    position:relative;
-    min-height:520px;
-    margin:0 auto 26px;
-}
-.node{
-    position:absolute;
-    min-width:200px;
-    padding:20px 22px;
-    border-radius:16px;
-    color:white;
-    font-weight:bold;
-    box-shadow:0 10px 30px rgba(0,0,0,.25);
-}
-.users{left:8%;top:110px;background:var(--users)}
-.guest{left:8%;top:300px;background:var(--guest)}
-.firewall{left:50%;top:200px;transform:translateX(-50%);background:var(--fw);animation:pulse 1.8s infinite}
-.wan{right:8%;top:110px;background:var(--wan)}
-.mgmt{right:8%;top:300px;background:var(--mgmt)}
-.path{
-    position:absolute;
-    height:4px;
-    border-radius:999px;
-    overflow:hidden;
-}
-.p1{left:26%;top:160px;width:23%;background:#475569}
-.p2{left:26%;top:350px;width:23%;background:#475569}
-.p3{left:54%;top:160px;width:22%;background:#475569}
-.p4{left:54%;top:350px;width:22%;background:#475569}
-.flow{
-    position:absolute;
-    left:0;
-    width:30%;
-    height:100%;
-    background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.9),rgba(255,255,255,0));
-    animation:slide 2s linear infinite;
-}
-.tag{
-    position:absolute;
-    padding:8px 12px;
-    border-radius:999px;
-    font-size:12px;
-    font-weight:bold;
-    box-shadow:0 0 14px rgba(0,0,0,.2);
-}
-.allow{background:rgba(34,197,94,.18);color:#86efac;border:1px solid rgba(34,197,94,.35)}
-.deny{background:rgba(239,68,68,.18);color:#fca5a5;border:1px solid rgba(239,68,68,.35)}
-.t1{left:60%;top:128px}
-.t2{left:60%;top:318px}
-.t3{left:60%;top:380px}
-.t4{left:34%;top:318px}
-.panel{
-    background:rgba(15,23,42,.94);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:18px;
-    padding:24px;
-    text-align:left;
-    box-shadow:0 10px 30px rgba(0,0,0,.25);
-}
-.panel h3{
-    margin-top:0;
-}
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-th,td{
-    padding:12px 10px;
-    border-bottom:1px solid rgba(255,255,255,.08);
-    text-align:left;
-}
-th{
-    color:var(--muted);
-    font-size:13px;
-    text-transform:uppercase;
-}
-.ok{color:var(--ok);font-weight:bold}
-.no{color:var(--deny);font-weight:bold}
-@keyframes pulse{
-    0%{box-shadow:0 0 0 0 rgba(244,63,94,.45),0 10px 30px rgba(0,0,0,.25)}
-    70%{box-shadow:0 0 0 18px rgba(244,63,94,0),0 10px 30px rgba(0,0,0,.25)}
-    100%{box-shadow:0 0 0 0 rgba(244,63,94,0),0 10px 30px rgba(0,0,0,.25)}
-}
-@keyframes slide{
-    0%{transform:translateX(-120%)}
-    100%{transform:translateX(420%)}
-}
-@media (max-width:950px){
-    .diagram{min-height:760px}
-    .users,.guest,.firewall,.wan,.mgmt{
-        position:relative;
-        left:auto;right:auto;top:auto;transform:none;
-        margin:14px auto;
-        display:block;
-        width:260px;
-    }
-    .path,.tag{display:none}
-}
+body{background:#0b1220;color:#fff;font-family:'Inter',sans-serif;margin:0;text-align:center}
+.container{max-width:1100px;margin:auto;padding:40px}
+.nav{margin-bottom:30px}
+.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
+.nav a:hover{background:#1e293b}
+.card{background:#111827;padding:25px;border-radius:10px;border:1px solid #334155;margin-top:30px;text-align:left}
+table{width:100%;border-collapse:collapse}
+th,td{padding:12px 10px;border-bottom:1px solid #334155;text-align:left}
 </style>
 </head>
 <body>
 <div class="container">
-    <h1>Enterprise Security Lab</h1>
-    <h2>Live Firewall Policy Map</h2>
-
-    <div class="nav">
-        <a href="index.html">Home</a>
-        <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-        <a href="topology.html">Topology</a>
-        <a href="network-diagram.html">Network Diagram</a>
-        <a href="network-zones.html">Network Zones</a>
-        <a href="attack-paths.html">Attack Simulation</a>
-        <a href="attack-surface.html">Attack Surface</a>
-        <a href="architecture-overview.html">Architecture</a>
-        <a href="architecture-decisions.html">Architecture Decisions</a>
-        <a href="security-model.html">Security Model</a>
-        <a href="security-operations.html">Security Operations</a>
-        <a href="interactive-security-architecture.html">Interactive Architecture</a>
-        <a href="firewall-policy-map.html">Policy Map</a>
-        <a href="soc-timeline.html">SOC Timeline</a>
-        <a href="traffic-simulation.html">Traffic Simulation</a>
-        <a href="soc-dashboard.html">SOC Dashboard</a>
-        <a href="device-fortigate.html">FortiGate</a>
-        <a href="device-cbs250.html">CBS250</a>
-        <a href="troubleshooting.html">Troubleshooting</a>
-    
+<div class="nav">
+<a href="index.html">Home</a>
+<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+<a href="topology.html">Topology</a>
+<a href="network-diagram.html">Network Diagram</a>
+<a href="network-zones.html">Network Zones</a>
+<a href="attack-paths.html">Attack Simulation</a>
+<a href="attack-surface.html">Attack Surface</a>
+<a href="architecture-overview.html">Architecture</a>
+<a href="architecture-decisions.html">Architecture Decisions</a>
+<a href="security-model.html">Security Model</a>
+<a href="security-operations.html">Security Operations</a>
+<a href="soc-dashboard.html">SOC Dashboard</a>
+<a href="device-fortigate.html">FortiGate</a>
+<a href="device-cbs250.html">CBS250</a>
+<a href="troubleshooting.html">Troubleshooting</a>
 </div>
-    
-    </div>
 
-    <div class="diagram">
-        <div class="node users">VLAN20 Users</div>
-        <div class="node guest">VLAN60 Guest</div>
-        <div class="node firewall">FortiGate NGFW</div>
-        <div class="node wan">WAN / Internet</div>
-        <div class="node mgmt">VLAN30 MGMT</div>
+<h1>Firewall Policy Map</h1>
 
-        <div class="path p1"><div class="flow"></div></div>
-        <div class="path p2"><div class="flow"></div></div>
-        <div class="path p3"><div class="flow"></div></div>
-        <div class="path p4"><div class="flow"></div></div>
+<div class="card">
+<table>
+<tr><th>Flow</th><th>Decision</th></tr>
+<tr><td>Users → WAN</td><td>✔ ALLOW</td></tr>
+<tr><td>Guest → WAN</td><td>✔ ALLOW</td></tr>
+<tr><td>Guest → Users</td><td>❌ DENY</td></tr>
+<tr><td>Users → MGMT</td><td>❌ DENY</td></tr>
+</table>
+</div>
 
-        <div class="tag allow t1">Users → WAN ✔</div>
-        <div class="tag allow t2">Guest → WAN ✔</div>
-        <div class="tag deny t3">Users → MGMT ❌</div>
-        <div class="tag deny t4">Guest → Users ❌</div>
-    </div>
-
-    <div class="panel">
-        <h3>Firewall Decision Matrix</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Source</th>
-                    <th>Destination</th>
-                    <th>Decision</th>
-                    <th>Reason</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>VLAN20 Users</td>
-                    <td>WAN</td>
-                    <td class="ok">ALLOW</td>
-                    <td>Standard internet access</td>
-                </tr>
-                <tr>
-                    <td>VLAN60 Guest</td>
-                    <td>WAN</td>
-                    <td class="ok">ALLOW</td>
-                    <td>Guest internet-only access</td>
-                </tr>
-                <tr>
-                    <td>VLAN60 Guest</td>
-                    <td>VLAN20 Users</td>
-                    <td class="no">DENY</td>
-                    <td>Prevents lateral movement</td>
-                </tr>
-                <tr>
-                    <td>VLAN20 Users</td>
-                    <td>VLAN30 MGMT</td>
-                    <td class="no">DENY</td>
-                    <td>Protects management plane</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
 </div>
 </body>
 </html>
