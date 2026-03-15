@@ -1,22 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>SOC Monitoring Dashboard</title>
-
 <style>
 
 body{
 background:#0b1220;
 color:white;
 font-family:Arial;
+margin:0;
 text-align:center;
 }
 
 .container{
-max-width:1100px;
+max-width:1200px;
 margin:auto;
 padding:40px;
+}
+
+.nav{
+margin-bottom:30px;
 }
 
 .nav a{
@@ -30,74 +29,44 @@ text-decoration:none;
 background:#0b1320;
 }
 
-.card{
-display:inline-block;
-padding:30px;
-margin:20px;
-background:#111827;
-border-radius:12px;
-min-width:180px;
-}
-
-.value{
-font-size:32px;
-font-weight:bold;
+.nav a:hover{
+background:#1e293b;
 }
 
 </style>
 
-</head>
 
-<body>
-
-<div class="container">
-
-<h1>Enterprise Security Lab</h1>
-<h2>SOC Monitoring Dashboard</h2>
 
 <div class="nav">
-<a href="./">Home</a>
+
+<a href="index.html">Home</a>
+
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+
 <a href="topology.html">Topology</a>
+
 <a href="network-diagram.html">Network Diagram</a>
+
 <a href="network-zones.html">Network Zones</a>
+
 <a href="attack-paths.html">Attack Simulation</a>
+
+<a href="attack-surface.html">Attack Surface</a>
+
+<a href="architecture-overview.html">Architecture</a>
+
+<a href="architecture-decisions.html">Architecture Decisions</a>
+
+<a href="security-model.html">Security Model</a>
+
+<a href="security-operations.html">Security Operations</a>
+
 <a href="soc-dashboard.html">SOC Dashboard</a>
+
 <a href="device-fortigate.html">FortiGate</a>
+
 <a href="device-cbs250.html">CBS250</a>
-</div>
 
-<div class="card">
-Active Sessions
-<div class="value" id="sessions">40</div>
-</div>
-
-<div class="card">
-Blocked Attacks
-<div class="value" id="blocked">7</div>
-</div>
-
-<div class="card">
-Firewall Throughput
-<div class="value" id="throughput">120 Mbps</div>
-</div>
-
-<div class="card">
-Top Talkers
-<div class="value">10.10.20.100</div>
-</div>
+<a href="troubleshooting.html">Troubleshooting</a>
 
 </div>
-
-<script>
-
-setInterval(()=>{
-document.getElementById("sessions").innerText=Math.floor(Math.random()*80)
-document.getElementById("blocked").innerText=Math.floor(Math.random()*20)
-document.getElementById("throughput").innerText=Math.floor(Math.random()*200)+" Mbps"
-},2000)
-
-</script>
-
-</body>
-</html>
