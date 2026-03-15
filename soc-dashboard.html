@@ -1,296 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>SOC Dashboard</title>
-
+<title>Enterprise Security Lab – SOC Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
-
-body{
-background:#060b16;
-color:#e2e8f0;
-font-family:'Inter',sans-serif;
-margin:0;
-}
-
-.container{
-max-width:1400px;
-margin:auto;
-padding:30px;
-}
-
-h1{
-text-align:center;
-margin-bottom:30px;
-}
-
-.nav{
-text-align:center;
-margin-bottom:25px;
-}
-
-.nav a{
-display:inline-block;
-margin:6px;
-padding:10px 16px;
-border:1px solid #334155;
-border-radius:999px;
-color:#dbeafe;
-text-decoration:none;
-background:#0b1320;
-}
-
-.nav a:hover{
-background:#1e293b;
-}
-
-.dashboard{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-margin-bottom:25px;
-}
-
-.panel{
-background:#0f172a;
-border:1px solid #334155;
-border-radius:10px;
-padding:20px;
-}
-
-.metric{
-font-size:32px;
-font-weight:700;
-margin-top:8px;
-}
-
-.green{color:#22c55e}
-.red{color:#ef4444}
-.orange{color:#f59e0b}
-.blue{color:#38bdf8}
-
-.graph{
-height:120px;
-background:linear-gradient(180deg,#0f172a,#020617);
-border-radius:8px;
-margin-top:15px;
-position:relative;
-overflow:hidden;
-}
-
-.bar{
-position:absolute;
-bottom:0;
-width:12px;
-background:#38bdf8;
-}
-
-.events{
-background:#020617;
-border:1px solid #334155;
-border-radius:10px;
-padding:20px;
-margin-top:25px;
-}
-
-.event{
-padding:8px;
-border-bottom:1px solid #1e293b;
-font-size:14px;
-}
-
-.alert{
-color:#ef4444;
-font-weight:600;
-}
-
-.warning{
-color:#f59e0b;
-}
-
-.ok{
-color:#22c55e;
-}
-
-table{
-width:100%;
-margin-top:20px;
-border-collapse:collapse;
-}
-
-th,td{
-padding:10px;
-border-bottom:1px solid #334155;
-}
-
+body{background:#030712;color:#e5e7eb;font-family:'Inter',sans-serif;margin:0;text-align:center}
+.container{max-width:1400px;margin:auto;padding:30px}
+.nav{text-align:center;margin-bottom:25px}
+.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
+.nav a:hover{background:#1e293b}
+.dashboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-bottom:25px}
+.panel{background:#0f172a;border:1px solid #334155;border-radius:10px;padding:20px}
+.metric{font-size:32px;font-weight:700;margin-top:8px}
+.green{color:#22c55e}.red{color:#ef4444}.orange{color:#f59e0b}.blue{color:#38bdf8}
+.graph{height:120px;background:linear-gradient(180deg,#0f172a,#020617);border-radius:8px;margin-top:15px;position:relative;overflow:hidden}
+.bar{position:absolute;bottom:0;width:12px;background:#38bdf8}
+.events{background:#020617;border:1px solid #334155;border-radius:10px;padding:20px;margin-top:25px;text-align:left}
+.event{padding:8px;border-bottom:1px solid #1e293b;font-size:14px}
+.alert{color:#ef4444;font-weight:600}.warning{color:#f59e0b}.ok{color:#22c55e}
+table{width:100%;margin-top:20px;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid #334155;text-align:left}
 </style>
-
 </head>
-
 <body>
-
 <div class="container">
 
-<h1>Security Operations Center</h1>
-
 <div class="nav">
-
 <a href="index.html">Home</a>
-<a href="soc-dashboard.html">SOC</a>
-<a href="traffic-simulation.html">Traffic</a>
+<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+<a href="topology.html">Topology</a>
+<a href="network-diagram.html">Network Diagram</a>
+<a href="network-zones.html">Network Zones</a>
+<a href="attack-paths.html">Attack Simulation</a>
+<a href="attack-surface.html">Attack Surface</a>
+<a href="architecture-overview.html">Architecture</a>
+<a href="architecture-decisions.html">Architecture Decisions</a>
+<a href="security-model.html">Security Model</a>
+<a href="security-operations.html">Security Operations</a>
+<a href="interactive-security-architecture.html">Architecture Map</a>
 <a href="firewall-policy-map.html">Policy Map</a>
-
+<a href="soc-timeline.html">SOC Timeline</a>
+<a href="traffic-simulation.html">Traffic Simulation</a>
+<a href="network-telemetry-map.html">Telemetry Map</a>
+<a href="soc-dashboard.html">SOC Dashboard</a>
+<a href="soc-command-center.html">SOC Command Center</a>
+<a href="device-fortigate.html">FortiGate</a>
+<a href="device-cbs250.html">CBS250</a>
+<a href="troubleshooting.html">Troubleshooting</a>
 </div>
+
+<h1>SOC Dashboard</h1>
 
 <div class="dashboard">
-
-<div class="panel">
-
-Packets/sec
-
-<div class="metric orange" id="pps">180</div>
-
+<div class="panel">Packets/sec<div class="metric orange" id="pps">180</div></div>
+<div class="panel">Blocked Attacks<div class="metric red" id="attacks">12</div></div>
+<div class="panel">Active Sessions<div class="metric blue" id="sessions">45</div></div>
+<div class="panel">Firewall Throughput<div class="metric green" id="throughput">120 Mbps</div></div>
 </div>
 
 <div class="panel">
-
-Blocked Attacks
-
-<div class="metric red" id="attacks">12</div>
-
-</div>
-
-<div class="panel">
-
-Active Sessions
-
-<div class="metric blue" id="sessions">45</div>
-
-</div>
-
-<div class="panel">
-
-Firewall Throughput
-
-<div class="metric green" id="throughput">120 Mbps</div>
-
-</div>
-
-</div>
-
-<div class="panel">
-
 Traffic Graph
-
 <div class="graph" id="graph"></div>
-
 </div>
 
 <div class="events">
-
 <h3>Threat Events</h3>
-
 <div id="events">
-
 <div class="event ok">User traffic allowed VLAN20 → Internet</div>
 <div class="event warning">Guest network high DNS traffic</div>
 <div class="event alert">Guest VLAN attempted access to Users VLAN</div>
-
 </div>
-
 </div>
 
 <div class="panel">
-
 <h3>Top Talkers</h3>
-
 <table>
-
-<tr>
-<th>Source</th>
-<th>Destination</th>
-<th>Status</th>
-</tr>
-
-<tr>
-<td>10.10.20.100</td>
-<td>1.1.1.1</td>
-<td class="ok">Allowed</td>
-</tr>
-
-<tr>
-<td>10.10.60.100</td>
-<td>8.8.8.8</td>
-<td class="ok">Allowed</td>
-</tr>
-
-<tr>
-<td>10.10.60.100</td>
-<td>10.10.20.100</td>
-<td class="alert">Blocked</td>
-</tr>
-
+<tr><th>Source</th><th>Destination</th><th>Status</th></tr>
+<tr><td>10.10.20.100</td><td>1.1.1.1</td><td class="ok">Allowed</td></tr>
+<tr><td>10.10.60.100</td><td>8.8.8.8</td><td class="ok">Allowed</td></tr>
+<tr><td>10.10.60.100</td><td>10.10.20.100</td><td class="alert">Blocked</td></tr>
 </table>
-
 </div>
 
 </div>
 
 <script>
-
-function rand(min,max){
-return Math.floor(Math.random()*(max-min+1))+min;
-}
-
+function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
 function updateMetrics(){
-
 document.getElementById("pps").innerText=rand(150,300);
-
 document.getElementById("attacks").innerText=rand(5,20);
-
 document.getElementById("sessions").innerText=rand(30,80);
-
 document.getElementById("throughput").innerText=rand(90,250)+" Mbps";
-
 }
-
-setInterval(updateMetrics,2000)
-
+setInterval(updateMetrics,2000);
 function createGraph(){
-
-const graph=document.getElementById("graph")
-
+const graph=document.getElementById("graph");
 setInterval(()=>{
-
-const bar=document.createElement("div")
-
-bar.className="bar"
-
-bar.style.height=rand(20,120)+"px"
-
-bar.style.left=graph.children.length*14+"px"
-
-graph.appendChild(bar)
-
-if(graph.children.length>60){
-
-graph.removeChild(graph.firstChild)
-
+const bar=document.createElement("div");
+bar.className="bar";
+bar.style.height=rand(20,120)+"px";
+bar.style.left=graph.children.length*14+"px";
+graph.appendChild(bar);
+if(graph.children.length>60){graph.removeChild(graph.firstChild);}
+},500);
 }
-
-},500)
-
-}
-
-createGraph()
-
+createGraph();
 </script>
-
 </body>
 </html>
