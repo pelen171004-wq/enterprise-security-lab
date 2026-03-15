@@ -11,15 +11,30 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+.hero{
+background:#0f172a;
+border:1px solid #334155;
+border-radius:16px;
+padding:24px;
+margin-bottom:26px;
+box-shadow:0 8px 24px rgba(0,0,0,.2);
+}
+
+.hero p{
+color:#94a3b8;
+line-height:1.7;
+max-width:960px;
+margin:12px auto 0;
+}
+
 .metrics{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:18px;
-margin:30px 0 10px;
+margin:30px 0 18px;
 }
 
 .metric{
@@ -49,20 +64,159 @@ font-weight:700;
 .metric.throughput .metric-value{color:#22c55e;}
 .metric.talker .metric-value{color:#f59e0b;}
 
-.hero{
+.ticker{
+margin:18px 0 28px;
+background:#0f172a;
+border:1px solid #334155;
+border-radius:14px;
+overflow:hidden;
+box-shadow:0 8px 24px rgba(0,0,0,.2);
+}
+
+.ticker-title{
+padding:12px 16px;
+text-align:left;
+font-size:13px;
+text-transform:uppercase;
+letter-spacing:.06em;
+color:#94a3b8;
+border-bottom:1px solid #1f2937;
+}
+
+.ticker-track{
+white-space:nowrap;
+overflow:hidden;
+position:relative;
+height:48px;
+display:flex;
+align-items:center;
+}
+
+.ticker-content{
+display:inline-block;
+padding-left:100%;
+animation:tickerMove 22s linear infinite;
+font-weight:600;
+}
+
+.ticker-content span{
+margin-right:36px;
+}
+
+.alert{color:#ef4444;}
+.info{color:#60a5fa;}
+.warn{color:#f59e0b;}
+.ok{color:#22c55e;}
+
+.attack-graph{
 background:#0f172a;
 border:1px solid #334155;
 border-radius:16px;
 padding:24px;
-margin-bottom:26px;
+margin:0 0 28px;
 box-shadow:0 8px 24px rgba(0,0,0,.2);
 }
 
-.hero p{
-color:#94a3b8;
-line-height:1.7;
-max-width:960px;
-margin:12px auto 0;
+.attack-graph h2{
+margin-top:0;
+margin-bottom:18px;
+}
+
+.attack-stage-wrap{
+position:relative;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.attack-stage{
+flex:1 1 220px;
+min-width:220px;
+padding:22px 18px;
+border-radius:16px;
+font-weight:700;
+position:relative;
+z-index:2;
+}
+
+.attack-guest{
+background:#3b1d12;
+border:2px solid #f59e0b;
+color:#fde68a;
+}
+
+.attack-fw{
+background:#3b1212;
+border:2px solid #ef4444;
+color:#fecaca;
+animation:pulseFirewall 1.8s infinite;
+}
+
+.attack-block{
+background:#14211a;
+border:2px solid #22c55e;
+color:#bbf7d0;
+}
+
+.attack-line{
+position:absolute;
+top:50%;
+left:12%;
+right:12%;
+height:4px;
+background:#334155;
+transform:translateY(-50%);
+z-index:1;
+border-radius:999px;
+}
+
+.attack-packet{
+position:absolute;
+top:50%;
+left:12%;
+width:16px;
+height:16px;
+margin-top:-8px;
+border-radius:999px;
+background:#fb7185;
+box-shadow:0 0 14px rgba(251,113,133,.8);
+z-index:3;
+animation:attackPacket 3.2s linear infinite;
+}
+
+.section-title{
+margin:12px 0 10px;
+}
+
+@keyframes tickerMove{
+0%{transform:translateX(0);}
+100%{transform:translateX(-100%);}
+}
+
+@keyframes pulseFirewall{
+0%{box-shadow:0 0 0 0 rgba(239,68,68,.4);}
+70%{box-shadow:0 0 0 18px rgba(239,68,68,0);}
+100%{box-shadow:0 0 0 0 rgba(239,68,68,0);}
+}
+
+@keyframes attackPacket{
+0%{left:12%;opacity:0;}
+10%{opacity:1;}
+45%{left:48%;}
+75%{left:74%;}
+100%{left:88%;opacity:0;}
+}
+
+@media (max-width:900px){
+.attack-stage-wrap{
+flex-direction:column;
+}
+.attack-line,
+.attack-packet{
+display:none;
+}
 }
 </style>
 
@@ -73,7 +227,6 @@ margin:12px auto 0;
 <div class="container">
 
 <div class="nav">
-
 <a href="index.html">Home</a>
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
 <a href="topology.html">Topology</a>
@@ -95,7 +248,6 @@ margin:12px auto 0;
 <a href="device-fortigate.html">FortiGate</a>
 <a href="device-cbs250.html">CBS250</a>
 <a href="troubleshooting.html">Troubleshooting</a>
-
 </div>
 
 <h1>Enterprise Security Lab</h1>
@@ -111,7 +263,7 @@ attack simulation and security design principles using FortiGate and Cisco CBS25
 <div class="metrics">
     <div class="metric sessions">
         <div class="metric-label">Active Sessions</div>
-        <div class="metric-value" id="activeSessions">342</div>
+        <div class="metric-value" id="activeSessions">312</div>
     </div>
 
     <div class="metric blocked">
@@ -121,12 +273,46 @@ attack simulation and security design principles using FortiGate and Cisco CBS25
 
     <div class="metric throughput">
         <div class="metric-label">Firewall Throughput</div>
-        <div class="metric-value" id="firewallThroughput">1.4 Gbps</div>
+        <div class="metric-value" id="firewallThroughput">1.2 Gbps</div>
     </div>
 
     <div class="metric talker">
         <div class="metric-label">Top Talker</div>
         <div class="metric-value" id="topTalker">VLAN20</div>
+    </div>
+</div>
+
+<div class="ticker">
+    <div class="ticker-title">SOC Alert Ticker</div>
+    <div class="ticker-track">
+        <div class="ticker-content" id="tickerContent">
+            <span class="alert">[ALERT] Guest VLAN port scan blocked</span>
+            <span class="info">[INFO] Users internet OK</span>
+            <span class="warn">[WARN] MGMT login attempt detected</span>
+            <span class="ok">[OK] Firewall policy sync successful</span>
+            <span class="alert">[ALERT] Guest VLAN blocked from Users network</span>
+        </div>
+    </div>
+</div>
+
+<div class="attack-graph">
+    <h2 class="section-title">Animated Attack Graph</h2>
+
+    <div class="attack-stage-wrap">
+        <div class="attack-line"></div>
+        <div class="attack-packet"></div>
+
+        <div class="attack-stage attack-guest">
+            Guest VLAN
+        </div>
+
+        <div class="attack-stage attack-fw">
+            Firewall
+        </div>
+
+        <div class="attack-stage attack-block" id="attackBlockLabel">
+            BLOCK
+        </div>
     </div>
 </div>
 
@@ -237,16 +423,36 @@ function rand(min,max){
 }
 
 const talkers = ["VLAN20","VLAN30","VLAN60","10.10.20.100","10.10.60.100","FortiGate WAN"];
+const attackLabels = ["BLOCK","DENY","STOPPED","REJECTED"];
 
 function updateMetrics(){
     document.getElementById("activeSessions").textContent = rand(180,420);
     document.getElementById("blockedAttacks").textContent = rand(80,180);
     document.getElementById("firewallThroughput").textContent = (rand(7,18)/10).toFixed(1) + " Gbps";
     document.getElementById("topTalker").textContent = talkers[rand(0,talkers.length-1)];
+    document.getElementById("attackBlockLabel").textContent = attackLabels[rand(0,attackLabels.length-1)];
+}
+
+const tickerItems = [
+    '<span class="alert">[ALERT] Guest VLAN port scan blocked</span>',
+    '<span class="info">[INFO] Users internet OK</span>',
+    '<span class="warn">[WARN] MGMT login attempt detected</span>',
+    '<span class="ok">[OK] Firewall policy sync successful</span>',
+    '<span class="alert">[ALERT] Guest VLAN blocked from Users network</span>',
+    '<span class="info">[INFO] VLAN20 throughput normal</span>',
+    '<span class="warn">[WARN] Elevated DNS requests from guest zone</span>'
+];
+
+function updateTicker(){
+    const shuffled = [...tickerItems].sort(() => Math.random() - 0.5);
+    document.getElementById("tickerContent").innerHTML = shuffled.join('');
 }
 
 updateMetrics();
+updateTicker();
+
 setInterval(updateMetrics, 2500);
+setInterval(updateTicker, 8000);
 </script>
 
 </body>
