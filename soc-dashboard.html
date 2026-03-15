@@ -1,94 +1,306 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SOC Monitoring Dashboard</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab - SOC Monitoring Dashboard</title>
 <style>
-
+:root{
+    --bg1:#07111f;
+    --bg2:#111827;
+    --panel:#0f172a;
+    --text:#e5edf8;
+    --muted:#94a3b8;
+    --border:#334155;
+    --green:#22c55e;
+    --red:#ef4444;
+    --blue:#3b82f6;
+    --amber:#f59e0b;
+}
+*{box-sizing:border-box}
 body{
-background:#0b1220;
-color:white;
-font-family:Arial;
-text-align:center;
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(180deg,var(--bg1),var(--bg2));
+    color:var(--text);
+    text-align:center;
 }
-
 .container{
-max-width:1200px;
-margin:auto;
-padding:40px;
+    max-width:1280px;
+    margin:0 auto;
+    padding:40px 20px 80px;
 }
-
-.metric{
-display:inline-block;
-background:#111827;
-padding:30px;
-margin:15px;
-border-radius:12px;
-min-width:200px;
-font-size:20px;
+h1{
+    margin:10px 0 8px;
+    font-size:38px;
 }
-
+h2{
+    margin:0 0 24px;
+    color:var(--muted);
+    font-weight:normal;
+}
+.nav{
+    margin-bottom:30px;
+}
+.nav a{
+    display:inline-block;
+    margin:6px;
+    padding:10px 16px;
+    border:1px solid #334155;
+    border-radius:999px;
+    color:#dbeafe;
+    text-decoration:none;
+    background:#0b1320;
+}
+.nav a:hover{
+    background:#1e293b;
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:18px;
+    margin-bottom:24px;
+}
+.card{
+    background:rgba(17,24,39,.95);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+    padding:22px;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+    text-align:left;
+}
+.label{
+    color:var(--muted);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    margin-bottom:8px;
+}
 .value{
-font-size:36px;
-color:#22c55e;
+    font-size:34px;
+    font-weight:bold;
 }
-
+.green{color:var(--green)}
+.red{color:var(--red)}
+.blue{color:var(--blue)}
+.amber{color:var(--amber)}
+.panel{
+    background:rgba(17,24,39,.95);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+    padding:24px;
+    margin-bottom:22px;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+    text-align:left;
+}
+.panel h3{
+    margin:0 0 16px;
+    font-size:24px;
+}
+.bar-wrap{margin:16px 0}
+.bar-label{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+    color:var(--muted);
+    font-size:14px;
+}
+.bar{
+    height:14px;
+    background:#1e293b;
+    border-radius:999px;
+    overflow:hidden;
+}
+.bar-fill{
+    height:100%;
+    border-radius:999px;
+    width:0%;
+    transition:width .8s ease;
+}
+.fill-blue{background:linear-gradient(90deg,#2563eb,#06b6d4)}
+.fill-green{background:linear-gradient(90deg,#16a34a,#22c55e)}
+.fill-red{background:linear-gradient(90deg,#dc2626,#ef4444)}
+.fill-amber{background:linear-gradient(90deg,#d97706,#f59e0b)}
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+th,td{
+    padding:12px 10px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    text-align:left;
+}
+th{
+    color:var(--muted);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+}
+.blink{animation:blinkAlert 1s infinite}
+.footer-note{
+    margin-top:20px;
+    color:var(--muted);
+    line-height:1.7;
+}
+@keyframes blinkAlert{
+    0%,100%{opacity:1}
+    50%{opacity:.35}
+}
 </style>
 </head>
-
 <body>
-
 <div class="container">
 
-<h1>SOC Monitoring Dashboard</h1>
+    <h1>Enterprise Security Lab</h1>
+    <h2>SOC Monitoring Dashboard</h2>
 
-<div class="nav">
+    <div class="nav">
+        <a href="index.html">Home</a>
+        <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+        <a href="topology.html">Topology</a>
+        <a href="network-diagram.html">Network Diagram</a>
+        <a href="network-zones.html">Network Zones</a>
+        <a href="attack-paths.html">Attack Simulation</a>
+        <a href="attack-surface.html">Attack Surface</a>
+        <a href="architecture-overview.html">Architecture</a>
+        <a href="architecture-decisions.html">Architecture Decisions</a>
+        <a href="security-model.html">Security Model</a>
+        <a href="security-operations.html">Security Operations</a>
+        <a href="interactive-security-architecture.html">Interactive Architecture</a>
+        <a href="soc-dashboard.html">SOC Dashboard</a>
+        <a href="device-fortigate.html">FortiGate</a>
+        <a href="device-cbs250.html">CBS250</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+    </div>
 
-<a href="index.html">Home</a>
-<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-<a href="topology.html">Topology</a>
-<a href="network-diagram.html">Network Diagram</a>
-<a href="network-zones.html">Network Zones</a>
-<a href="attack-paths.html">Attack Simulation</a>
-<a href="soc-dashboard.html">SOC Dashboard</a>
+    <div class="grid">
+        <div class="card">
+            <div class="label">Active Sessions</div>
+            <div class="value blue" id="activeSessions">42</div>
+        </div>
+        <div class="card">
+            <div class="label">Blocked Attacks</div>
+            <div class="value red blink" id="blockedAttacks">7</div>
+        </div>
+        <div class="card">
+            <div class="label">Firewall Throughput</div>
+            <div class="value green" id="throughput">126 Mbps</div>
+        </div>
+        <div class="card">
+            <div class="label">Top Talker</div>
+            <div class="value amber" id="topTalker">10.10.20.100</div>
+        </div>
+    </div>
 
-</div>
+    <div class="panel">
+        <h3>Traffic Overview</h3>
 
-<div class="metric">
-Active Sessions
-<div class="value" id="sessions">120</div>
-</div>
+        <div class="bar-wrap">
+            <div class="bar-label">
+                <span>Users VLAN Traffic</span>
+                <span id="usersPct">62%</span>
+            </div>
+            <div class="bar"><div class="bar-fill fill-blue" id="usersBar"></div></div>
+        </div>
 
-<div class="metric">
-Blocked Attacks
-<div class="value" id="blocked">18</div>
-</div>
+        <div class="bar-wrap">
+            <div class="bar-label">
+                <span>Guest VLAN Traffic</span>
+                <span id="guestPct">27%</span>
+            </div>
+            <div class="bar"><div class="bar-fill fill-amber" id="guestBar"></div></div>
+        </div>
 
-<div class="metric">
-Firewall Throughput
-<div class="value" id="throughput">480 Mbps</div>
-</div>
+        <div class="bar-wrap">
+            <div class="bar-label">
+                <span>Blocked Internal Flows</span>
+                <span id="blockedPct">11%</span>
+            </div>
+            <div class="bar"><div class="bar-fill fill-red" id="blockedBar"></div></div>
+        </div>
+    </div>
 
-<div class="metric">
-Top Talkers
-<div class="value">10.10.20.100</div>
-</div>
+    <div class="panel">
+        <h3>Top Talkers</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Source IP</th>
+                    <th>Destination</th>
+                    <th>Zone</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="topTalkers">
+                <tr>
+                    <td>10.10.20.100</td>
+                    <td>1.1.1.1</td>
+                    <td>Users</td>
+                    <td class="green">Allowed</td>
+                </tr>
+                <tr>
+                    <td>10.10.60.100</td>
+                    <td>8.8.8.8</td>
+                    <td>Guest</td>
+                    <td class="green">Allowed</td>
+                </tr>
+                <tr>
+                    <td>10.10.60.100</td>
+                    <td>10.10.20.100</td>
+                    <td>Guest → Users</td>
+                    <td class="red">Blocked</td>
+                </tr>
+                <tr>
+                    <td>10.10.20.100</td>
+                    <td>10.10.30.2</td>
+                    <td>Users → MGMT</td>
+                    <td class="red">Blocked</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="panel">
+        <h3>SOC Interpretation</h3>
+        <p>This dashboard simulates monitoring visibility for a segmented enterprise security lab. It highlights active sessions, blocked flows, firewall throughput and top talkers, reflecting how a SOC or Blue Team could observe traffic across Users, Guest and Management zones.</p>
+    </div>
+
+    <div class="footer-note">
+        Simulated metrics refresh automatically to create a live monitoring effect.
+    </div>
 
 </div>
 
 <script>
+function randomBetween(min, max){
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-setInterval(()=>{
-document.getElementById("sessions").innerHTML =
-Math.floor(Math.random()*300);
+function updateDashboard(){
+    const active = randomBetween(38, 64);
+    const blocked = randomBetween(5, 14);
+    const throughput = randomBetween(95, 180);
+    const usersPct = randomBetween(50, 70);
+    const guestPct = randomBetween(18, 35);
+    const blockedPct = 100 - usersPct - guestPct;
+    const talkers = ["10.10.20.100", "10.10.60.100", "10.10.20.101", "10.10.60.110"];
 
-document.getElementById("blocked").innerHTML =
-Math.floor(Math.random()*50);
+    document.getElementById("activeSessions").textContent = active;
+    document.getElementById("blockedAttacks").textContent = blocked;
+    document.getElementById("throughput").textContent = throughput + " Mbps";
+    document.getElementById("topTalker").textContent = talkers[randomBetween(0, talkers.length - 1)];
 
-},2000);
+    document.getElementById("usersPct").textContent = usersPct + "%";
+    document.getElementById("guestPct").textContent = guestPct + "%";
+    document.getElementById("blockedPct").textContent = blockedPct + "%";
 
+    document.getElementById("usersBar").style.width = usersPct + "%";
+    document.getElementById("guestBar").style.width = guestPct + "%";
+    document.getElementById("blockedBar").style.width = blockedPct + "%";
+}
+
+updateDashboard();
+setInterval(updateDashboard, 2200);
 </script>
-
 </body>
 </html>
