@@ -13,13 +13,29 @@
     --bg2:#111827;
     --text:#e5edf8;
     --muted:#9fb2cc;
-    --line:#314056;
+    --line:#64748b;
+
     --internet:#6366f1;
+    --internet-border:#818cf8;
+
     --firewall:#ef4444;
+    --firewall-border:#f87171;
+
     --switch:#3b82f6;
-    --vlan:#10b981;
+    --switch-border:#60a5fa;
+
+    --users:#10b981;
+    --users-border:#34d399;
+
+    --mgmt:#2563eb;
+    --mgmt-border:#60a5fa;
+
+    --guest:#f59e0b;
+    --guest-border:#fbbf24;
 }
+
 *{box-sizing:border-box}
+
 body{
     margin:0;
     font-family:'Inter',sans-serif;
@@ -27,14 +43,17 @@ body{
     color:var(--text);
     text-align:center;
 }
+
 .container{
     max-width:1280px;
     margin:0 auto;
     padding:36px 20px 80px;
 }
+
 .nav{
     margin-bottom:30px;
 }
+
 .nav a{
     display:inline-block;
     margin:6px;
@@ -45,15 +64,29 @@ body{
     text-decoration:none;
     background:#0b1320;
 }
-.nav a:hover{background:#1e293b}
-h1{margin:10px 0 8px;font-size:40px}
-h2{margin:0 0 26px;color:var(--muted);font-weight:400}
+
+.nav a:hover{
+    background:#1e293b;
+}
+
+h1{
+    margin:10px 0 8px;
+    font-size:40px;
+}
+
+h2{
+    margin:0 0 26px;
+    color:var(--muted);
+    font-weight:400;
+}
+
 .diagram{
     position:relative;
     width:100%;
-    min-height:760px;
+    min-height:820px;
     margin:0 auto;
 }
+
 .node{
     position:absolute;
     left:50%;
@@ -66,34 +99,72 @@ h2{margin:0 0 26px;color:var(--muted);font-weight:400}
     border-radius:14px;
     font-weight:700;
     color:#fff;
-    border:1px solid rgba(255,255,255,.12);
+    border:2px solid rgba(255,255,255,.15);
     box-shadow:0 10px 30px rgba(0,0,0,.25);
     min-width:240px;
 }
-.internet{top:18px;background:var(--internet)}
-.firewall{top:170px;background:var(--firewall);animation:pulseFirewall 1.8s infinite}
-.switch{top:330px;background:var(--switch)}
+
+.internet{
+    top:20px;
+    background:var(--internet);
+    border-color:var(--internet-border);
+}
+
+.firewall{
+    top:170px;
+    background:var(--firewall);
+    border-color:var(--firewall-border);
+    animation:pulseFirewall 1.8s infinite;
+}
+
+.switch{
+    top:330px;
+    background:var(--switch);
+    border-color:var(--switch-border);
+}
+
 .vlan-row{
     position:absolute;
-    top:540px;
+    top:560px;
     left:50%;
     transform:translateX(-50%);
-    width:min(980px,95%);
+    width:min(1040px,96%);
     display:flex;
     justify-content:space-between;
+    align-items:flex-start;
     gap:18px;
-    flex-wrap:wrap;
+    flex-wrap:nowrap;
 }
+
 .vlan{
-    background:var(--vlan);
-    min-width:220px;
+    position:relative;
+    transform:none;
+    left:auto;
+    min-width:0;
+    width:31%;
     opacity:0;
     transform:translateY(20px);
     animation:showVlan .8s forwards;
 }
-.vlan.users{animation-delay:.2s}
-.vlan.mgmt{animation-delay:.6s}
-.vlan.guest{animation-delay:1s}
+
+.vlan.users{
+    background:var(--users);
+    border-color:var(--users-border);
+    animation-delay:.2s;
+}
+
+.vlan.mgmt{
+    background:var(--mgmt);
+    border-color:var(--mgmt-border);
+    animation-delay:.6s;
+}
+
+.vlan.guest{
+    background:var(--guest);
+    border-color:var(--guest-border);
+    animation-delay:1s;
+}
+
 .label-small{
     display:block;
     margin-top:6px;
@@ -101,18 +172,21 @@ h2{margin:0 0 26px;color:var(--muted);font-weight:400}
     font-weight:400;
     color:#ecfeff;
 }
+
 .line{
     position:absolute;
     left:50%;
     transform:translateX(-50%);
     width:4px;
-    background:linear-gradient(180deg,#6b7280,#94a3b8);
+    background:linear-gradient(180deg,#94a3b8,#cbd5e1);
     border-radius:10px;
     overflow:hidden;
 }
-.line-main-1{top:80px;height:88px}
+
+.line-main-1{top:82px;height:86px}
 .line-main-2{top:248px;height:82px}
-.line-main-3{top:408px;height:125px}
+.line-main-3{top:408px;height:120px}
+
 .flow{
     position:absolute;
     left:0;
@@ -122,22 +196,30 @@ h2{margin:0 0 26px;color:var(--muted);font-weight:400}
     box-shadow:0 0 18px rgba(147,197,253,.8);
     animation:moveDown 2.1s linear infinite;
 }
+
 .branch{
     position:absolute;
-    top:505px;
+    top:525px;
     height:4px;
-    background:#64748b;
+    background:#94a3b8;
     border-radius:10px;
 }
-.branch.left{left:21%;width:20%}
-.branch.center{left:40%;width:20%}
-.branch.right{left:59%;width:20%}
-.legend{
-    margin-top:38px;
-    color:var(--muted);
-    font-size:14px;
-    line-height:1.7;
+
+.branch.left{
+    left:18%;
+    width:23%;
 }
+
+.branch.center{
+    left:39%;
+    width:22%;
+}
+
+.branch.right{
+    left:59%;
+    width:23%;
+}
+
 .packet{
     width:12px;
     height:12px;
@@ -145,47 +227,91 @@ h2{margin:0 0 26px;color:var(--muted);font-weight:400}
     position:absolute;
     z-index:5;
 }
+
 .packet1{
     background:#00ffcc;
     box-shadow:0 0 12px rgba(0,255,204,.8);
     animation:movePacket 4s linear infinite;
 }
+
 .packet2{
     background:#ffaa00;
     box-shadow:0 0 12px rgba(255,170,0,.8);
     animation:movePacket2 5s linear infinite;
 }
+
+.legend{
+    margin-top:38px;
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.7;
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:18px;
+}
+
 @keyframes pulseFirewall{
     0%{box-shadow:0 0 0 0 rgba(239,68,68,.55),0 10px 30px rgba(0,0,0,.25)}
     70%{box-shadow:0 0 0 22px rgba(239,68,68,0),0 10px 30px rgba(0,0,0,.25)}
     100%{box-shadow:0 0 0 0 rgba(239,68,68,0),0 10px 30px rgba(0,0,0,.25)}
 }
+
 @keyframes moveDown{
     0%{top:-24px;opacity:0}
     10%{opacity:1}
     100%{top:100%;opacity:0}
 }
+
 @keyframes showVlan{
     to{opacity:1;transform:translateY(0)}
 }
+
 @keyframes movePacket{
-    0%{left:260px;top:420px;opacity:0}
+    0%{left:260px;top:430px;opacity:0}
     10%{opacity:1}
-    50%{left:560px;top:250px}
+    50%{left:560px;top:255px}
     100%{left:860px;top:110px;opacity:0}
 }
+
 @keyframes movePacket2{
-    0%{left:260px;top:510px;opacity:0}
+    0%{left:260px;top:520px;opacity:0}
     10%{opacity:1}
-    50%{left:560px;top:250px}
+    50%{left:560px;top:255px}
     100%{left:860px;top:110px;opacity:0}
 }
-@media (max-width:900px){
-    .diagram{min-height:980px}
-    .vlan-row{top:520px;justify-content:center}
-    .vlan{width:100%;max-width:320px}
-    .branch,.packet{display:none}
-    .line-main-3{height:90px}
+
+@media (max-width:980px){
+    .diagram{
+        min-height:1080px;
+    }
+
+    .vlan-row{
+        top:560px;
+        width:100%;
+        flex-direction:column;
+        align-items:center;
+        gap:16px;
+    }
+
+    .vlan{
+        width:100%;
+        max-width:340px;
+    }
+
+    .branch{
+        display:none;
+    }
+
+    .line-main-3{
+        height:120px;
+    }
+}
+
+@media (max-width:700px){
+    .packet{
+        display:none;
+    }
 }
 </style>
 </head>
@@ -220,6 +346,7 @@ h2{margin:0 0 26px;color:var(--muted);font-weight:400}
 <h2>Animated Logical Topology</h2>
 
 <div class="diagram">
+
     <div class="packet packet1"></div>
     <div class="packet packet2"></div>
 
@@ -228,21 +355,27 @@ h2{margin:0 0 26px;color:var(--muted);font-weight:400}
         <span class="label-small">Untrusted external network</span>
     </div>
 
-    <div class="line line-main-1"><div class="flow"></div></div>
+    <div class="line line-main-1">
+        <div class="flow"></div>
+    </div>
 
     <div class="node firewall">
         FortiGate 60E
         <span class="label-small">NGFW / Policy Enforcement / NAT</span>
     </div>
 
-    <div class="line line-main-2"><div class="flow" style="animation-delay:.4s"></div></div>
+    <div class="line line-main-2">
+        <div class="flow" style="animation-delay:.4s"></div>
+    </div>
 
     <div class="node switch">
         Cisco CBS250
         <span class="label-small">Core switch / VLAN segmentation</span>
     </div>
 
-    <div class="line line-main-3"><div class="flow" style="animation-delay:.8s"></div></div>
+    <div class="line line-main-3">
+        <div class="flow" style="animation-delay:.8s"></div>
+    </div>
 
     <div class="branch left"></div>
     <div class="branch center"></div>
@@ -253,10 +386,12 @@ h2{margin:0 0 26px;color:var(--muted);font-weight:400}
             VLAN20
             <span class="label-small">Users Network</span>
         </div>
+
         <div class="node vlan mgmt">
             VLAN30
-            <span class="label-small">Management</span>
+            <span class="label-small">Management Network</span>
         </div>
+
         <div class="node vlan guest">
             VLAN60
             <span class="label-small">Guest Network</span>
@@ -266,7 +401,7 @@ h2{margin:0 0 26px;color:var(--muted);font-weight:400}
 
 <div class="legend">
     Animated flow represents traffic traversing the firewall and switching layer.<br>
-    Pulsing firewall indicates policy inspection and active control of traffic between zones.
+    Border colors match the security zones and VLAN identities.
 </div>
 
 </div>
