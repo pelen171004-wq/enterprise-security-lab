@@ -1,110 +1,299 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
-<title>Enterprise Security Lab - Network Diagram</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab - Animated Network Diagram</title>
 <style>
+    :root{
+        --bg1:#0b1220;
+        --bg2:#111827;
+        --text:#e5edf8;
+        --muted:#9fb2cc;
+        --line:#314056;
+        --internet:#6366f1;
+        --firewall:#ef4444;
+        --switch:#3b82f6;
+        --vlan:#10b981;
+        --glow:#93c5fd;
+    }
 
-body {
-font-family: Arial;
-background: #0f172a;
-color: white;
-text-align: center;
-}
+    *{box-sizing:border-box}
 
-h1 {
-margin-top: 40px;
-}
+    body{
+        margin:0;
+        font-family:Arial, sans-serif;
+        background:linear-gradient(180deg,var(--bg1),var(--bg2));
+        color:var(--text);
+        text-align:center;
+    }
 
-.diagram {
-margin-top: 60px;
-}
+    .container{
+        max-width:1200px;
+        margin:0 auto;
+        padding:40px 20px 80px;
+    }
 
-.node {
-display: inline-block;
-padding: 20px 40px;
-margin: 20px;
-border-radius: 10px;
-font-weight: bold;
-text-decoration: none;
-color: white;
-}
+    h1{
+        margin:10px 0 8px;
+        font-size:38px;
+    }
 
-.firewall {
-background: #ef4444;
-}
+    h2{
+        margin:0 0 30px;
+        color:var(--muted);
+        font-weight:normal;
+    }
 
-.switch {
-background: #3b82f6;
-}
+    .nav{
+        margin-bottom:35px;
+    }
 
-.vlan {
-background: #10b981;
-}
+    .nav a{
+        display:inline-block;
+        margin:6px;
+        padding:10px 16px;
+        border:1px solid var(--line);
+        border-radius:999px;
+        color:#dbeafe;
+        text-decoration:none;
+        background:#0b1320;
+    }
 
-.internet {
-background: #6366f1;
-}
+    .diagram{
+        position:relative;
+        width:100%;
+        min-height:760px;
+        margin:0 auto;
+    }
 
-.arrow {
-font-size: 30px;
-margin: 10px;
-}
+    .node{
+        position:absolute;
+        left:50%;
+        transform:translateX(-50%);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        text-align:center;
+        padding:18px 26px;
+        border-radius:14px;
+        font-weight:bold;
+        color:white;
+        text-decoration:none;
+        box-shadow:0 10px 30px rgba(0,0,0,.25);
+        border:1px solid rgba(255,255,255,.15);
+        min-width:220px;
+    }
 
+    .internet{
+        top:20px;
+        background:var(--internet);
+    }
+
+    .firewall{
+        top:170px;
+        background:var(--firewall);
+        animation:pulseFirewall 1.8s infinite;
+    }
+
+    .switch{
+        top:330px;
+        background:var(--switch);
+    }
+
+    .vlan-row{
+        position:absolute;
+        top:540px;
+        left:50%;
+        transform:translateX(-50%);
+        width:min(950px,95%);
+        display:flex;
+        justify-content:space-between;
+        gap:18px;
+        flex-wrap:wrap;
+    }
+
+    .vlan{
+        background:var(--vlan);
+        min-width:220px;
+        position:relative;
+        opacity:0;
+        transform:translateY(18px);
+        animation:showVlan .9s forwards;
+    }
+
+    .vlan.users{animation-delay:.3s}
+    .vlan.mgmt{animation-delay:.8s}
+    .vlan.guest{animation-delay:1.3s}
+
+    .label-small{
+        display:block;
+        margin-top:6px;
+        font-size:13px;
+        font-weight:normal;
+        color:#ecfeff;
+    }
+
+    .line{
+        position:absolute;
+        left:50%;
+        transform:translateX(-50%);
+        width:4px;
+        background:linear-gradient(180deg,#6b7280,#94a3b8);
+        border-radius:10px;
+        overflow:hidden;
+    }
+
+    .line-main-1{top:78px;height:90px}
+    .line-main-2{top:248px;height:82px}
+    .line-main-3{top:408px;height:125px}
+
+    .flow{
+        position:absolute;
+        left:0;
+        width:100%;
+        height:22px;
+        background:linear-gradient(180deg,rgba(147,197,253,0),rgba(147,197,253,.95),rgba(147,197,253,0));
+        box-shadow:0 0 18px rgba(147,197,253,.8);
+        animation:moveDown 2.2s linear infinite;
+    }
+
+    .branch{
+        position:absolute;
+        top:505px;
+        height:4px;
+        background:#64748b;
+        border-radius:10px;
+    }
+
+    .branch.left{
+        left:21%;
+        width:20%;
+    }
+
+    .branch.center{
+        left:40%;
+        width:20%;
+    }
+
+    .branch.right{
+        left:59%;
+        width:20%;
+    }
+
+    .legend{
+        margin-top:40px;
+        color:var(--muted);
+        font-size:14px;
+    }
+
+    @keyframes pulseFirewall{
+        0%{box-shadow:0 0 0 0 rgba(239,68,68,.55),0 10px 30px rgba(0,0,0,.25)}
+        70%{box-shadow:0 0 0 22px rgba(239,68,68,0),0 10px 30px rgba(0,0,0,.25)}
+        100%{box-shadow:0 0 0 0 rgba(239,68,68,0),0 10px 30px rgba(0,0,0,.25)}
+    }
+
+    @keyframes moveDown{
+        0%{top:-24px;opacity:0}
+        10%{opacity:1}
+        100%{top:100%;opacity:0}
+    }
+
+    @keyframes showVlan{
+        to{
+            opacity:1;
+            transform:translateY(0);
+        }
+    }
+
+    @media (max-width:900px){
+        .diagram{min-height:980px}
+        .vlan-row{
+            top:520px;
+            justify-content:center;
+        }
+        .vlan{
+            position:relative;
+            left:auto;
+            transform:none;
+            width:100%;
+            max-width:320px;
+        }
+        .branch{display:none}
+        .line-main-3{height:90px}
+    }
 </style>
-
 </head>
-
 <body>
+<div class="container">
 
-<h1>Enterprise Security Lab</h1>
+    <h1>Enterprise Security Lab</h1>
+    <h2>Animated Network Topology</h2>
 
-<h2>Network Topology</h2>
+    <div class="nav">
+        <a href="./">Home</a>
+        <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+        <a href="topology.html">Topology</a>
+        <a href="device-fortigate.html">FortiGate</a>
+        <a href="device-cbs250.html">CBS250</a>
+    </div>
 
-<div class="diagram">
+    <div class="diagram">
 
-<div class="node internet">
-Internet
+        <div class="node internet">
+            Internet
+            <span class="label-small">Untrusted external network</span>
+        </div>
+
+        <div class="line line-main-1">
+            <div class="flow"></div>
+        </div>
+
+        <a class="node firewall" href="device-fortigate.html">
+            FortiGate 60E
+            <span class="label-small">NGFW / Policy Enforcement / NAT</span>
+        </a>
+
+        <div class="line line-main-2">
+            <div class="flow" style="animation-delay:.5s;"></div>
+        </div>
+
+        <a class="node switch" href="device-cbs250.html">
+            Cisco CBS250 (SWA)
+            <span class="label-small">Core switch / VLAN segmentation</span>
+        </a>
+
+        <div class="line line-main-3">
+            <div class="flow" style="animation-delay:1s;"></div>
+        </div>
+
+        <div class="branch left"></div>
+        <div class="branch center"></div>
+        <div class="branch right"></div>
+
+        <div class="vlan-row">
+            <div class="node vlan users">
+                VLAN20
+                <span class="label-small">Users Network</span>
+            </div>
+
+            <div class="node vlan mgmt">
+                VLAN30
+                <span class="label-small">Management</span>
+            </div>
+
+            <div class="node vlan guest">
+                VLAN60
+                <span class="label-small">Guest Network</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="legend">
+        Animated flow represents traffic traversing the firewall and switching layer.  
+        Click the firewall or switch nodes to open device documentation.
+    </div>
+
 </div>
-
-<div class="arrow">↓</div>
-
-<a class="node firewall" href="device-fortigate.html">
-FortiGate 60E
-</a>
-
-<div class="arrow">↓</div>
-
-<a class="node switch" href="device-cbs250.html">
-Cisco CBS250
-</a>
-
-<div class="arrow">↓</div>
-
-<div>
-
-<div class="node vlan">
-VLAN20
-<br>
-Users
-</div>
-
-<div class="node vlan">
-VLAN30
-<br>
-Management
-</div>
-
-<div class="node vlan">
-VLAN60
-<br>
-Guest
-</div>
-
-</div>
-
-</div>
-
 </body>
 </html>
