@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Enterprise Security Lab - Network Diagram</title>
+
+<style>
+
+body {
+font-family: Arial;
+background: #0f172a;
+color: white;
+text-align: center;
+}
+
+h1 {
+margin-top: 40px;
+}
+
+.diagram {
+margin-top: 60px;
+}
+
+.node {
+display: inline-block;
+padding: 20px 40px;
+margin: 20px;
+border-radius: 10px;
+font-weight: bold;
+text-decoration: none;
+color: white;
+}
+
+.firewall {
+background: #ef4444;
+}
+
+.switch {
+background: #3b82f6;
+}
+
+.vlan {
+background: #10b981;
+}
+
+.internet {
+background: #6366f1;
+}
+
+.arrow {
+font-size: 30px;
+margin: 10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Enterprise Security Lab</h1>
+
+<h2>Network Topology</h2>
+
+<div class="diagram">
+
+<div class="node internet">
+Internet
+</div>
+
+<div class="arrow">↓</div>
+
+<a class="node firewall" href="device-fortigate.html">
+FortiGate 60E
+</a>
+
+<div class="arrow">↓</div>
+
+<a class="node switch" href="device-cbs250.html">
+Cisco CBS250
+</a>
+
+<div class="arrow">↓</div>
+
+<div>
+
+<div class="node vlan">
+VLAN20
+<br>
+Users
+</div>
+
+<div class="node vlan">
+VLAN30
+<br>
+Management
+</div>
+
+<div class="node vlan">
+VLAN60
+<br>
+Guest
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
