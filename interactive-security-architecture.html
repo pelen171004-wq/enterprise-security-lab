@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab - Interactive Security Architecture</title>
+<style>
+:root{
+    --bg1:#07111f;
+    --bg2:#111827;
+    --panel:#0f172a;
+    --text:#e5edf8;
+    --muted:#94a3b8;
+    --border:#334155;
+    --users:#10b981;
+    --guest:#f59e0b;
+    --mgmt:#ef4444;
+    --soc:#3b82f6;
+    --servers:#8b5cf6;
+    --backup:#14b8a6;
+}
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(180deg,var(--bg1),var(--bg2));
+    color:var(--text);
+    text-align:center;
+}
+.container{
+    max-width:1280px;
+    margin:0 auto;
+    padding:40px 20px 80px;
+}
+h1{
+    margin:10px 0 8px;
+    font-size:38px;
+}
+h2{
+    margin:0 0 24px;
+    color:var(--muted);
+    font-weight:normal;
+}
+.nav{
+    margin-bottom:30px;
+}
+.nav a{
+    display:inline-block;
+    margin:6px;
+    padding:10px 16px;
+    border:1px solid #334155;
+    border-radius:999px;
+    color:#dbeafe;
+    text-decoration:none;
+    background:#0b1320;
+}
+.nav a:hover{
+    background:#1e293b;
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
+    margin-bottom:24px;
+}
+.zone{
+    border-radius:18px;
+    padding:22px;
+    text-align:left;
+    color:#fff;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+    cursor:pointer;
+}
+.zone h3{
+    margin:0 0 10px;
+}
+.users{background:var(--users)}
+.guest{background:var(--guest)}
+.mgmt{background:var(--mgmt)}
+.soc{background:var(--soc)}
+.servers{background:var(--servers)}
+.backup{background:var(--backup)}
+.panel{
+    background:rgba(15,23,42,.94);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+    padding:24px;
+    text-align:left;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+.panel h3{
+    margin-top:0;
+}
+.info-line{
+    margin:10px 0;
+    line-height:1.6;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+    <h1>Enterprise Security Lab</h1>
+    <h2>Interactive Network Security Architecture</h2>
+
+    <div class="nav">
+        <a href="index.html">Home</a>
+        <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+        <a href="topology.html">Topology</a>
+        <a href="network-diagram.html">Network Diagram</a>
+        <a href="network-zones.html">Network Zones</a>
+        <a href="attack-paths.html">Attack Simulation</a>
+        <a href="attack-surface.html">Attack Surface</a>
+        <a href="architecture-overview.html">Architecture</a>
+        <a href="architecture-decisions.html">Architecture Decisions</a>
+        <a href="security-model.html">Security Model</a>
+        <a href="security-operations.html">Security Operations</a>
+        <a href="interactive-security-architecture.html">Interactive Architecture</a>
+        <a href="soc-dashboard.html">SOC Dashboard</a>
+        <a href="device-fortigate.html">FortiGate</a>
+        <a href="device-cbs250.html">CBS250</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+    </div>
+
+    <div class="grid">
+        <div class="zone users" onclick="showZone('users')"><h3>Users</h3><div>Trusted client network</div></div>
+        <div class="zone guest" onclick="showZone('guest')"><h3>Guest</h3><div>Untrusted internet-only zone</div></div>
+        <div class="zone mgmt" onclick="showZone('mgmt')"><h3>MGMT</h3><div>Protected management plane</div></div>
+        <div class="zone soc" onclick="showZone('soc')"><h3>SOC</h3><div>Monitoring and visibility</div></div>
+        <div class="zone servers" onclick="showZone('servers')"><h3>Servers</h3><div>Infrastructure services</div></div>
+        <div class="zone backup" onclick="showZone('backup')"><h3>Backup</h3><div>Recovery and protection</div></div>
+    </div>
+
+    <div class="panel" id="zoneInfo">
+        <h3>Select a zone</h3>
+        <div class="info-line">Click a zone above to display its security role, trust level and policy model.</div>
+    </div>
+
+</div>
+
+<script>
+function showZone(zone){
+    const box = document.getElementById("zoneInfo");
+
+    if(zone === "users"){
+        box.innerHTML = `
+            <h3>Users Zone</h3>
+            <div class="info-line">Trust level: Medium</div>
+            <div class="info-line">Purpose: Standard internal client activity</div>
+            <div class="info-line">Allowed: Internet access</div>
+            <div class="info-line">Denied: Direct access to Management</div>
+        `;
+    }
+
+    if(zone === "guest"){
+        box.innerHTML = `
+            <h3>Guest Zone</h3>
+            <div class="info-line">Trust level: Low</div>
+            <div class="info-line">Purpose: Untrusted visitor or guest endpoints</div>
+            <div class="info-line">Allowed: Internet access only</div>
+            <div class="info-line">Denied: Users, MGMT and internal east-west access</div>
+        `;
+    }
+
+    if(zone === "mgmt"){
+        box.innerHTML = `
+            <h3>Management Zone</h3>
+            <div class="info-line">Trust level: High</div>
+            <div class="info-line">Purpose: Administration of firewall and switch infrastructure</div>
+            <div class="info-line">Protection: Dedicated VLAN and deny policies from Users/Guest</div>
+        `;
+    }
+
+    if(zone === "soc"){
+        box.innerHTML = `
+            <h3>SOC Zone</h3>
+            <div class="info-line">Trust level: Controlled</div>
+            <div class="info-line">Purpose: Monitoring, logging, SIEM and alert visibility</div>
+            <div class="info-line">Next step: Expand monitoring and detection architecture</div>
+        `;
+    }
+
+    if(zone === "servers"){
+        box.innerHTML = `
+            <h3>Servers Zone</h3>
+            <div class="info-line">Trust level: Controlled</div>
+            <div class="info-line">Purpose: Internal services and infrastructure workloads</div>
+            <div class="info-line">Access model: Explicit firewall policy only</div>
+        `;
+    }
+
+    if(zone === "backup"){
+        box.innerHTML = `
+            <h3>Backup Zone</h3>
+            <div class="info-line">Trust level: Restricted</div>
+            <div class="info-line">Purpose: Backup and recovery infrastructure</div>
+            <div class="info-line">Security goal: Isolation from standard user traffic</div>
+        `;
+    }
+}
+</script>
+</body>
+</html>
