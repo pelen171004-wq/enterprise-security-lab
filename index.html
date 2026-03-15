@@ -20,6 +20,7 @@ border:1px solid #334155;
 border-radius:16px;
 padding:26px;
 margin-bottom:30px;
+box-shadow:0 8px 24px rgba(0,0,0,.22);
 }
 
 .hero p{
@@ -38,22 +39,57 @@ margin-bottom:24px;
 
 .metric{
 background:#0f172a;
-border:1px solid #334155;
-border-radius:14px;
-padding:18px;
+border:2px solid #334155;
+border-radius:16px;
+padding:20px;
 text-align:left;
+box-shadow:0 8px 24px rgba(0,0,0,.22);
 }
 
 .metric-label{
 font-size:12px;
 color:#94a3b8;
 text-transform:uppercase;
+letter-spacing:.04em;
+margin-bottom:8px;
 }
 
 .metric-value{
-font-size:28px;
+font-size:32px;
 font-weight:700;
 margin-top:6px;
+}
+
+.metric.sessions{
+border-color:#60a5fa;
+box-shadow:0 0 0 1px rgba(96,165,250,.12),0 8px 24px rgba(0,0,0,.22);
+}
+.metric.sessions .metric-value{
+color:#60a5fa;
+}
+
+.metric.attacks{
+border-color:#ef4444;
+box-shadow:0 0 0 1px rgba(239,68,68,.12),0 8px 24px rgba(0,0,0,.22);
+}
+.metric.attacks .metric-value{
+color:#ef4444;
+}
+
+.metric.throughput{
+border-color:#22c55e;
+box-shadow:0 0 0 1px rgba(34,197,94,.12),0 8px 24px rgba(0,0,0,.22);
+}
+.metric.throughput .metric-value{
+color:#22c55e;
+}
+
+.metric.talker{
+border-color:#f59e0b;
+box-shadow:0 0 0 1px rgba(245,158,11,.12),0 8px 24px rgba(0,0,0,.22);
+}
+.metric.talker .metric-value{
+color:#f59e0b;
 }
 
 .ticker{
@@ -144,22 +180,22 @@ and Cisco CBS250 switch.
 
 <div class="metrics">
 
-<div class="metric">
+<div class="metric sessions">
 <div class="metric-label">Active Sessions</div>
 <div class="metric-value" id="sessions">312</div>
 </div>
 
-<div class="metric">
+<div class="metric attacks">
 <div class="metric-label">Blocked Attacks</div>
 <div class="metric-value" id="attacks">127</div>
 </div>
 
-<div class="metric">
+<div class="metric throughput">
 <div class="metric-label">Firewall Throughput</div>
 <div class="metric-value" id="throughput">1.2 Gbps</div>
 </div>
 
-<div class="metric">
+<div class="metric talker">
 <div class="metric-label">Top Talker</div>
 <div class="metric-value" id="talker">VLAN20</div>
 </div>
@@ -180,12 +216,12 @@ and Cisco CBS250 switch.
 
 <div class="grid">
 
-<a class="card arch" href="topology.html">
+<a class="card switch" href="topology.html">
 <h2>Topology</h2>
 <p>High-level network architecture.</p>
 </a>
 
-<a class="card arch" href="network-diagram.html">
+<a class="card mgmt" href="network-diagram.html">
 <h2>Network Diagram</h2>
 <p>Firewall and VLAN architecture.</p>
 </a>
@@ -205,12 +241,12 @@ and Cisco CBS250 switch.
 <p>Threat exposure analysis.</p>
 </a>
 
-<a class="card arch" href="architecture-overview.html">
+<a class="card mgmt" href="architecture-overview.html">
 <h2>Architecture Overview</h2>
 <p>Security design principles.</p>
 </a>
 
-<a class="card arch" href="architecture-decisions.html">
+<a class="card firewall" href="architecture-decisions.html">
 <h2>Architecture Decisions</h2>
 <p>Design reasoning and tradeoffs.</p>
 </a>
@@ -267,7 +303,7 @@ and Cisco CBS250 switch.
 
 <a class="card soc" href="threat-intelligence-feed.html">
 <h2>Threat Intelligence Feed</h2>
-<p>MITRE ATT&CK mapping, CVE detections and IOC monitoring.</p>
+<p>MITRE ATT&amp;CK mapping, CVE detections and IOC monitoring.</p>
 </a>
 
 <a class="card ops" href="executive-security-overview.html">
