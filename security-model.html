@@ -1,5 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab - Security Model</title>
 <style>
-
 body{
 background:#0b1220;
 color:white;
@@ -33,40 +38,167 @@ background:#0b1320;
 background:#1e293b;
 }
 
+.section{
+background:#111827;
+padding:24px;
+margin-top:20px;
+border-radius:14px;
+text-align:left;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
+
+th,td{
+padding:12px 10px;
+border-bottom:1px solid #334155;
+text-align:left;
+}
+
+th{
+color:#cbd5e1;
+}
+
+.allow{
+color:#22c55e;
+font-weight:bold;
+}
+
+.deny{
+color:#ef4444;
+font-weight:bold;
+}
+
+p, li{
+line-height:1.7;
+color:#cbd5e1;
+}
 </style>
+</head>
+<body>
 
+<div class="container">
 
+<h1>Enterprise Security Lab</h1>
+<h2>Security Model</h2>
 
 <div class="nav">
-
 <a href="index.html">Home</a>
-
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-
 <a href="topology.html">Topology</a>
-
 <a href="network-diagram.html">Network Diagram</a>
-
 <a href="network-zones.html">Network Zones</a>
-
 <a href="attack-paths.html">Attack Simulation</a>
-
 <a href="attack-surface.html">Attack Surface</a>
-
 <a href="architecture-overview.html">Architecture</a>
-
 <a href="architecture-decisions.html">Architecture Decisions</a>
-
 <a href="security-model.html">Security Model</a>
-
 <a href="security-operations.html">Security Operations</a>
-
+<a href="interactive-security-architecture.html">Interactive Architecture</a>
 <a href="soc-dashboard.html">SOC Dashboard</a>
-
 <a href="device-fortigate.html">FortiGate</a>
-
 <a href="device-cbs250.html">CBS250</a>
-
 <a href="troubleshooting.html">Troubleshooting</a>
+</div>
+
+<div class="section">
+<h3>Security Objectives</h3>
+<ul>
+<li>Reduce attack surface through segmentation</li>
+<li>Prevent lateral movement between trust zones</li>
+<li>Protect management interfaces</li>
+<li>Allow only required traffic flows</li>
+<li>Prepare environment for monitoring and incident visibility</li>
+</ul>
+</div>
+
+<div class="section">
+<h3>Trust Model</h3>
+<table>
+<tr>
+<th>Zone</th>
+<th>Trust Level</th>
+<th>Purpose</th>
+</tr>
+<tr>
+<td>Internet</td>
+<td>Untrusted</td>
+<td>External connectivity</td>
+</tr>
+<tr>
+<td>Guest VLAN</td>
+<td>Low</td>
+<td>Visitor / untrusted endpoints</td>
+</tr>
+<tr>
+<td>Users VLAN</td>
+<td>Medium</td>
+<td>Internal user devices</td>
+</tr>
+<tr>
+<td>Management VLAN</td>
+<td>High</td>
+<td>Administrative access</td>
+</tr>
+</table>
+</div>
+
+<div class="section">
+<h3>Policy Model</h3>
+<table>
+<tr>
+<th>Source</th>
+<th>Destination</th>
+<th>Decision</th>
+<th>Reason</th>
+</tr>
+<tr>
+<td>VLAN20 Users</td>
+<td>WAN</td>
+<td class="allow">ALLOW</td>
+<td>Business internet access</td>
+</tr>
+<tr>
+<td>VLAN60 Guest</td>
+<td>WAN</td>
+<td class="allow">ALLOW</td>
+<td>Internet-only guest access</td>
+</tr>
+<tr>
+<td>VLAN20 Users</td>
+<td>VLAN30 Management</td>
+<td class="deny">DENY</td>
+<td>Management plane protection</td>
+</tr>
+<tr>
+<td>VLAN60 Guest</td>
+<td>VLAN20 Users</td>
+<td class="deny">DENY</td>
+<td>Prevent lateral movement</td>
+</tr>
+<tr>
+<td>VLAN60 Guest</td>
+<td>VLAN30 Management</td>
+<td class="deny">DENY</td>
+<td>Block admin access from untrusted network</td>
+</tr>
+</table>
+</div>
+
+<div class="section">
+<h3>Security Principles Applied</h3>
+<ul>
+<li>Least privilege</li>
+<li>Zero Trust inspired segmentation</li>
+<li>Explicit allow / deny rules</li>
+<li>Default deny for east-west traffic</li>
+<li>Administrative isolation</li>
+</ul>
+</div>
 
 </div>
+</body>
+</html>
