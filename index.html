@@ -11,6 +11,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -64,8 +65,83 @@ font-weight:700;
 .metric.throughput .metric-value{color:#22c55e;}
 .metric.talker .metric-value{color:#f59e0b;}
 
+.live-panels{
+display:grid;
+grid-template-columns:1.2fr 1fr;
+gap:18px;
+margin:0 0 24px;
+}
+
+.panel{
+background:#0f172a;
+border:1px solid #334155;
+border-radius:16px;
+padding:22px;
+box-shadow:0 8px 24px rgba(0,0,0,.2);
+text-align:left;
+}
+
+.panel h2{
+margin:0 0 14px;
+font-size:22px;
+}
+
+.graph{
+height:180px;
+background:linear-gradient(180deg,#111827,#020617);
+border:1px solid #1f2937;
+border-radius:12px;
+position:relative;
+overflow:hidden;
+}
+
+.graph-grid{
+position:absolute;
+inset:0;
+background:
+linear-gradient(to right, rgba(148,163,184,.08) 1px, transparent 1px),
+linear-gradient(to top, rgba(148,163,184,.08) 1px, transparent 1px);
+background-size:32px 32px;
+pointer-events:none;
+}
+
+.bar{
+position:absolute;
+bottom:0;
+width:10px;
+border-radius:4px 4px 0 0;
+background:linear-gradient(180deg,#38bdf8,#2563eb);
+}
+
+.graph-stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin-top:16px;
+}
+
+.stat{
+background:#111827;
+border:1px solid #334155;
+border-radius:12px;
+padding:12px;
+}
+
+.stat-label{
+font-size:12px;
+color:#94a3b8;
+text-transform:uppercase;
+margin-bottom:6px;
+}
+
+.stat-value{
+font-size:20px;
+font-weight:700;
+color:#e2e8f0;
+}
+
 .ticker{
-margin:18px 0 28px;
+margin:0 0 28px;
 background:#0f172a;
 border:1px solid #334155;
 border-radius:14px;
@@ -95,7 +171,7 @@ align-items:center;
 .ticker-content{
 display:inline-block;
 padding-left:100%;
-animation:tickerMove 22s linear infinite;
+animation:tickerMove 20s linear infinite;
 font-weight:600;
 }
 
@@ -139,6 +215,7 @@ border-radius:16px;
 font-weight:700;
 position:relative;
 z-index:2;
+text-align:center;
 }
 
 .attack-guest{
@@ -210,12 +287,18 @@ margin:12px 0 10px;
 }
 
 @media (max-width:900px){
+.live-panels{
+grid-template-columns:1fr;
+}
 .attack-stage-wrap{
 flex-direction:column;
 }
 .attack-line,
 .attack-packet{
 display:none;
+}
+.graph-stats{
+grid-template-columns:1fr;
 }
 }
 </style>
@@ -282,36 +365,60 @@ attack simulation and security design principles using FortiGate and Cisco CBS25
     </div>
 </div>
 
-<div class="ticker">
-    <div class="ticker-title">SOC Alert Ticker</div>
-    <div class="ticker-track">
-        <div class="ticker-content" id="tickerContent">
-            <span class="alert">[ALERT] Guest VLAN port scan blocked</span>
-            <span class="info">[INFO] Users internet OK</span>
-            <span class="warn">[WARN] MGMT login attempt detected</span>
-            <span class="ok">[OK] Firewall policy sync successful</span>
-            <span class="alert">[ALERT] Guest VLAN blocked from Users network</span>
+<div class="live-panels">
+    <div class="panel">
+        <h2>Live Threat Counter</h2>
+        <div class="graph" id="trafficGraph">
+            <div class="graph-grid"></div>
+        </div>
+
+        <div class="graph-stats">
+            <div class="stat">
+                <div class="stat-label">Packets / sec</div>
+                <div class="stat-value" id="ppsValue">842</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Peak</div>
+                <div class="stat-value" id="peakValue">1130</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Drops</div>
+                <div class="stat-value" id="dropValue">18</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>Animated Attack Graph</h2>
+
+        <div class="attack-stage-wrap">
+            <div class="attack-line"></div>
+            <div class="attack-packet"></div>
+
+            <div class="attack-stage attack-guest">
+                Guest VLAN
+            </div>
+
+            <div class="attack-stage attack-fw">
+                Firewall
+            </div>
+
+            <div class="attack-stage attack-block" id="attackBlockLabel">
+                BLOCK
+            </div>
         </div>
     </div>
 </div>
 
-<div class="attack-graph">
-    <h2 class="section-title">Animated Attack Graph</h2>
-
-    <div class="attack-stage-wrap">
-        <div class="attack-line"></div>
-        <div class="attack-packet"></div>
-
-        <div class="attack-stage attack-guest">
-            Guest VLAN
-        </div>
-
-        <div class="attack-stage attack-fw">
-            Firewall
-        </div>
-
-        <div class="attack-stage attack-block" id="attackBlockLabel">
-            BLOCK
+<div class="ticker">
+    <div class="ticker-title">SOC Alert Ticker</div>
+    <div class="ticker-track">
+        <div class="ticker-content" id="tickerContent">
+            <span class="alert">[ALERT] Guest VLAN blocked</span>
+            <span class="info">[INFO] Users internet OK</span>
+            <span class="warn">[WARN] MGMT login attempt</span>
+            <span class="ok">[OK] Firewall policy sync successful</span>
+            <span class="alert">[ALERT] Guest VLAN port scan blocked</span>
         </div>
     </div>
 </div>
@@ -424,24 +531,56 @@ function rand(min,max){
 
 const talkers = ["VLAN20","VLAN30","VLAN60","10.10.20.100","10.10.60.100","FortiGate WAN"];
 const attackLabels = ["BLOCK","DENY","STOPPED","REJECTED"];
-
-function updateMetrics(){
-    document.getElementById("activeSessions").textContent = rand(180,420);
-    document.getElementById("blockedAttacks").textContent = rand(80,180);
-    document.getElementById("firewallThroughput").textContent = (rand(7,18)/10).toFixed(1) + " Gbps";
-    document.getElementById("topTalker").textContent = talkers[rand(0,talkers.length-1)];
-    document.getElementById("attackBlockLabel").textContent = attackLabels[rand(0,attackLabels.length-1)];
-}
-
 const tickerItems = [
-    '<span class="alert">[ALERT] Guest VLAN port scan blocked</span>',
+    '<span class="alert">[ALERT] Guest VLAN blocked</span>',
     '<span class="info">[INFO] Users internet OK</span>',
-    '<span class="warn">[WARN] MGMT login attempt detected</span>',
+    '<span class="warn">[WARN] MGMT login attempt</span>',
     '<span class="ok">[OK] Firewall policy sync successful</span>',
-    '<span class="alert">[ALERT] Guest VLAN blocked from Users network</span>',
+    '<span class="alert">[ALERT] Guest VLAN port scan blocked</span>',
     '<span class="info">[INFO] VLAN20 throughput normal</span>',
     '<span class="warn">[WARN] Elevated DNS requests from guest zone</span>'
 ];
+
+const graph = document.getElementById("trafficGraph");
+let barCount = 0;
+let peak = 1130;
+
+function updateMetrics(){
+    const sessions = rand(180,420);
+    const blocked = rand(80,180);
+    const throughput = (rand(7,18)/10).toFixed(1) + " Gbps";
+    const topTalker = talkers[rand(0,talkers.length-1)];
+    const pps = rand(620,1180);
+    const drops = rand(4,28);
+
+    if(pps > peak){ peak = pps; }
+
+    document.getElementById("activeSessions").textContent = sessions;
+    document.getElementById("blockedAttacks").textContent = blocked;
+    document.getElementById("firewallThroughput").textContent = throughput;
+    document.getElementById("topTalker").textContent = topTalker;
+    document.getElementById("ppsValue").textContent = pps;
+    document.getElementById("peakValue").textContent = peak;
+    document.getElementById("dropValue").textContent = drops;
+    document.getElementById("attackBlockLabel").textContent = attackLabels[rand(0,attackLabels.length-1)];
+
+    const bar = document.createElement("div");
+    bar.className = "bar";
+    bar.style.height = Math.max(18, Math.min(160, (pps / 1180) * 160)) + "px";
+    bar.style.left = (barCount * 12) + "px";
+    graph.appendChild(bar);
+    barCount++;
+
+    const bars = graph.querySelectorAll(".bar");
+    if(bars.length > 70){
+        bars[0].remove();
+        barCount--;
+        const remainingBars = graph.querySelectorAll(".bar");
+        remainingBars.forEach((b, i) => {
+            b.style.left = (i * 12) + "px";
+        });
+    }
+}
 
 function updateTicker(){
     const shuffled = [...tickerItems].sort(() => Math.random() - 0.5);
@@ -451,7 +590,7 @@ function updateTicker(){
 updateMetrics();
 updateTicker();
 
-setInterval(updateMetrics, 2500);
+setInterval(updateMetrics, 2000);
 setInterval(updateTicker, 8000);
 </script>
 
