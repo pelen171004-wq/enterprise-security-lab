@@ -3,227 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab – Animated Network Traffic Map</title>
-
+<title>Enterprise Security Lab – Traffic Simulation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
-body{
-    background:#0b1220;
-    color:white;
-    font-family:'Inter',sans-serif;
-    margin:0;
-    text-align:center;
-}
-
-.container{
-    max-width:1200px;
-    margin:auto;
-    padding:40px 20px 80px;
-}
-
-.nav{
-    margin-bottom:30px;
-}
-
-.nav a{
-    display:inline-block;
-    margin:6px;
-    padding:10px 16px;
-    border:1px solid #334155;
-    border-radius:999px;
-    color:#dbeafe;
-    text-decoration:none;
-    background:#0b1320;
-}
-
-.nav a:hover{
-    background:#1e293b;
-}
-
-.card{
-    background:#111827;
-    padding:25px;
-    border-radius:12px;
-    border:1px solid #334155;
-    margin-top:24px;
-}
-
-.diagram{
-    position:relative;
-    height:520px;
-    margin-top:10px;
-}
-
-.node{
-    position:absolute;
-    width:180px;
-    padding:18px 14px;
-    border-radius:14px;
-    font-weight:700;
-    border:1px solid rgba(255,255,255,.12);
-    box-shadow:0 8px 24px rgba(0,0,0,.25);
-}
-
-.users{
-    left:60px;
-    top:110px;
-    background:#047857;
-}
-
-.guest{
-    left:60px;
-    top:320px;
-    background:#b45309;
-}
-
-.firewall{
-    left:50%;
-    top:200px;
-    transform:translateX(-50%);
-    background:#b91c1c;
-    width:220px;
-    animation:pulse 1.8s infinite;
-}
-
-.internet{
-    right:60px;
-    top:110px;
-    background:#4338ca;
-}
-
-.mgmt{
-    right:60px;
-    top:320px;
-    background:#1d4ed8;
-}
-
-.path{
-    position:absolute;
-    height:4px;
-    background:#475569;
-    border-radius:999px;
-}
-
-.path-users-fw{
-    left:240px;
-    top:168px;
-    width:260px;
-}
-
-.path-guest-fw{
-    left:240px;
-    top:378px;
-    width:260px;
-}
-
-.path-fw-inet{
-    left:700px;
-    top:168px;
-    width:250px;
-}
-
-.path-fw-mgmt{
-    left:700px;
-    top:378px;
-    width:250px;
-}
-
-.packet{
-    position:absolute;
-    width:14px;
-    height:14px;
-    border-radius:999px;
-    box-shadow:0 0 14px rgba(255,255,255,.65);
-}
-
-.packet.users{
-    background:#22c55e;
-    animation:usersFlow 4s linear infinite;
-}
-
-.packet.guest{
-    background:#f59e0b;
-    animation:guestFlow 5s linear infinite;
-}
-
-.packet.blocked{
-    background:#ef4444;
-    animation:blockedFlow 3.6s linear infinite;
-}
-
-.legend{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:14px;
-    margin-top:24px;
-    text-align:left;
-}
-
-.legend-item{
-    background:#0f172a;
-    border:1px solid #334155;
-    border-radius:10px;
-    padding:14px;
-}
-
-.ok{color:#22c55e;font-weight:700}
-.bad{color:#ef4444;font-weight:700}
-.warn{color:#f59e0b;font-weight:700}
-
-@keyframes pulse{
-    0%{box-shadow:0 0 0 0 rgba(239,68,68,.45),0 8px 24px rgba(0,0,0,.25)}
-    70%{box-shadow:0 0 0 18px rgba(239,68,68,0),0 8px 24px rgba(0,0,0,.25)}
-    100%{box-shadow:0 0 0 0 rgba(239,68,68,0),0 8px 24px rgba(0,0,0,.25)}
-}
-
-@keyframes usersFlow{
-    0%{left:235px;top:163px;opacity:0}
-    10%{opacity:1}
-    35%{left:500px;top:163px}
-    60%{left:705px;top:163px}
-    100%{left:955px;top:163px;opacity:0}
-}
-
-@keyframes guestFlow{
-    0%{left:235px;top:373px;opacity:0}
-    10%{opacity:1}
-    35%{left:500px;top:373px}
-    60%{left:705px;top:163px}
-    100%{left:955px;top:163px;opacity:0}
-}
-
-@keyframes blockedFlow{
-    0%{left:235px;top:373px;opacity:0}
-    10%{opacity:1}
-    55%{left:500px;top:373px;opacity:1}
-    100%{left:560px;top:373px;opacity:0}
-}
-
-@media (max-width:1000px){
-    .diagram{
-        height:auto;
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        gap:16px;
-    }
-
-    .node{
-        position:relative;
-        left:auto;
-        right:auto;
-        top:auto;
-        transform:none;
-        width:240px;
-    }
-
-    .path,.packet{
-        display:none;
-    }
-}
+body{background:#060b16;color:#e2e8f0;font-family:'Inter',sans-serif;margin:0;text-align:center}
+.container{max-width:1100px;margin:auto;padding:40px 20px 80px}
+.nav{margin-bottom:30px}
+.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
+.nav a:hover{background:#1e293b}
+.card{background:#0f172a;border:1px solid #334155;border-radius:14px;padding:24px;text-align:left}
+ul{text-align:left}
 </style>
 </head>
 <body>
@@ -241,45 +32,28 @@ body{
 <a href="architecture-decisions.html">Architecture Decisions</a>
 <a href="security-model.html">Security Model</a>
 <a href="security-operations.html">Security Operations</a>
+<a href="interactive-security-architecture.html">Architecture Map</a>
+<a href="firewall-policy-map.html">Policy Map</a>
+<a href="soc-timeline.html">SOC Timeline</a>
+<a href="traffic-simulation.html">Traffic Simulation</a>
+<a href="network-telemetry-map.html">Telemetry Map</a>
 <a href="soc-dashboard.html">SOC Dashboard</a>
+<a href="soc-command-center.html">SOC Command Center</a>
 <a href="device-fortigate.html">FortiGate</a>
 <a href="device-cbs250.html">CBS250</a>
 <a href="troubleshooting.html">Troubleshooting</a>
 </div>
 
-<h1>Animated Network Traffic Map</h1>
+<h1>Traffic Simulation</h1>
 
 <div class="card">
-    <p>
-        This page visualizes allowed and blocked traffic between core network zones.
-        Green and amber packets represent permitted flows. Red packets represent blocked east-west attempts.
-    </p>
-</div>
-
-<div class="card">
-    <div class="diagram">
-        <div class="node users">Users VLAN20</div>
-        <div class="node guest">Guest VLAN60</div>
-        <div class="node firewall">FortiGate NGFW</div>
-        <div class="node internet">Internet</div>
-        <div class="node mgmt">MGMT VLAN30</div>
-
-        <div class="path path-users-fw"></div>
-        <div class="path path-guest-fw"></div>
-        <div class="path path-fw-inet"></div>
-        <div class="path path-fw-mgmt"></div>
-
-        <div class="packet users"></div>
-        <div class="packet guest"></div>
-        <div class="packet blocked"></div>
-    </div>
-</div>
-
-<div class="legend">
-    <div class="legend-item"><span class="ok">Users → Internet</span><br>Allowed through firewall policy.</div>
-    <div class="legend-item"><span class="warn">Guest → Internet</span><br>Allowed as internet-only access.</div>
-    <div class="legend-item"><span class="bad">Guest → Internal</span><br>Blocked to prevent lateral movement.</div>
-    <div class="legend-item"><span class="bad">Users → MGMT</span><br>Restricted by management protection policy.</div>
+<ul>
+<li>Users → Internet ✔</li>
+<li>Guest → Internet ✔</li>
+<li>Guest → Users ❌</li>
+<li>Users → Management ❌</li>
+</ul>
+<p>This page summarizes expected traffic behavior across the core lab zones.</p>
 </div>
 
 </div>
