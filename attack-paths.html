@@ -1,44 +1,208 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Attack Simulation</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab - Attack Simulation</title>
 <style>
-
+:root{
+    --bg1:#0b1220;
+    --bg2:#111827;
+    --text:#e5edf8;
+    --muted:#94a3b8;
+    --border:#334155;
+    --guest:#f59e0b;
+    --users:#10b981;
+    --firewall:#ef4444;
+    --deny:#ef4444;
+}
+*{box-sizing:border-box}
 body{
-background:#0b1220;
-color:white;
-font-family:Arial;
-text-align:center;
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(180deg,var(--bg1),var(--bg2));
+    color:var(--text);
+    text-align:center;
 }
-
-.attack{
-margin-top:80px;
-font-size:30px;
+.container{
+    max-width:1100px;
+    margin:0 auto;
+    padding:40px 20px 80px;
 }
-
-.block{
-color:#ef4444;
-font-weight:bold;
+h1{
+    margin:10px 0 8px;
+    font-size:38px;
 }
-
+h2{
+    margin:0 0 24px;
+    color:var(--muted);
+    font-weight:normal;
+}
+.nav{
+    margin-bottom:30px;
+}
+.nav a{
+    display:inline-block;
+    margin:6px;
+    padding:10px 16px;
+    border:1px solid #334155;
+    border-radius:999px;
+    color:#dbeafe;
+    text-decoration:none;
+    background:#0b1320;
+}
+.nav a:hover{
+    background:#1e293b;
+}
+.diagram{
+    position:relative;
+    min-height:360px;
+    margin:0 auto 24px;
+}
+.node{
+    position:absolute;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    min-width:220px;
+    padding:18px 20px;
+    border-radius:16px;
+    color:#fff;
+    font-weight:bold;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+.guest{
+    left:8%;
+    top:140px;
+    background:var(--guest);
+}
+.firewall{
+    left:50%;
+    top:120px;
+    transform:translateX(-50%);
+    background:var(--firewall);
+    animation:pulseFirewall 1.8s infinite;
+}
+.users{
+    right:8%;
+    top:140px;
+    background:var(--users);
+}
+.path{
+    position:absolute;
+    left:28%;
+    top:178px;
+    width:44%;
+    height:4px;
+    background:#64748b;
+    border-radius:999px;
+}
+.packet{
+    position:absolute;
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 0 12px rgba(255,255,255,.8);
+    animation:moveAttack 2.8s linear infinite;
+}
+.blocked{
+    position:absolute;
+    left:50%;
+    top:70px;
+    transform:translateX(-50%);
+    background:var(--deny);
+    color:white;
+    padding:10px 14px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:bold;
+    box-shadow:0 0 14px rgba(239,68,68,.55);
+    animation:blinkDeny 1s infinite;
+}
+.panel{
+    background:rgba(15,23,42,.94);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+    padding:24px;
+    text-align:left;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+.blockline{
+    margin:10px 0;
+    font-size:24px;
+}
+.red{color:var(--deny);font-weight:bold}
+@keyframes pulseFirewall{
+    0%{box-shadow:0 0 0 0 rgba(239,68,68,.45),0 10px 30px rgba(0,0,0,.25)}
+    70%{box-shadow:0 0 0 18px rgba(239,68,68,0),0 10px 30px rgba(0,0,0,.25)}
+    100%{box-shadow:0 0 0 0 rgba(239,68,68,0),0 10px 30px rgba(0,0,0,.25)}
+}
+@keyframes blinkDeny{
+    0%,100%{opacity:1}
+    50%{opacity:.35}
+}
+@keyframes moveAttack{
+    0%{left:27%;top:172px;opacity:0}
+    15%{opacity:1}
+    55%{left:48%;top:172px;opacity:1}
+    100%{left:50%;top:172px;opacity:0}
+}
+@media (max-width:900px){
+    .diagram{min-height:520px}
+    .guest,.firewall,.users{
+        position:relative;
+        left:auto;
+        right:auto;
+        top:auto;
+        transform:none;
+        margin:16px auto;
+    }
+    .path,.packet,.blocked{display:none}
+}
 </style>
 </head>
-
 <body>
+<div class="container">
 
-<h1>Attack Simulation</h1>
+    <h1>Enterprise Security Lab</h1>
+    <h2>Animated Attack Path</h2>
 
-<div class="attack">
+    <div class="nav">
+        <a href="index.html">Home</a>
+        <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+        <a href="topology.html">Topology</a>
+        <a href="network-diagram.html">Network Diagram</a>
+        <a href="network-zones.html">Network Zones</a>
+        <a href="attack-paths.html">Attack Simulation</a>
+        <a href="attack-surface.html">Attack Surface</a>
+        <a href="architecture-overview.html">Architecture</a>
+        <a href="architecture-decisions.html">Architecture Decisions</a>
+        <a href="security-model.html">Security Model</a>
+        <a href="security-operations.html">Security Operations</a>
+        <a href="interactive-security-architecture.html">Interactive Architecture</a>
+        <a href="soc-dashboard.html">SOC Dashboard</a>
+        <a href="device-fortigate.html">FortiGate</a>
+        <a href="device-cbs250.html">CBS250</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+    </div>
 
-Guest VLAN → Users VLAN
+    <div class="diagram">
+        <div class="node guest">Guest VLAN</div>
+        <div class="node firewall">FortiGate NGFW</div>
+        <div class="node users">Users VLAN</div>
+        <div class="path"></div>
+        <div class="packet"></div>
+        <div class="blocked">BLOCKED BY FIREWALL</div>
+    </div>
 
-<br><br>
-
-<span class="block">BLOCKED BY FIREWALL</span>
+    <div class="panel">
+        <div class="blockline">Guest → Users</div>
+        <div class="blockline red">BLOCKED BY FIREWALL</div>
+        <p>This simulation represents lateral movement from the untrusted guest network toward the internal users network. The FortiGate deny policy prevents east-west access between these security zones.</p>
+    </div>
 
 </div>
-
 </body>
 </html>
