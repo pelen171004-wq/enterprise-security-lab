@@ -3,24 +3,159 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab – SOC Dashboard</title>
+<title>Enterprise Security Lab – Real SOC Dashboard</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-body{background:#0b1220;color:#fff;font-family:'Inter',sans-serif;margin:0;text-align:center}
-.container{max-width:1100px;margin:auto;padding:40px}
-.nav{margin-bottom:30px}
-.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
-.nav a:hover{background:#1e293b}
-.card{background:#111827;padding:25px;border-radius:10px;border:1px solid #334155;margin-top:30px;text-align:left}
-.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:24px}
-.metric{background:#0f172a;border:1px solid #334155;border-radius:10px;padding:20px}
-.value{font-size:30px;font-weight:700}
+body{
+    background:#0b1220;
+    color:white;
+    font-family:'Inter',sans-serif;
+    margin:0;
+    text-align:center;
+}
+
+.container{
+    max-width:1280px;
+    margin:auto;
+    padding:40px 20px 80px;
+}
+
+.nav{
+    margin-bottom:30px;
+}
+
+.nav a{
+    display:inline-block;
+    margin:6px;
+    padding:10px 16px;
+    border:1px solid #334155;
+    border-radius:999px;
+    color:#dbeafe;
+    text-decoration:none;
+    background:#0b1320;
+}
+
+.nav a:hover{
+    background:#1e293b;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:16px;
+    margin-top:24px;
+}
+
+.panel{
+    background:#111827;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:20px;
+    text-align:left;
+}
+
+.metric-label{
+    color:#94a3b8;
+    font-size:14px;
+    margin-bottom:8px;
+}
+
+.metric-value{
+    font-size:34px;
+    font-weight:700;
+}
+
+.green{color:#22c55e}
+.red{color:#ef4444}
+.blue{color:#60a5fa}
+.orange{color:#f59e0b}
+
+.chart-wrap{
+    margin-top:24px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:16px;
+}
+
+.bar-box{
+    background:#111827;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:20px;
+    text-align:left;
+}
+
+.bar-row{
+    margin:16px 0;
+}
+
+.bar-label{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+    font-size:14px;
+    color:#cbd5e1;
+}
+
+.bar{
+    height:14px;
+    background:#1e293b;
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.bar-fill{
+    height:100%;
+    border-radius:999px;
+    transition:width .8s ease;
+}
+
+.fill-blue{background:linear-gradient(90deg,#2563eb,#06b6d4)}
+.fill-green{background:linear-gradient(90deg,#16a34a,#22c55e)}
+.fill-red{background:linear-gradient(90deg,#dc2626,#ef4444)}
+.fill-orange{background:linear-gradient(90deg,#d97706,#f59e0b)}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:8px;
+}
+
+th,td{
+    padding:12px 10px;
+    border-bottom:1px solid #334155;
+    text-align:left;
+}
+
+th{
+    color:#94a3b8;
+    font-size:13px;
+    text-transform:uppercase;
+}
+
+.badge-ok{
+    color:#22c55e;
+    font-weight:700;
+}
+
+.badge-bad{
+    color:#ef4444;
+    font-weight:700;
+}
+
+.footer-note{
+    margin-top:24px;
+    color:#94a3b8;
+}
 </style>
 </head>
 <body>
 <div class="container">
+
 <div class="nav">
 <a href="index.html">Home</a>
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
@@ -39,19 +174,129 @@ body{background:#0b1220;color:#fff;font-family:'Inter',sans-serif;margin:0;text-
 <a href="troubleshooting.html">Troubleshooting</a>
 </div>
 
-<h1>SOC Dashboard</h1>
+<h1>Real SOC Dashboard</h1>
 
-<div class="metrics">
-<div class="metric"><div>Active Sessions</div><div class="value">42</div></div>
-<div class="metric"><div>Blocked Attacks</div><div class="value">7</div></div>
-<div class="metric"><div>Firewall Throughput</div><div class="value">120 Mbps</div></div>
-<div class="metric"><div>Top Talker</div><div class="value">10.10.20.100</div></div>
+<div class="grid">
+    <div class="panel">
+        <div class="metric-label">Packets / sec</div>
+        <div class="metric-value orange" id="pps">188</div>
+    </div>
+    <div class="panel">
+        <div class="metric-label">Blocked Attacks</div>
+        <div class="metric-value red" id="blocked">9</div>
+    </div>
+    <div class="panel">
+        <div class="metric-label">Active Sessions</div>
+        <div class="metric-value blue" id="sessions">54</div>
+    </div>
+    <div class="panel">
+        <div class="metric-label">Firewall Throughput</div>
+        <div class="metric-value green" id="throughput">142 Mbps</div>
+    </div>
 </div>
 
-<div class="card">
-<p>This page represents a simplified SOC-style dashboard showing key security monitoring values.</p>
+<div class="chart-wrap">
+    <div class="bar-box">
+        <h3>Traffic Distribution</h3>
+
+        <div class="bar-row">
+            <div class="bar-label">
+                <span>Users VLAN</span>
+                <span id="usersPct">58%</span>
+            </div>
+            <div class="bar"><div class="bar-fill fill-blue" id="usersBar" style="width:58%"></div></div>
+        </div>
+
+        <div class="bar-row">
+            <div class="bar-label">
+                <span>Guest VLAN</span>
+                <span id="guestPct">27%</span>
+            </div>
+            <div class="bar"><div class="bar-fill fill-orange" id="guestBar" style="width:27%"></div></div>
+        </div>
+
+        <div class="bar-row">
+            <div class="bar-label">
+                <span>Blocked Flows</span>
+                <span id="blockedPct">15%</span>
+            </div>
+            <div class="bar"><div class="bar-fill fill-red" id="blockedBar" style="width:15%"></div></div>
+        </div>
+    </div>
+
+    <div class="bar-box">
+        <h3>Top Talkers</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Source</th>
+                    <th>Destination</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="talkers">
+                <tr>
+                    <td>10.10.20.100</td>
+                    <td>1.1.1.1</td>
+                    <td class="badge-ok">Allowed</td>
+                </tr>
+                <tr>
+                    <td>10.10.60.100</td>
+                    <td>8.8.8.8</td>
+                    <td class="badge-ok">Allowed</td>
+                </tr>
+                <tr>
+                    <td>10.10.60.100</td>
+                    <td>10.10.20.100</td>
+                    <td class="badge-bad">Blocked</td>
+                </tr>
+                <tr>
+                    <td>10.10.20.100</td>
+                    <td>10.10.30.2</td>
+                    <td class="badge-bad">Blocked</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="footer-note">
+    Simulated SOC metrics refresh automatically to create a live mini-SIEM style dashboard.
 </div>
 
 </div>
+
+<script>
+function rand(min,max){
+    return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+function updateSOC(){
+    const pps = rand(140,260);
+    const blocked = rand(5,18);
+    const sessions = rand(38,78);
+    const throughput = rand(90,220);
+
+    const users = rand(45,70);
+    const guest = rand(15,35);
+    const blockedPct = 100 - users - guest;
+
+    document.getElementById("pps").textContent = pps;
+    document.getElementById("blocked").textContent = blocked;
+    document.getElementById("sessions").textContent = sessions;
+    document.getElementById("throughput").textContent = throughput + " Mbps";
+
+    document.getElementById("usersPct").textContent = users + "%";
+    document.getElementById("guestPct").textContent = guest + "%";
+    document.getElementById("blockedPct").textContent = blockedPct + "%";
+
+    document.getElementById("usersBar").style.width = users + "%";
+    document.getElementById("guestBar").style.width = guest + "%";
+    document.getElementById("blockedBar").style.width = blockedPct + "%";
+}
+
+updateSOC();
+setInterval(updateSOC, 2200);
+</script>
 </body>
 </html>
