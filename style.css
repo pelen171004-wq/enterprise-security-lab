@@ -1,0 +1,45 @@
+body{
+background:#0b1220;
+color:#f8fafc;
+font-family:'Inter', Arial, sans-serif;
+margin:0;
+text-align:center;
+line-height:1.6;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:40px;
+}
+
+.nav{
+margin-bottom:30px;
+}
+
+.nav a{
+display:inline-block;
+margin:6px;
+padding:10px 16px;
+border:1px solid #334155;
+border-radius:999px;
+color:#dbeafe;
+text-decoration:none;
+background:#0b1320;
+font-weight:600;
+}
+
+.nav a:hover{
+background:#1e293b;
+}
+
+.section{
+background:#111827;
+padding:24px;
+margin-top:20px;
+border-radius:14px;
+text-align:left;
+line-height:1.8;
+font-size:16px;
+color:#e5edf8;
+}
