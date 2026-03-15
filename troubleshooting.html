@@ -1,5 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab - Troubleshooting</title>
 <style>
-
 body{
 background:#0b1220;
 color:white;
@@ -33,40 +38,114 @@ background:#0b1320;
 background:#1e293b;
 }
 
+.section{
+background:#111827;
+padding:24px;
+margin-top:20px;
+border-radius:14px;
+text-align:left;
+}
+
+code{
+display:block;
+background:#020617;
+padding:12px;
+margin-top:10px;
+border-radius:8px;
+color:#86efac;
+white-space:pre-wrap;
+}
+
+p, li{
+line-height:1.7;
+color:#cbd5e1;
+}
 </style>
+</head>
+<body>
 
+<div class="container">
 
+<h1>Enterprise Security Lab</h1>
+<h2>Troubleshooting</h2>
 
 <div class="nav">
-
 <a href="index.html">Home</a>
-
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-
 <a href="topology.html">Topology</a>
-
 <a href="network-diagram.html">Network Diagram</a>
-
 <a href="network-zones.html">Network Zones</a>
-
 <a href="attack-paths.html">Attack Simulation</a>
-
 <a href="attack-surface.html">Attack Surface</a>
-
 <a href="architecture-overview.html">Architecture</a>
-
 <a href="architecture-decisions.html">Architecture Decisions</a>
-
 <a href="security-model.html">Security Model</a>
-
 <a href="security-operations.html">Security Operations</a>
-
+<a href="interactive-security-architecture.html">Interactive Architecture</a>
 <a href="soc-dashboard.html">SOC Dashboard</a>
-
 <a href="device-fortigate.html">FortiGate</a>
-
 <a href="device-cbs250.html">CBS250</a>
-
 <a href="troubleshooting.html">Troubleshooting</a>
+</div>
+
+<div class="section">
+<h3>Methodology</h3>
+<ul>
+<li>Verify IP address, mask, gateway and DNS</li>
+<li>Validate VLAN assignment on switch access ports</li>
+<li>Check inter-VLAN firewall policy path</li>
+<li>Use FortiGate debug and packet analysis tools</li>
+<li>Confirm routing, NAT and local-in policy behavior</li>
+</ul>
+</div>
+
+<div class="section">
+<h3>Common Validation Commands</h3>
+<code>ping 10.10.20.1
+ping 10.10.30.1
+ping 1.1.1.1
+nslookup google.com</code>
+</div>
+
+<div class="section">
+<h3>FortiGate Debug Flow</h3>
+<code>diagnose debug reset
+diagnose debug flow filter addr 10.10.20.100
+diagnose debug flow show console enable
+diagnose debug enable</code>
+<p>
+Used to inspect firewall decisions, route lookup, NAT and policy match behavior.
+</p>
+</div>
+
+<div class="section">
+<h3>Session Table</h3>
+<code>diagnose sys session filter src 10.10.20.100
+diagnose sys session list</code>
+<p>
+Used to verify active sessions, NAT translation and policy usage.
+</p>
+</div>
+
+<div class="section">
+<h3>Packet Capture</h3>
+<code>diagnose sniffer packet any "host 10.10.20.100" 4</code>
+<p>
+Used to confirm whether packets enter and leave expected interfaces.
+</p>
+</div>
+
+<div class="section">
+<h3>Typical Issues Observed</h3>
+<ul>
+<li>Wrong DHCP or DNS values on client</li>
+<li>Incorrect switch port VLAN assignment</li>
+<li>Missing or misplaced firewall policy</li>
+<li>Local-in policy blocking management access</li>
+<li>Policy deny caused by inter-zone restrictions</li>
+</ul>
+</div>
 
 </div>
+</body>
+</html>
