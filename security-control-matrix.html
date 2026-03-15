@@ -1,77 +1,165 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Firewall Policy Matrix</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab - Firewall Policy Matrix</title>
 <style>
-
+:root{
+    --bg1:#0b1220;
+    --bg2:#111827;
+    --panel:#0f172a;
+    --text:#e5edf8;
+    --muted:#94a3b8;
+    --border:#334155;
+    --ok:#22c55e;
+    --deny:#ef4444;
+}
+*{box-sizing:border-box}
 body{
-background:#0b1220;
-color:white;
-font-family:Arial;
-text-align:center;
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(180deg,var(--bg1),var(--bg2));
+    color:var(--text);
+    text-align:center;
 }
-
+.container{
+    max-width:1100px;
+    margin:0 auto;
+    padding:40px 20px 80px;
+}
+h1{
+    margin:10px 0 8px;
+    font-size:38px;
+}
+h2{
+    margin:0 0 24px;
+    color:var(--muted);
+    font-weight:normal;
+}
+.nav{
+    margin-bottom:30px;
+}
+.nav a{
+    display:inline-block;
+    margin:6px;
+    padding:10px 16px;
+    border:1px solid #334155;
+    border-radius:999px;
+    color:#dbeafe;
+    text-decoration:none;
+    background:#0b1320;
+}
+.nav a:hover{
+    background:#1e293b;
+}
+.panel{
+    background:rgba(15,23,42,.94);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+    padding:24px;
+    text-align:left;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
 table{
-margin:auto;
-border-collapse:collapse;
-width:70%;
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
 }
-
-td,th{
-border:1px solid #334155;
-padding:15px;
+th,td{
+    border-bottom:1px solid rgba(255,255,255,.08);
+    padding:14px 10px;
+    text-align:left;
 }
-
-.allow{
-color:#22c55e;
+th{
+    color:var(--muted);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
 }
-
-.deny{
-color:#ef4444;
+.allow{color:var(--ok);font-weight:bold}
+.deny{color:var(--deny);font-weight:bold}
+.summary{
+    margin-top:18px;
+    color:var(--muted);
+    line-height:1.6;
 }
-
 </style>
 </head>
-
 <body>
+<div class="container">
 
-<h1>Firewall Policy Matrix</h1>
+    <h1>Enterprise Security Lab</h1>
+    <h2>Interactive Firewall Policy Matrix</h2>
 
-<table>
+    <div class="nav">
+        <a href="index.html">Home</a>
+        <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+        <a href="topology.html">Topology</a>
+        <a href="network-diagram.html">Network Diagram</a>
+        <a href="network-zones.html">Network Zones</a>
+        <a href="attack-paths.html">Attack Simulation</a>
+        <a href="attack-surface.html">Attack Surface</a>
+        <a href="architecture-overview.html">Architecture</a>
+        <a href="architecture-decisions.html">Architecture Decisions</a>
+        <a href="security-model.html">Security Model</a>
+        <a href="security-operations.html">Security Operations</a>
+        <a href="interactive-security-architecture.html">Interactive Architecture</a>
+        <a href="soc-dashboard.html">SOC Dashboard</a>
+        <a href="device-fortigate.html">FortiGate</a>
+        <a href="device-cbs250.html">CBS250</a>
+        <a href="troubleshooting.html">Troubleshooting</a>
+    </div>
 
-<tr>
-<th>Source</th>
-<th>Destination</th>
-<th>Policy</th>
-</tr>
+    <div class="panel">
+        <table>
+            <thead>
+                <tr>
+                    <th>Source</th>
+                    <th>Destination</th>
+                    <th>Decision</th>
+                    <th>Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>VLAN20 Users</td>
+                    <td>WAN</td>
+                    <td class="allow">✔ ALLOW</td>
+                    <td>Standard internet access</td>
+                </tr>
+                <tr>
+                    <td>VLAN60 Guest</td>
+                    <td>WAN</td>
+                    <td class="allow">✔ ALLOW</td>
+                    <td>Guest internet-only access</td>
+                </tr>
+                <tr>
+                    <td>VLAN60 Guest</td>
+                    <td>VLAN20 Users</td>
+                    <td class="deny">❌ DENY</td>
+                    <td>Prevents lateral movement</td>
+                </tr>
+                <tr>
+                    <td>VLAN20 Users</td>
+                    <td>VLAN30 Management</td>
+                    <td class="deny">❌ DENY</td>
+                    <td>Protects management plane</td>
+                </tr>
+                <tr>
+                    <td>VLAN60 Guest</td>
+                    <td>VLAN30 Management</td>
+                    <td class="deny">❌ DENY</td>
+                    <td>Blocks administrative access</td>
+                </tr>
+            </tbody>
+        </table>
 
-<tr>
-<td>VLAN20 Users</td>
-<td>Internet</td>
-<td class="allow">✔ ALLOW</td>
-</tr>
+        <div class="summary">
+            This matrix represents the lab’s explicit allow/deny policy model enforced by the FortiGate firewall.
+        </div>
+    </div>
 
-<tr>
-<td>VLAN60 Guest</td>
-<td>Internet</td>
-<td class="allow">✔ ALLOW</td>
-</tr>
-
-<tr>
-<td>VLAN60 Guest</td>
-<td>VLAN20 Users</td>
-<td class="deny">❌ DENY</td>
-</tr>
-
-<tr>
-<td>VLAN20 Users</td>
-<td>VLAN30 Management</td>
-<td class="deny">❌ DENY</td>
-</tr>
-
-</table>
-
+</div>
 </body>
 </html>
