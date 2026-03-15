@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab - Attack Surface</title>
+<title>Attack Surface</title>
+
 <style>
+
 body{
 background:#0b1220;
 color:white;
@@ -14,7 +15,7 @@ text-align:center;
 }
 
 .container{
-max-width:1200px;
+max-width:1100px;
 margin:auto;
 padding:40px;
 }
@@ -38,44 +39,17 @@ background:#0b1320;
 background:#1e293b;
 }
 
-.section{
-background:#111827;
-padding:24px;
-margin-top:20px;
-border-radius:14px;
-text-align:left;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:10px;
-}
-
-th,td{
-padding:12px 10px;
-border-bottom:1px solid #334155;
-text-align:left;
-}
-
-th{
-color:#cbd5e1;
-}
-
-p, li{
-line-height:1.7;
-color:#cbd5e1;
-}
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
-<h1>Enterprise Security Lab</h1>
-<h2>Attack Surface</h2>
+<h1>Attack Surface Analysis</h1>
 
 <div class="nav">
+
 <a href="index.html">Home</a>
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
 <a href="topology.html">Topology</a>
@@ -92,70 +66,33 @@ color:#cbd5e1;
 <a href="device-fortigate.html">FortiGate</a>
 <a href="device-cbs250.html">CBS250</a>
 <a href="troubleshooting.html">Troubleshooting</a>
+
 </div>
 
-<div class="section">
-<h3>Overview</h3>
 <p>
-This page identifies the main exposure points in the lab and the controls used to reduce risk.
-The focus is on network entry points, management interfaces and lateral movement paths.
+This page documents potential attack vectors in the lab environment
+and the security controls implemented to mitigate them.
 </p>
-</div>
 
-<div class="section">
-<h3>Attack Surface Matrix</h3>
-<table>
-<tr>
-<th>Attack Surface</th>
-<th>Threat</th>
-<th>Risk</th>
-<th>Mitigation</th>
-</tr>
-<tr>
-<td>Internet Edge</td>
-<td>Scanning / probing</td>
-<td>External exposure</td>
-<td>Firewall policy enforcement</td>
-</tr>
-<tr>
-<td>Guest VLAN</td>
-<td>Untrusted device activity</td>
-<td>Lateral movement attempts</td>
-<td>Guest isolation and deny rules</td>
-</tr>
-<tr>
-<td>Users VLAN</td>
-<td>Compromised endpoint</td>
-<td>Pivot toward internal services</td>
-<td>Inter-VLAN restrictions</td>
-</tr>
-<tr>
-<td>Management VLAN</td>
-<td>Unauthorized admin access</td>
-<td>Infrastructure compromise</td>
-<td>Dedicated MGMT zone and deny policies</td>
-</tr>
-</table>
-</div>
+<h2>Possible Threats</h2>
 
-<div class="section">
-<h3>Most Sensitive Components</h3>
 <ul>
-<li>FortiGate management interface</li>
-<li>Cisco CBS250 switch management interface</li>
-<li>Future SOC monitoring systems</li>
-<li>Future server and backup zones</li>
+<li>Internet scanning</li>
+<li>Compromised guest device</li>
+<li>Compromised user workstation</li>
+<li>Unauthorized management access</li>
 </ul>
+
+<h2>Mitigation Strategies</h2>
+
+<ul>
+<li>Firewall policy enforcement</li>
+<li>Network segmentation</li>
+<li>Management VLAN isolation</li>
+<li>Restricted east-west traffic</li>
+</ul>
+
 </div>
 
-<div class="section">
-<h3>Security Value of Segmentation</h3>
-<p>
-Segmentation reduces the blast radius of compromise. Guest systems are treated as untrusted by design,
-users are limited to required connectivity and management traffic is isolated from general endpoint access.
-</p>
-</div>
-
-</div>
 </body>
 </html>
