@@ -1,64 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Cisco CBS250</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab – Cisco CBS250 Switch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-
-body{
-background:#0b1220;
-color:white;
-font-family:Arial;
-margin:0;
-text-align:center;
-}
-
-.container{
-max-width:1000px;
-margin:auto;
-padding:40px;
-}
-
-.nav{
-margin-bottom:30px;
-}
-
-.nav a{
-display:inline-block;
-margin:6px;
-padding:10px 16px;
-border:1px solid #334155;
-border-radius:999px;
-color:#dbeafe;
-text-decoration:none;
-background:#0b1320;
-}
-
-.nav a:hover{
-background:#1e293b;
-}
-
-.section{
-background:#111827;
-padding:20px;
-margin-top:20px;
-border-radius:12px;
-text-align:left;
-}
-
+body{background:#0b1220;color:#fff;font-family:'Inter',sans-serif;margin:0;text-align:center}
+.container{max-width:1100px;margin:auto;padding:40px}
+.nav{margin-bottom:30px}
+.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
+.nav a:hover{background:#1e293b}
+.card{background:#111827;padding:25px;border-radius:10px;border:1px solid #334155;margin-top:30px;text-align:left}
+table{width:100%;border-collapse:collapse}
+th,td{padding:12px 10px;border-bottom:1px solid #334155;text-align:left}
 </style>
 </head>
-
 <body>
-
 <div class="container">
-
-<h1>Cisco CBS250</h1>
-<h2>Layer-2 Switch</h2>
-
 <div class="nav">
-
 <a href="index.html">Home</a>
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
 <a href="topology.html">Topology</a>
@@ -70,55 +32,30 @@ text-align:left;
 <a href="architecture-decisions.html">Architecture Decisions</a>
 <a href="security-model.html">Security Model</a>
 <a href="security-operations.html">Security Operations</a>
-<a href="interactive-security-architecture.html">Interactive Architecture</a>
-<a href="firewall-policy-map.html">Policy Map</a>
-<a href="soc-timeline.html">SOC Timeline</a>
-<a href="traffic-simulation.html">Traffic Simulation</a>
 <a href="soc-dashboard.html">SOC Dashboard</a>
 <a href="device-fortigate.html">FortiGate</a>
 <a href="device-cbs250.html">CBS250</a>
 <a href="troubleshooting.html">Troubleshooting</a>
-
 </div>
 
-<div class="section">
+<h1>Cisco CBS250</h1>
 
-<h3>Role</h3>
-
-<p>
-Cisco CBS250 provides VLAN segmentation and Layer-2 switching
-for the Enterprise Security Lab network.
-</p>
-
+<div class="card">
+<h2>Layer 2 Switching Infrastructure</h2>
+<p>The CBS250 provides VLAN segmentation, access ports and trunk connectivity to the firewall.</p>
 </div>
 
-<div class="section">
-
-<h3>VLAN Configuration</h3>
-
-<ul>
-<li>VLAN20 – Users</li>
-<li>VLAN30 – Management</li>
-<li>VLAN60 – Guest</li>
-</ul>
-
-</div>
-
-<div class="section">
-
-<h3>Port Layout</h3>
-
-<ul>
-<li>Gi1 – trunk to FortiGate</li>
-<li>Gi2 – management access</li>
-<li>Gi3 – admin access</li>
-<li>Gi4 – guest VLAN</li>
-<li>Gi5 – users VLAN</li>
-</ul>
-
+<div class="card">
+<table>
+<tr><th>Port</th><th>Purpose</th></tr>
+<tr><td>Gi1</td><td>Trunk to FortiGate</td></tr>
+<tr><td>Gi2</td><td>Management fallback</td></tr>
+<tr><td>Gi3</td><td>Admin access</td></tr>
+<tr><td>Gi4</td><td>Guest VLAN60</td></tr>
+<tr><td>Gi5</td><td>Users VLAN20</td></tr>
+</table>
 </div>
 
 </div>
-
 </body>
 </html>
