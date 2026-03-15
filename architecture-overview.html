@@ -1,26 +1,24 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Enterprise Security Lab</title>
-
-<link rel="stylesheet" href="style.css">
-
+<title>Enterprise Security Lab – Architecture Overview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+<style>
+body{background:#0b1220;color:#fff;font-family:'Inter',sans-serif;margin:0;text-align:center}
+.container{max-width:1100px;margin:auto;padding:40px}
+.nav{margin-bottom:30px}
+.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
+.nav a:hover{background:#1e293b}
+.card{background:#111827;padding:25px;border-radius:10px;border:1px solid #334155;margin-top:30px;text-align:left}
+</style>
 </head>
-
 <body>
-
+<div class="container">
 <div class="nav">
-
 <a href="index.html">Home</a>
 <a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
 <a href="topology.html">Topology</a>
@@ -32,23 +30,21 @@
 <a href="architecture-decisions.html">Architecture Decisions</a>
 <a href="security-model.html">Security Model</a>
 <a href="security-operations.html">Security Operations</a>
-<a href="interactive-security-architecture.html">Interactive Architecture</a>
-<a href="firewall-policy-map.html">Policy Map</a>
-<a href="soc-timeline.html">SOC Timeline</a>
-<a href="traffic-simulation.html">Traffic Simulation</a>
 <a href="soc-dashboard.html">SOC Dashboard</a>
 <a href="device-fortigate.html">FortiGate</a>
 <a href="device-cbs250.html">CBS250</a>
 <a href="troubleshooting.html">Troubleshooting</a>
-
 </div>
-    </div>
 
-    <div class="panel">
-        <p>The Enterprise Security Lab is built around a segmented architecture using FortiGate as the central enforcement point and Cisco CBS250 as the Layer 2 access switch.</p>
-        <p>Current production zones include Users, Management and Guest networks. Planned expansion includes SOC, Servers and Backup zones.</p>
-        <p>The architecture follows least privilege, management plane isolation and default-deny inter-VLAN control.</p>
-    </div>
+<h1>Architecture Overview</h1>
+
+<div class="card">
+<h2>Enterprise Security Design</h2>
+<p>The lab architecture follows a segmented network model with the firewall as the main enforcement point.</p>
+<p>Traffic between VLANs is routed and inspected on FortiGate.</p>
+<p>The design reflects enterprise security principles such as least privilege and trust boundaries.</p>
+</div>
+
 </div>
 </body>
 </html>
