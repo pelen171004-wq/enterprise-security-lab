@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cisco CBS250</title>
+
 <style>
 
 body{
@@ -9,7 +15,7 @@ text-align:center;
 }
 
 .container{
-max-width:1200px;
+max-width:1000px;
 margin:auto;
 padding:40px;
 }
@@ -33,9 +39,23 @@ background:#0b1320;
 background:#1e293b;
 }
 
+.section{
+background:#111827;
+padding:20px;
+margin-top:20px;
+border-radius:12px;
+text-align:left;
+}
+
 </style>
+</head>
 
+<body>
 
+<div class="container">
+
+<h1>Cisco CBS250</h1>
+<h2>Layer-2 Switch</h2>
 
 <div class="nav">
 
@@ -61,4 +81,44 @@ background:#1e293b;
 
 </div>
 
+<div class="section">
+
+<h3>Role</h3>
+
+<p>
+Cisco CBS250 provides VLAN segmentation and Layer-2 switching
+for the Enterprise Security Lab network.
+</p>
+
 </div>
+
+<div class="section">
+
+<h3>VLAN Configuration</h3>
+
+<ul>
+<li>VLAN20 – Users</li>
+<li>VLAN30 – Management</li>
+<li>VLAN60 – Guest</li>
+</ul>
+
+</div>
+
+<div class="section">
+
+<h3>Port Layout</h3>
+
+<ul>
+<li>Gi1 – trunk to FortiGate</li>
+<li>Gi2 – management access</li>
+<li>Gi3 – admin access</li>
+<li>Gi4 – guest VLAN</li>
+<li>Gi5 – users VLAN</li>
+</ul>
+
+</div>
+
+</div>
+
+</body>
+</html>
