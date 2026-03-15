@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab – Incident Response Case</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+.hero{
+background:linear-gradient(180deg,#0f172a,#0b1320);
+border:1px solid #334155;
+border-radius:16px;
+padding:24px;
+margin-bottom:24px;
+box-shadow:0 8px 24px rgba(0,0,0,.22);
+}
+
+.hero p{
+max-width:980px;
+margin:12px auto 0;
+color:#94a3b8;
+line-height:1.7;
+}
+
+.case-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+margin-bottom:18px;
+}
+
+.panel{
+background:linear-gradient(180deg,#0f172a,#0b1320);
+border:1px solid #334155;
+border-radius:16px;
+padding:20px;
+text-align:left;
+box-shadow:0 8px 24px rgba(0,0,0,.22);
+}
+
+.panel h2{
+margin-top:0;
+}
+
+.summary-list{
+margin:0;
+padding-left:18px;
+line-height:1.8;
+color:#cbd5e1;
+}
+
+.timeline{
+margin-top:8px;
+}
+
+.timeline-item{
+padding:14px 0;
+border-bottom:1px solid #1f2937;
+display:grid;
+grid-template-columns:120px 1fr;
+gap:16px;
+}
+
+.timeline-item:last-child{
+border-bottom:none;
+}
+
+.time{
+color:#60a5fa;
+font-weight:700;
+}
+
+.badge{
+display:inline-block;
+padding:4px 8px;
+border-radius:999px;
+font-size:11px;
+font-weight:700;
+border:1px solid transparent;
+margin-right:8px;
+}
+
+.badge.blocked{
+background:rgba(239,68,68,.14);
+color:#fca5a5;
+border-color:rgba(239,68,68,.3);
+}
+
+.badge.detected{
+background:rgba(56,189,248,.14);
+color:#7dd3fc;
+border-color:rgba(56,189,248,.3);
+}
+
+.badge.contained{
+background:rgba(34,197,94,.14);
+color:#86efac;
+border-color:rgba(34,197,94,.3);
+}
+
+.badge.review{
+background:rgba(245,158,11,.14);
+color:#fcd34d;
+border-color:rgba(245,158,11,.3);
+}
+
+.full{
+margin-top:18px;
+}
+
+@media (max-width:980px){
+.case-grid{
+grid-template-columns:1fr;
+}
+.timeline-item{
+grid-template-columns:1fr;
+gap:8px;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="nav">
+<a href="index.html">Home</a>
+<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
+<a href="topology.html">Topology</a>
+<a href="network-diagram.html">Network Diagram</a>
+<a href="network-zones.html">Network Zones</a>
+<a href="attack-paths.html">Attack Simulation</a>
+<a href="attack-surface.html">Attack Surface</a>
+<a href="architecture-overview.html">Architecture</a>
+<a href="architecture-decisions.html">Architecture Decisions</a>
+<a href="security-model.html">Security Model</a>
+<a href="security-operations.html">Security Operations</a>
+<a href="interactive-security-architecture.html">Architecture Map</a>
+<a href="firewall-policy-map.html">Policy Map</a>
+<a href="soc-timeline.html">SOC Timeline</a>
+<a href="traffic-simulation.html">Traffic Simulation</a>
+<a href="network-telemetry-map.html">Telemetry Map</a>
+<a href="soc-dashboard.html">SOC Dashboard</a>
+<a href="soc-command-center.html">SOC Command Center</a>
+<a href="global-attack-map.html">Global Attack Map</a>
+<a href="threat-intelligence-feed.html">Threat Intel Feed</a>
+<a href="executive-security-overview.html">Executive Overview</a>
+<a href="incident-response-case.html">Incident Response</a>
+<a href="security-controls-mapping.html">Controls Mapping</a>
+<a href="device-fortigate.html">FortiGate</a>
+<a href="device-cbs250.html">CBS250</a>
+<a href="troubleshooting.html">Troubleshooting</a>
+</div>
+
+<h1>Incident Response Case</h1>
+
+<div class="hero">
+<h2>Case Study: Guest VLAN Attempted Lateral Movement</h2>
+<p>
+This incident case documents a simulated security event where an untrusted guest endpoint attempted to reach
+protected internal assets. The event was detected, blocked and reviewed as part of an incident response workflow.
+</p>
+</div>
+
+<div class="case-grid">
+    <div class="panel">
+        <h2>Incident Summary</h2>
+        <ul class="summary-list">
+            <li><strong>Incident:</strong> Guest VLAN attempted access to Users VLAN</li>
+            <li><strong>Source Zone:</strong> VLAN60 – Guest</li>
+            <li><strong>Target Zone:</strong> VLAN20 – Users</li>
+            <li><strong>Detection Method:</strong> Firewall deny policy + SOC event monitoring</li>
+            <li><strong>Impact:</strong> No access granted, traffic blocked at policy layer</li>
+            <li><strong>Status:</strong> Contained and documented</li>
+        </ul>
+    </div>
+
+    <div class="panel">
+        <h2>Root Cause & Containment</h2>
+        <ul class="summary-list">
+            <li><strong>Root Cause:</strong> Untrusted endpoint initiated unauthorized east-west traffic.</li>
+            <li><strong>Containment:</strong> Firewall deny rule prevented lateral movement.</li>
+            <li><strong>Validation:</strong> Policy map and telemetry confirmed no successful session.</li>
+            <li><strong>Follow-up:</strong> Event recorded for incident review and tuning validation.</li>
+        </ul>
+    </div>
+</div>
+
+<div class="panel full">
+    <h2>Incident Timeline</h2>
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="time">12:41:05</div>
+            <div><span class="badge detected">Detected</span> Guest endpoint initiated connection attempt toward protected user segment.</div>
+        </div>
+        <div class="timeline-item">
+            <div class="time">12:41:06</div>
+            <div><span class="badge blocked">Blocked</span> FortiGate matched deny policy and prevented the session from crossing zones.</div>
+        </div>
+        <div class="timeline-item">
+            <div class="time">12:41:07</div>
+            <div><span class="badge contained">Contained</span> Event was confirmed as contained with no successful internal access.</div>
+        </div>
+        <div class="timeline-item">
+            <div class="time">12:42:10</div>
+            <div><span class="badge review">Review</span> Security monitoring workflow logged the event for incident documentation and control validation.</div>
+        </div>
+        <div class="timeline-item">
+            <div class="time">12:45:00</div>
+            <div><span class="badge review">Lessons Learned</span> Segmentation and explicit deny rules were validated as effective against lateral movement attempts.</div>
+        </div>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
