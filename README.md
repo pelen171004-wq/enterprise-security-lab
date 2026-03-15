@@ -319,6 +319,26 @@ Security incident response playbooks
 
 ---
 
+---
+
+# Device Configuration Map
+
+Sanitized configuration snapshots and device notes are stored in the repository.
+
+## Firewall
+
+- [FortiGate Configuration Folder](configs/fortigate/)
+- [FortiGate Config Snapshot](configs/fortigate/fortigate-config.txt)
+
+## Switching
+
+- [Cisco CBS250 Configuration Folder](configs/cisco-cbs250/)
+- [SWA Config Snapshot](configs/cisco-cbs250/swa-config.txt)
+
+## Troubleshooting Notes
+
+- [Troubleshooting Folder](troubleshooting/)
+
 # Architecture Decision Records
 
 Architecture Decision Records document why design choices were made.
