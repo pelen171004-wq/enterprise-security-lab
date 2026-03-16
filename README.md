@@ -16,6 +16,46 @@ The Enterprise Security Lab simulates a segmented enterprise network where traff
 
 ---
 
+## VLAN Segmentation
+
+The environment uses VLAN-based segmentation to separate different network roles and trust levels.
+
+| VLAN | Network Role |
+|-----|--------------|
+| VLAN 10 | Management |
+| VLAN 20 | Users |
+| VLAN 30 | Servers |
+| VLAN 40 | Guest |
+| VLAN 50 | Monitoring |
+
+### Segmentation Diagram
+
+![VLAN Segmentation](assets/images/vlan-segmentation.png)
+
+This segmentation model enforces clear trust boundaries and limits unnecessary communication between network zones.
+
+---
+
+## Traffic Flow Model
+
+The firewall controls communication between VLANs and external networks.
+
+### Traffic Flow Diagram
+
+![Traffic Flow](assets/images/traffic-flow.png)
+
+Example communication rules:
+
+- Users VLAN → Internet (Allowed)
+- Users VLAN → Servers (Allowed)
+- Guest VLAN → Internet (Allowed)
+- Guest VLAN → Internal Network (Denied)
+- Monitoring VLAN → Infrastructure Devices (Allowed)
+
+This model prevents lateral movement and enforces a least-privilege communication design.
+
+---
+
 ## Infrastructure Components
 
 The lab environment includes several core infrastructure devices.
@@ -85,36 +125,6 @@ Examples include:
 
 ---
 
-## Network Segmentation
-
-The environment uses VLAN-based segmentation to separate different network roles and trust levels.
-
-| VLAN | Network Role |
-|-----|--------------|
-| VLAN 10 | Management |
-| VLAN 20 | Users |
-| VLAN 30 | Servers |
-| VLAN 40 | Guest |
-| VLAN 50 | Monitoring |
-
-This segmentation model helps enforce security boundaries and control communication paths between network zones.
-
----
-
-## Security Model
-
-The security architecture follows several core principles:
-
-- least privilege access  
-- segmentation of network zones  
-- centralized firewall enforcement  
-- restricted administrative access  
-- monitoring and logging visibility  
-
-Traffic between VLANs is controlled by the firewall to reduce lateral movement and limit unnecessary communication between zones.
-
----
-
 ## Monitoring and Visibility
 
 The monitoring layer collects operational and security data from network devices and servers.
@@ -166,11 +176,15 @@ enterprise-security-lab
 ├ docs
 │
 ├ diagrams-src
-│   └ topology.drawio
+│   ├ topology.drawio
+│   ├ vlan-segmentation.drawio
+│   └ traffic-flow.drawio
 │
 ├ assets
 │   └ images
-│       └ topology.png
+│       ├ topology.png
+│       ├ vlan-segmentation.png
+│       └ traffic-flow.png
 ```
 
 - **docs/** contains architecture and operational documentation  
@@ -208,13 +222,13 @@ The project serves as both a technical learning environment and a structured net
 Potential future enhancements include:
 
 - additional network diagrams  
-- traffic flow visualizations  
-- extended monitoring dashboards  
-- security control mapping  
+- advanced firewall rule documentation  
+- security zone visualization  
+- monitoring dashboards  
 - infrastructure automation examples  
 
 ---
 
 ## Author
 
-Network and security lab documentation project focused on enterprise infrastructure design and operational practices.
+Enterprise network and security lab documentation project focused on infrastructure design and operational best practices.
