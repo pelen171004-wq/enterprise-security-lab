@@ -3,407 +3,341 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab – Network Diagram</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Network Diagram — Enterprise Security Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{
-    --bg1:#07111f;
-    --bg2:#111827;
-    --text:#e5edf8;
-    --muted:#9fb2cc;
-    --line:#64748b;
+:root {
+  --bg-base:    #060a0f;
+  --bg-surface: #0c1420;
+  --bg-card:    #101c2e;
+  --border:     #1e3050;
+  --cyan:  #00c8ff; --green: #00ff9d;
+  --amber: #ffb300; --red:   #ff3b5c;
+  --purple:#8b5cf6; --text:  #e2eaf5;
+  --muted: #7a9ab8; --dim:   #3d5a77;
+  --mono:  'JetBrains Mono', monospace;
+  --display:'Syne', sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-base);color:var(--text);font-family:var(--mono);font-size:13px;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(0,200,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,0.025) 1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none;z-index:0}
 
-    --internet:#6366f1;
-    --internet-border:#818cf8;
+.status-bar{position:fixed;top:0;left:0;right:0;height:32px;background:rgba(6,10,15,0.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:1000;backdrop-filter:blur(12px)}
+.status-bar-left{display:flex;align-items:center;gap:16px;font-size:10px;color:var(--dim);letter-spacing:0.05em}
+.status-indicator{display:flex;align-items:center;gap:5px;font-size:10px;letter-spacing:0.08em;text-transform:uppercase}
+.dot{width:6px;height:6px;border-radius:50%;animation:pulse 2s infinite}
+.dot.green{background:var(--green);box-shadow:0 0 6px var(--green)}
+.dot.amber{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.status-bar-right{display:flex;align-items:center;gap:20px;font-size:10px;color:var(--dim)}
+#live-clock{color:var(--cyan);font-weight:500}
 
-    --firewall:#ef4444;
-    --firewall-border:#f87171;
+nav{position:fixed;top:32px;left:0;right:0;height:52px;background:rgba(12,20,32,0.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:999;backdrop-filter:blur(12px)}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo{width:30px;height:30px;border:1.5px solid var(--cyan);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--cyan);font-family:var(--display);font-weight:800}
+.nav-title{font-family:var(--display);font-weight:700;font-size:13px;color:var(--text)}
+.nav-title span{color:var(--cyan)}
+.nav-links{display:flex;align-items:center;gap:2px;list-style:none}
+.nav-links a{display:block;padding:5px 10px;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-radius:3px;transition:all 0.2s;border:1px solid transparent}
+.nav-links a:hover,.nav-links a.active{color:var(--cyan);border-color:#1e4a7a;background:rgba(0,200,255,0.08)}
 
-    --switch:#3b82f6;
-    --switch-border:#60a5fa;
+main{position:relative;z-index:1;padding-top:84px;max-width:1200px;margin:0 auto;padding-left:24px;padding-right:24px;padding-bottom:80px}
 
-    --users:#10b981;
-    --users-border:#34d399;
+.page-header{padding:48px 0 32px;border-bottom:1px solid var(--border);margin-bottom:40px}
+.page-tag{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--cyan);margin-bottom:16px;border:1px solid rgba(0,200,255,0.25);padding:4px 12px;border-radius:2px}
+.page-header h1{font-family:var(--display);font-size:clamp(24px,3vw,40px);font-weight:800;color:var(--text);margin-bottom:8px;line-height:1.1}
+.page-header h1 span{color:var(--cyan)}
+.page-subtitle{color:var(--muted);font-size:13px;line-height:1.7}
 
-    --mgmt:#2563eb;
-    --mgmt-border:#60a5fa;
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.section-header h2{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted)}
+.section-line{flex:1;height:1px;background:linear-gradient(to right,var(--border),transparent)}
+.section-tag{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:2px 8px;border-radius:2px;font-weight:500}
+.tag-cyan  {color:var(--cyan); background:rgba(0,200,255,0.08); border:1px solid rgba(0,200,255,0.2)}
+.tag-green {color:var(--green);background:rgba(0,255,157,0.08); border:1px solid rgba(0,255,157,0.2)}
 
-    --guest:#f59e0b;
-    --guest-border:#fbbf24;
+/* DIAGRAM WRAPPER */
+.diagram-wrap{
+  background:var(--bg-surface);
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:40px 20px;
+  margin-bottom:32px;
+  overflow:hidden;
+  position:relative;
 }
 
-*{box-sizing:border-box}
+/* SVG DIAGRAM */
+.diagram-svg{width:100%;max-width:860px;display:block;margin:0 auto}
 
-body{
-    margin:0;
-    font-family:'Inter',sans-serif;
-    background:linear-gradient(180deg,var(--bg1),var(--bg2));
-    color:var(--text);
-    text-align:center;
-}
+/* ANIMATED PACKET */
+@keyframes flow1{0%{stroke-dashoffset:400}100%{stroke-dashoffset:0}}
+@keyframes flow2{0%{stroke-dashoffset:400}100%{stroke-dashoffset:0}}
+.flow-line{stroke-dasharray:8 6;animation:flow1 2s linear infinite;opacity:0.6}
+.flow-line2{stroke-dasharray:8 6;animation:flow1 2.4s linear infinite;opacity:0.6;animation-delay:0.8s}
+.flow-line3{stroke-dasharray:8 6;animation:flow1 2.8s linear infinite;opacity:0.6;animation-delay:0.3s}
 
-.container{
-    max-width:1280px;
-    margin:0 auto;
-    padding:36px 20px 80px;
-}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.pulse-ring{animation:blink 2s infinite}
 
-.nav{
-    margin-bottom:30px;
-}
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:32px}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--muted);letter-spacing:0.04em}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 
-.nav a{
-    display:inline-block;
-    margin:6px;
-    padding:10px 16px;
-    border:1px solid #334155;
-    border-radius:999px;
-    color:#dbeafe;
-    text-decoration:none;
-    background:#0b1320;
-}
+/* VLAN TABLE */
+.vlan-table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:32px}
+.vlan-table thead th{background:var(--bg-surface);padding:8px 12px;text-align:left;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--border)}
+.vlan-table tbody td{padding:9px 12px;border-bottom:1px solid rgba(30,48,80,0.5);color:var(--muted)}
+.vlan-table tbody tr:hover td{background:rgba(0,200,255,0.03)}
+.vt-id   {color:var(--cyan);font-weight:500}
+.vt-name {color:var(--text);font-weight:500}
+.vt-sub  {color:var(--green)}
+.vt-gw   {color:var(--amber)}
 
-.nav a:hover{
-    background:#1e293b;
-}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:2px;font-size:9px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
+.badge-green {color:var(--green);background:rgba(0,255,157,0.08); border:1px solid rgba(0,255,157,0.2)}
+.badge-amber {color:var(--amber);background:rgba(255,179,0,0.08); border:1px solid rgba(255,179,0,0.2)}
+.badge-red   {color:var(--red);  background:rgba(255,59,92,0.08);  border:1px solid rgba(255,59,92,0.2)}
+.badge-cyan  {color:var(--cyan); background:rgba(0,200,255,0.08);  border:1px solid rgba(0,200,255,0.2)}
+.badge-purple{color:var(--purple);background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2)}
 
-h1{
-    margin:10px 0 8px;
-    font-size:40px;
-}
-
-h2{
-    margin:0 0 26px;
-    color:var(--muted);
-    font-weight:400;
-}
-
-.diagram{
-    position:relative;
-    width:100%;
-    min-height:820px;
-    margin:0 auto;
-}
-
-.node{
-    position:absolute;
-    left:50%;
-    transform:translateX(-50%);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:18px 26px;
-    border-radius:14px;
-    font-weight:700;
-    color:#fff;
-    border:2px solid rgba(255,255,255,.15);
-    box-shadow:0 10px 30px rgba(0,0,0,.25);
-    min-width:240px;
-}
-
-.internet{
-    top:20px;
-    background:var(--internet);
-    border-color:var(--internet-border);
-}
-
-.firewall{
-    top:170px;
-    background:var(--firewall);
-    border-color:var(--firewall-border);
-    animation:pulseFirewall 1.8s infinite;
-}
-
-.switch{
-    top:330px;
-    background:var(--switch);
-    border-color:var(--switch-border);
-}
-
-.vlan-row{
-    position:absolute;
-    top:560px;
-    left:50%;
-    transform:translateX(-50%);
-    width:min(1040px,96%);
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:18px;
-    flex-wrap:nowrap;
-}
-
-.vlan{
-    position:relative;
-    transform:none;
-    left:auto;
-    min-width:0;
-    width:31%;
-    opacity:0;
-    transform:translateY(20px);
-    animation:showVlan .8s forwards;
-}
-
-.vlan.users{
-    background:var(--users);
-    border-color:var(--users-border);
-    animation-delay:.2s;
-}
-
-.vlan.mgmt{
-    background:var(--mgmt);
-    border-color:var(--mgmt-border);
-    animation-delay:.6s;
-}
-
-.vlan.guest{
-    background:var(--guest);
-    border-color:var(--guest-border);
-    animation-delay:1s;
-}
-
-.label-small{
-    display:block;
-    margin-top:6px;
-    font-size:13px;
-    font-weight:400;
-    color:#ecfeff;
-}
-
-.line{
-    position:absolute;
-    left:50%;
-    transform:translateX(-50%);
-    width:4px;
-    background:linear-gradient(180deg,#94a3b8,#cbd5e1);
-    border-radius:10px;
-    overflow:hidden;
-}
-
-.line-main-1{top:82px;height:86px}
-.line-main-2{top:248px;height:82px}
-.line-main-3{top:408px;height:120px}
-
-.flow{
-    position:absolute;
-    left:0;
-    width:100%;
-    height:22px;
-    background:linear-gradient(180deg,rgba(147,197,253,0),rgba(147,197,253,.95),rgba(147,197,253,0));
-    box-shadow:0 0 18px rgba(147,197,253,.8);
-    animation:moveDown 2.1s linear infinite;
-}
-
-.branch{
-    position:absolute;
-    top:525px;
-    height:4px;
-    background:#94a3b8;
-    border-radius:10px;
-}
-
-.branch.left{
-    left:18%;
-    width:23%;
-}
-
-.branch.center{
-    left:39%;
-    width:22%;
-}
-
-.branch.right{
-    left:59%;
-    width:23%;
-}
-
-.packet{
-    width:12px;
-    height:12px;
-    border-radius:50%;
-    position:absolute;
-    z-index:5;
-}
-
-.packet1{
-    background:#00ffcc;
-    box-shadow:0 0 12px rgba(0,255,204,.8);
-    animation:movePacket 4s linear infinite;
-}
-
-.packet2{
-    background:#ffaa00;
-    box-shadow:0 0 12px rgba(255,170,0,.8);
-    animation:movePacket2 5s linear infinite;
-}
-
-.legend{
-    margin-top:38px;
-    color:var(--muted);
-    font-size:14px;
-    line-height:1.7;
-    background:#0f172a;
-    border:1px solid #334155;
-    border-radius:14px;
-    padding:18px;
-}
-
-@keyframes pulseFirewall{
-    0%{box-shadow:0 0 0 0 rgba(239,68,68,.55),0 10px 30px rgba(0,0,0,.25)}
-    70%{box-shadow:0 0 0 22px rgba(239,68,68,0),0 10px 30px rgba(0,0,0,.25)}
-    100%{box-shadow:0 0 0 0 rgba(239,68,68,0),0 10px 30px rgba(0,0,0,.25)}
-}
-
-@keyframes moveDown{
-    0%{top:-24px;opacity:0}
-    10%{opacity:1}
-    100%{top:100%;opacity:0}
-}
-
-@keyframes showVlan{
-    to{opacity:1;transform:translateY(0)}
-}
-
-@keyframes movePacket{
-    0%{left:260px;top:430px;opacity:0}
-    10%{opacity:1}
-    50%{left:560px;top:255px}
-    100%{left:860px;top:110px;opacity:0}
-}
-
-@keyframes movePacket2{
-    0%{left:260px;top:520px;opacity:0}
-    10%{opacity:1}
-    50%{left:560px;top:255px}
-    100%{left:860px;top:110px;opacity:0}
-}
-
-@media (max-width:980px){
-    .diagram{
-        min-height:1080px;
-    }
-
-    .vlan-row{
-        top:560px;
-        width:100%;
-        flex-direction:column;
-        align-items:center;
-        gap:16px;
-    }
-
-    .vlan{
-        width:100%;
-        max-width:340px;
-    }
-
-    .branch{
-        display:none;
-    }
-
-    .line-main-3{
-        height:120px;
-    }
-}
-
-@media (max-width:700px){
-    .packet{
-        display:none;
-    }
-}
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:24px;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--dim)}
+footer a{color:var(--cyan);text-decoration:none}
+@media(max-width:768px){.nav-links{display:none}}
 </style>
 </head>
 <body>
-<div class="container">
 
-<div class="nav">
-<a href="index.html">Home</a>
-<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-<a href="topology.html">Topology</a>
-<a href="network-diagram.html">Network Diagram</a>
-<a href="network-zones.html">Network Zones</a>
-<a href="attack-paths.html">Attack Simulation</a>
-<a href="attack-surface.html">Attack Surface</a>
-<a href="architecture-overview.html">Architecture</a>
-<a href="architecture-decisions.html">Architecture Decisions</a>
-<a href="security-model.html">Security Model</a>
-<a href="security-operations.html">Security Operations</a>
-<a href="interactive-security-architecture.html">Architecture Map</a>
-<a href="firewall-policy-map.html">Policy Map</a>
-<a href="soc-timeline.html">SOC Timeline</a>
-<a href="traffic-simulation.html">Traffic Simulation</a>
-<a href="network-telemetry-map.html">Telemetry Map</a>
-<a href="soc-dashboard.html">SOC Dashboard</a>
-<a href="soc-command-center.html">SOC Command Center</a>
-<a href="device-fortigate.html">FortiGate</a>
-<a href="device-cbs250.html">CBS250</a>
-<a href="troubleshooting.html">Troubleshooting</a>
+<div class="status-bar">
+  <div class="status-bar-left">
+    <div class="status-indicator"><div class="dot green"></div><span>FORTIGATE ONLINE</span></div>
+    <div class="status-indicator"><div class="dot green"></div><span>CBS250 ONLINE</span></div>
+    <div class="status-indicator"><div class="dot amber"></div><span>GUEST VLAN ISOLATED</span></div>
+  </div>
+  <div class="status-bar-right">
+    <span>TZ: Europe/Bratislava</span>
+    <span id="live-clock">--:--:--</span>
+    <span>FortiOS 7.4</span>
+  </div>
 </div>
 
-<h1>Network Diagram</h1>
-<h2>Animated Logical Topology</h2>
+<nav>
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo">ES</div>
+    <div class="nav-title">Enterprise<span>Lab</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="topology.html">Topology</a></li>
+    <li><a href="soc-dashboard.html">SOC</a></li>
+    <li><a href="threat-intelligence-feed.html">Threat Intel</a></li>
+    <li><a href="incident-response-case.html">IR</a></li>
+    <li><a href="architecture-overview.html">Architecture</a></li>
+    <li><a href="device-fortigate.html">FortiGate</a></li>
+    <li><a href="device-cbs250.html">CBS250</a></li>
+  </ul>
+</nav>
 
-<div class="diagram">
+<main>
 
-    <div class="packet packet1"></div>
-    <div class="packet packet2"></div>
+  <div class="page-header">
+    <div class="page-tag">▶ Infrastructure // L2/L3 Topology</div>
+    <h1>Network <span>Diagram</span></h1>
+    <p class="page-subtitle">
+      Logical network topology — FortiGate 60E as edge NGFW and inter-VLAN router,
+      Cisco CBS250 as L2 core switch with 802.1Q VLAN segmentation across 6 security zones.
+    </p>
+  </div>
 
-    <div class="node internet">
-        Internet
-        <span class="label-small">Untrusted external network</span>
-    </div>
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>FortiGate 60E (NGFW)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>Cisco CBS250 (L2 Switch)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#00ff9d"></div>VLAN20 — Users</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>VLAN30 — Management</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div>VLAN40 — SOC Monitoring</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#00c8ff"></div>VLAN50 — Servers</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ffb300"></div>VLAN60 — Guest (Isolated)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7a9ab8"></div>VLAN70 — Backup</div>
+  </div>
 
-    <div class="line line-main-1">
-        <div class="flow"></div>
-    </div>
+  <!-- ANIMATED SVG DIAGRAM -->
+  <div class="section-header">
+    <h2>Logical Topology</h2>
+    <div class="section-line"></div>
+    <span class="section-tag tag-cyan">ANIMATED</span>
+  </div>
 
-    <div class="node firewall">
-        FortiGate 60E
-        <span class="label-small">NGFW / Policy Enforcement / NAT</span>
-    </div>
+  <div class="diagram-wrap">
+    <svg class="diagram-svg" viewBox="0 0 860 620" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+          <path d="M0,0 L6,3 L0,6 Z" fill="#3d5a77"/>
+        </marker>
+      </defs>
 
-    <div class="line line-main-2">
-        <div class="flow" style="animation-delay:.4s"></div>
-    </div>
+      <!-- INTERNET -->
+      <rect x="330" y="10" width="200" height="56" rx="4" fill="#0d1a2e" stroke="#6366f1" stroke-width="1.5"/>
+      <text x="430" y="36" text-anchor="middle" fill="#818cf8" font-family="'JetBrains Mono'" font-size="12" font-weight="700">INTERNET</text>
+      <text x="430" y="54" text-anchor="middle" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="9">Untrusted — WAN</text>
 
-    <div class="node switch">
-        Cisco CBS250
-        <span class="label-small">Core switch / VLAN segmentation</span>
-    </div>
+      <!-- LINE: Internet → FortiGate (animated) -->
+      <line x1="430" y1="66" x2="430" y2="134" stroke="#3d5a77" stroke-width="2"/>
+      <line x1="430" y1="66" x2="430" y2="134" stroke="#6366f1" stroke-width="2" class="flow-line"/>
 
-    <div class="line line-main-3">
-        <div class="flow" style="animation-delay:.8s"></div>
-    </div>
+      <!-- FORTIGATE -->
+      <rect x="280" y="134" width="300" height="68" rx="4" fill="#1a0a0a" stroke="#ef4444" stroke-width="2"/>
+      <!-- pulse ring -->
+      <rect x="278" y="132" width="304" height="72" rx="5" fill="none" stroke="#ef4444" stroke-width="1" class="pulse-ring" opacity="0.3"/>
+      <text x="430" y="162" text-anchor="middle" fill="#f87171" font-family="'Syne'" font-size="14" font-weight="800">FortiGate 60E</text>
+      <text x="430" y="180" text-anchor="middle" fill="#7a9ab8" font-family="'JetBrains Mono'" font-size="9">NGFW · UTM · NAT · Inter-VLAN Router · FortiOS 7.4</text>
 
-    <div class="branch left"></div>
-    <div class="branch center"></div>
-    <div class="branch right"></div>
+      <!-- LINE: FortiGate → CBS250 -->
+      <line x1="430" y1="202" x2="430" y2="270" stroke="#3d5a77" stroke-width="2"/>
+      <line x1="430" y1="202" x2="430" y2="270" stroke="#60a5fa" stroke-width="2" class="flow-line2"/>
+      <text x="445" y="240" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="9">802.1Q Trunk</text>
 
-    <div class="vlan-row">
-        <div class="node vlan users">
-            VLAN20
-            <span class="label-small">Users Network</span>
-        </div>
+      <!-- CBS250 -->
+      <rect x="280" y="270" width="300" height="60" rx="4" fill="#060e1e" stroke="#3b82f6" stroke-width="1.5"/>
+      <text x="430" y="296" text-anchor="middle" fill="#60a5fa" font-family="'Syne'" font-size="13" font-weight="800">Cisco CBS250-24T-4G</text>
+      <text x="430" y="314" text-anchor="middle" fill="#7a9ab8" font-family="'JetBrains Mono'" font-size="9">L2 Core Switch · 802.1Q · STP · SNMP v3</text>
 
-        <div class="node vlan mgmt">
-            VLAN30
-            <span class="label-small">Management Network</span>
-        </div>
+      <!-- BRANCH LINES to VLANs -->
+      <!-- horizontal spine -->
+      <line x1="100" y1="390" x2="760" y2="390" stroke="#1e3050" stroke-width="1.5"/>
+      <!-- verticals down from CBS250 -->
+      <line x1="115" y1="330" x2="115" y2="390" stroke="#1e3050" stroke-width="1.5"/>
+      <line x1="115" y1="330" x2="430" y2="330" stroke="#1e3050" stroke-width="1.5"/>
+      <!-- drops to each vlan -->
+      <line x1="115" y1="390" x2="115" y2="430" stroke="#00ff9d" stroke-width="1.5" class="flow-line" style="animation-delay:0.1s"/>
+      <line x1="265" y1="390" x2="265" y2="430" stroke="#3b82f6" stroke-width="1.5" class="flow-line" style="animation-delay:0.3s"/>
+      <line x1="415" y1="390" x2="415" y2="430" stroke="#8b5cf6" stroke-width="1.5" class="flow-line" style="animation-delay:0.5s"/>
+      <line x1="565" y1="390" x2="565" y2="430" stroke="#00c8ff" stroke-width="1.5" class="flow-line" style="animation-delay:0.7s"/>
+      <line x1="695" y1="390" x2="695" y2="430" stroke="#ffb300" stroke-width="1.5" class="flow-line" style="animation-delay:0.9s"/>
+      <!-- VLAN70 branch up from left -->
+      <line x1="430" y1="330" x2="430" y2="390" stroke="#1e3050" stroke-width="1"/>
 
-        <div class="node vlan guest">
-            VLAN60
-            <span class="label-small">Guest Network</span>
-        </div>
-    </div>
-</div>
+      <!-- VLAN BOXES -->
+      <!-- VLAN20 Users -->
+      <rect x="40" y="430" width="150" height="80" rx="4" fill="#051a0e" stroke="#00ff9d" stroke-width="1.5"/>
+      <text x="115" y="454" text-anchor="middle" fill="#00ff9d" font-family="'JetBrains Mono'" font-size="11" font-weight="700">VLAN 20</text>
+      <text x="115" y="470" text-anchor="middle" fill="#e2eaf5" font-family="'Syne'" font-size="11" font-weight="700">Users</text>
+      <text x="115" y="486" text-anchor="middle" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="9">192.168.20.0/24</text>
+      <text x="115" y="500" text-anchor="middle" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="9">GW: .20.1</text>
 
-<div class="legend">
-    Animated flow represents traffic traversing the firewall and switching layer.<br>
-    Border colors match the security zones and VLAN identities.
-</div>
+      <!-- VLAN30 Mgmt -->
+      <rect x="190" y="430" width="150" height="80" rx="4" fill="#05101e" stroke="#3b82f6" stroke-width="1.5"/>
+      <text x="265" y="454" text-anchor="middle" fill="#60a5fa" font-family="'JetBrains Mono'" font-size="11" font-weight="700">VLAN 30</text>
+      <text x="265" y="470" text-anchor="middle" fill="#e2eaf5" font-family="'Syne'" font-size="11" font-weight="700">Management</text>
+      <text x="265" y="486" text-anchor="middle" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="9">192.168.30.0/24</text>
+      <text x="265" y="500" text-anchor="middle" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="9">GW: .30.1</text>
 
-</div>
+      <!-- VLAN40 SOC -->
+      <rect x="340" y="430" width="150" height="80" rx="4" fill="#0e0a1e" stroke="#8b5cf6" stroke-width="1.5"/>
+      <text x="415" y="454" text-anchor="middle" fill="#a78bfa" font-family="'JetBrains Mono'" font-size="11" font-weight="700">VLAN 40</text>
+      <text x="415" y="470" text-anchor="middle" fill="#e2eaf5" font-family="'Syne'" font-size="11" font-weight="700">SOC Monitoring</text>
+      <text x="415" y="486" text-anchor="middle" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="9">192.168.40.0/24</text>
+      <text x="415" y="500" text-anchor="middle" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="9">GW: .40.1</text>
+
+      <!-- VLAN50 Servers -->
+      <rect x="490" y="430" width="150" height="80" rx="4" fill="#061419" stroke="#00c8ff" stroke-width="1.5"/>
+      <text x="565" y="454" text-anchor="middle" fill="#00c8ff" font-family="'JetBrains Mono'" font-size="11" font-weight="700">VLAN 50</text>
+      <text x="565" y="470" text-anchor="middle" fill="#e2eaf5" font-family="'Syne'" font-size="11" font-weight="700">Servers</text>
+      <text x="565" y="486" text-anchor="middle" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="9">192.168.50.0/24</text>
+      <text x="565" y="500" text-anchor="middle" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="9">GW: .50.1</text>
+
+      <!-- VLAN60 Guest -->
+      <rect x="620" y="430" width="150" height="80" rx="4" fill="#1a0f00" stroke="#ffb300" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="695" y="454" text-anchor="middle" fill="#ffb300" font-family="'JetBrains Mono'" font-size="11" font-weight="700">VLAN 60</text>
+      <text x="695" y="470" text-anchor="middle" fill="#e2eaf5" font-family="'Syne'" font-size="11" font-weight="700">Guest</text>
+      <text x="695" y="486" text-anchor="middle" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="9">192.168.60.0/24</text>
+      <text x="695" y="500" text-anchor="middle" fill="#ffb300" font-family="'JetBrains Mono'" font-size="9">ISOLATED</text>
+
+      <!-- VLAN70 Backup (small, below) -->
+      <line x1="430" y1="390" x2="430" y2="540" stroke="#1e3050" stroke-width="1"/>
+      <rect x="355" y="540" width="150" height="70" rx="4" fill="#060a0f" stroke="#3d5a77" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="430" y="562" text-anchor="middle" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="11" font-weight="700">VLAN 70</text>
+      <text x="430" y="578" text-anchor="middle" fill="#7a9ab8" font-family="'Syne'" font-size="11" font-weight="700">Backup Infra</text>
+      <text x="430" y="594" text-anchor="middle" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="9">192.168.70.0/24</text>
+
+      <!-- DENY markers between Guest and Users -->
+      <text x="400" y="420" text-anchor="middle" fill="#ff3b5c" font-family="'JetBrains Mono'" font-size="9" font-weight="700">⛔ DENY</text>
+    </svg>
+  </div>
+
+  <!-- VLAN REFERENCE TABLE -->
+  <div class="section-header">
+    <h2>VLAN Reference Table</h2>
+    <div class="section-line"></div>
+    <span class="section-tag tag-green">VLAN MAP</span>
+  </div>
+  <table class="vlan-table">
+    <thead>
+      <tr><th>VLAN ID</th><th>Name</th><th>Subnet</th><th>Gateway (FG60E)</th><th>Internet</th><th>Inter-VLAN</th><th>Switch Ports</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="vt-id">VLAN 20</td><td class="vt-name">Users</td>
+        <td class="vt-sub">192.168.20.0/24</td><td class="vt-gw">192.168.20.1</td>
+        <td><span class="badge badge-green">ALLOW</span></td>
+        <td><span class="badge badge-amber">RESTRICTED</span></td>
+        <td>Gi1/0/1–8 access</td>
+      </tr>
+      <tr>
+        <td class="vt-id">VLAN 30</td><td class="vt-name">Management</td>
+        <td class="vt-sub">192.168.30.0/24</td><td class="vt-gw">192.168.30.1</td>
+        <td><span class="badge badge-amber">SELECTIVE</span></td>
+        <td><span class="badge badge-red">DENY</span></td>
+        <td>Gi1/0/23–24 access</td>
+      </tr>
+      <tr>
+        <td class="vt-id">VLAN 40</td><td class="vt-name">SOC Monitoring</td>
+        <td class="vt-sub">192.168.40.0/24</td><td class="vt-gw">192.168.40.1</td>
+        <td><span class="badge badge-green">ALLOW</span></td>
+        <td><span class="badge badge-cyan">READ-ONLY</span></td>
+        <td>Gi1/0/20–22 access</td>
+      </tr>
+      <tr>
+        <td class="vt-id">VLAN 50</td><td class="vt-name">Servers</td>
+        <td class="vt-sub">192.168.50.0/24</td><td class="vt-gw">192.168.50.1</td>
+        <td><span class="badge badge-amber">SELECTIVE</span></td>
+        <td><span class="badge badge-red">DENY</span></td>
+        <td>Gi1/0/9–16 access</td>
+      </tr>
+      <tr>
+        <td class="vt-id">VLAN 60</td><td class="vt-name">Guest</td>
+        <td class="vt-sub">192.168.60.0/24</td><td class="vt-gw">192.168.60.1</td>
+        <td><span class="badge badge-green">ALLOW</span></td>
+        <td><span class="badge badge-red">DENY</span></td>
+        <td>Gi1/0/17–19 access</td>
+      </tr>
+      <tr>
+        <td class="vt-id">VLAN 70</td><td class="vt-name">Backup Infra</td>
+        <td class="vt-sub">192.168.70.0/24</td><td class="vt-gw">192.168.70.1</td>
+        <td><span class="badge badge-red">DENY</span></td>
+        <td><span class="badge badge-red">DENY</span></td>
+        <td>Gi1/0/21–22 access</td>
+      </tr>
+    </tbody>
+  </table>
+
+</main>
+
+<footer>
+  <span>Enterprise Security Lab · <span id="footer-year"></span></span>
+  <span>FortiGate 60E · Cisco CBS250 · <a href="index.html">← Home</a></span>
+</footer>
+
+<script>
+  function updateClock() {
+    document.getElementById('live-clock').textContent =
+      new Date().toLocaleTimeString('en-GB', { timeZone: 'Europe/Bratislava', hour12: false });
+  }
+  setInterval(updateClock, 1000); updateClock();
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
