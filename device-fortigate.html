@@ -3,68 +3,616 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab – FortiGate Firewall</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>FortiGate 60E — Enterprise Security Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-body{background:#060b16;color:#e2e8f0;font-family:'Inter',sans-serif;margin:0;text-align:center}
-.container{max-width:1100px;margin:auto;padding:40px 20px 80px}
-.nav{margin-bottom:30px}
-.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
-.nav a:hover{background:#1e293b}
-.card{background:#0f172a;border:1px solid #334155;border-radius:14px;padding:24px;text-align:left}
-ul{text-align:left}
-pre{background:#020617;padding:12px;border-radius:10px;overflow:auto;color:#86efac}
+:root {
+  --bg-base:      #060a0f;
+  --bg-surface:   #0c1420;
+  --bg-card:      #101c2e;
+  --bg-elevated:  #162336;
+  --border:       #1e3050;
+  --border-glow:  #1e4a7a;
+  --cyan:         #00c8ff;
+  --green:        #00ff9d;
+  --amber:        #ffb300;
+  --red:          #ff3b5c;
+  --purple:       #8b5cf6;
+  --text:         #e2eaf5;
+  --muted:        #7a9ab8;
+  --dim:          #3d5a77;
+  --mono:         'JetBrains Mono', monospace;
+  --display:      'Syne', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg-base);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,200,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,200,255,0.025) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none; z-index: 0;
+}
+
+/* STATUS BAR */
+.status-bar {
+  position: fixed; top: 0; left: 0; right: 0; height: 32px;
+  background: rgba(6,10,15,0.97);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; z-index: 1000; backdrop-filter: blur(12px);
+}
+.status-bar-left { display: flex; align-items: center; gap: 16px; font-size: 10px; color: var(--dim); letter-spacing: 0.05em; }
+.status-indicator { display: flex; align-items: center; gap: 5px; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+.dot { width: 6px; height: 6px; border-radius: 50%; animation: pulse 2s infinite; }
+.dot.green { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.dot.amber { background: var(--amber); box-shadow: 0 0 6px var(--amber); }
+.dot.red   { background: var(--red);   box-shadow: 0 0 6px var(--red); }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.status-bar-right { display: flex; align-items: center; gap: 20px; font-size: 10px; color: var(--dim); }
+#live-clock { color: var(--cyan); font-weight: 500; }
+
+/* NAV */
+nav {
+  position: fixed; top: 32px; left: 0; right: 0; height: 52px;
+  background: rgba(12,20,32,0.97);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; z-index: 999; backdrop-filter: blur(12px);
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo {
+  width: 30px; height: 30px; border: 1.5px solid var(--cyan); border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: var(--cyan); font-family: var(--display); font-weight: 800;
+}
+.nav-title { font-family: var(--display); font-weight: 700; font-size: 13px; color: var(--text); }
+.nav-title span { color: var(--cyan); }
+.nav-links { display: flex; align-items: center; gap: 2px; list-style: none; }
+.nav-links a {
+  display: block; padding: 5px 10px; font-size: 10px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted); text-decoration: none;
+  border-radius: 3px; transition: all 0.2s; border: 1px solid transparent;
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--cyan); border-color: var(--border-glow); background: rgba(0,200,255,0.08);
+}
+
+/* MAIN */
+main {
+  position: relative; z-index: 1;
+  padding-top: 84px; max-width: 1200px;
+  margin: 0 auto; padding-left: 24px; padding-right: 24px; padding-bottom: 80px;
+}
+
+/* PAGE HEADER */
+.page-header { padding: 48px 0 32px; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
+.page-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--red); margin-bottom: 16px;
+  border: 1px solid rgba(255,59,92,0.25); padding: 4px 12px; border-radius: 2px;
+}
+.page-header h1 {
+  font-family: var(--display); font-size: clamp(24px, 3vw, 40px);
+  font-weight: 800; color: var(--text); margin-bottom: 8px; line-height: 1.1;
+}
+.page-header h1 span { color: var(--cyan); }
+.page-subtitle { color: var(--muted); font-size: 13px; max-width: 600px; line-height: 1.7; }
+
+/* DEVICE SPECS */
+.specs-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px; background: var(--border); border: 1px solid var(--border);
+  border-radius: 4px; overflow: hidden; margin-bottom: 32px;
+}
+.spec-item { background: var(--bg-card); padding: 16px 20px; }
+.spec-label { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); margin-bottom: 6px; }
+.spec-value { font-family: var(--display); font-size: 14px; font-weight: 700; color: var(--text); }
+.spec-value.cyan   { color: var(--cyan); }
+.spec-value.green  { color: var(--green); }
+.spec-value.amber  { color: var(--amber); }
+.spec-value.red    { color: var(--red); }
+
+/* SECTION */
+.section { margin-bottom: 40px; }
+.section-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+.section-header h2 {
+  font-family: var(--display); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
+}
+.section-line { flex: 1; height: 1px; background: linear-gradient(to right, var(--border), transparent); }
+.section-tag {
+  font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 2px; font-weight: 500;
+}
+.tag-cyan   { color: var(--cyan);   background: rgba(0,200,255,0.08);  border: 1px solid rgba(0,200,255,0.2); }
+.tag-green  { color: var(--green);  background: rgba(0,255,157,0.08);  border: 1px solid rgba(0,255,157,0.2); }
+.tag-amber  { color: var(--amber);  background: rgba(255,179,0,0.08);  border: 1px solid rgba(255,179,0,0.2); }
+.tag-red    { color: var(--red);    background: rgba(255,59,92,0.08);  border: 1px solid rgba(255,59,92,0.2); }
+.tag-purple { color: var(--purple); background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.2); }
+
+/* CLI BLOCK */
+.cli-block {
+  background: #020810;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.cli-header {
+  background: var(--bg-surface);
+  padding: 8px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.cli-title { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); }
+.cli-copy {
+  font-size: 9px; color: var(--dim); cursor: pointer; padding: 2px 8px;
+  border: 1px solid var(--border); border-radius: 2px; background: transparent;
+  transition: all 0.2s; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.cli-copy:hover { color: var(--cyan); border-color: var(--border-glow); }
+.cli-body { padding: 16px; overflow-x: auto; }
+.cli-body pre { margin: 0; font-family: var(--mono); font-size: 12px; line-height: 1.7; white-space: pre; }
+.c-prompt { color: var(--dim); }
+.c-cmd    { color: var(--cyan); }
+.c-key    { color: var(--amber); }
+.c-val    { color: var(--green); }
+.c-comment{ color: #3d5a77; font-style: italic; }
+.c-output { color: var(--muted); }
+
+/* POLICY TABLE */
+.policy-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 16px; }
+.policy-table thead th {
+  background: var(--bg-surface); padding: 8px 12px; text-align: left;
+  font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--dim); border-bottom: 1px solid var(--border);
+}
+.policy-table tbody td {
+  padding: 9px 12px; border-bottom: 1px solid rgba(30,48,80,0.5); color: var(--muted);
+}
+.policy-table tbody tr:hover td { background: rgba(0,200,255,0.03); }
+.p-id     { color: var(--cyan); font-weight: 500; font-family: var(--mono); }
+.p-allow  { color: var(--green); font-weight: 600; }
+.p-deny   { color: var(--red); font-weight: 600; }
+.p-name   { color: var(--text); font-weight: 500; }
+.p-profile{ color: var(--purple); }
+
+/* INTERFACE TABLE */
+.iface-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 16px; }
+.iface-table thead th {
+  background: var(--bg-surface); padding: 8px 12px; text-align: left;
+  font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--dim); border-bottom: 1px solid var(--border);
+}
+.iface-table tbody td { padding: 9px 12px; border-bottom: 1px solid rgba(30,48,80,0.5); color: var(--muted); }
+.iface-table tbody tr:hover td { background: rgba(0,200,255,0.03); }
+.if-name  { color: var(--cyan); font-weight: 500; }
+.if-ip    { color: var(--green); }
+.if-vlan  { color: var(--amber); }
+.if-role  { color: var(--text); }
+
+/* STATUS BADGES */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; border-radius: 2px; font-size: 9px;
+  font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+}
+.badge-green  { color: var(--green);  background: rgba(0,255,157,0.08);  border: 1px solid rgba(0,255,157,0.2); }
+.badge-red    { color: var(--red);    background: rgba(255,59,92,0.08);  border: 1px solid rgba(255,59,92,0.2); }
+.badge-amber  { color: var(--amber);  background: rgba(255,179,0,0.08);  border: 1px solid rgba(255,179,0,0.2); }
+.badge-cyan   { color: var(--cyan);   background: rgba(0,200,255,0.08);  border: 1px solid rgba(0,200,255,0.2); }
+.badge-purple { color: var(--purple); background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.2); }
+
+/* UTM GRID */
+.utm-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1px; background: var(--border); border: 1px solid var(--border);
+  border-radius: 4px; overflow: hidden; margin-bottom: 16px;
+}
+.utm-item { background: var(--bg-card); padding: 16px 20px; }
+.utm-item-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.utm-item-title { font-family: var(--display); font-size: 12px; font-weight: 700; color: var(--text); }
+.utm-item-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+footer {
+  position: relative; z-index: 1; border-top: 1px solid var(--border);
+  padding: 24px; max-width: 1200px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 10px; color: var(--dim);
+}
+footer a { color: var(--cyan); text-decoration: none; }
+@media (max-width: 768px) { .nav-links { display: none; } }
 </style>
 </head>
 <body>
-<div class="container">
 
-<div class="nav">
-<a href="index.html">Home</a>
-<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-<a href="topology.html">Topology</a>
-<a href="network-diagram.html">Network Diagram</a>
-<a href="network-zones.html">Network Zones</a>
-<a href="attack-paths.html">Attack Simulation</a>
-<a href="attack-surface.html">Attack Surface</a>
-<a href="architecture-overview.html">Architecture</a>
-<a href="architecture-decisions.html">Architecture Decisions</a>
-<a href="security-model.html">Security Model</a>
-<a href="security-operations.html">Security Operations</a>
-<a href="interactive-security-architecture.html">Architecture Map</a>
-<a href="firewall-policy-map.html">Policy Map</a>
-<a href="soc-timeline.html">SOC Timeline</a>
-<a href="traffic-simulation.html">Traffic Simulation</a>
-<a href="network-telemetry-map.html">Telemetry Map</a>
-<a href="soc-dashboard.html">SOC Dashboard</a>
-<a href="soc-command-center.html">SOC Command Center</a>
-<a href="device-fortigate.html">FortiGate</a>
-<a href="device-cbs250.html">CBS250</a>
-<a href="troubleshooting.html">Troubleshooting</a>
+<div class="status-bar">
+  <div class="status-bar-left">
+    <div class="status-indicator"><div class="dot green"></div><span>FORTIGATE ONLINE</span></div>
+    <div class="status-indicator"><div class="dot green"></div><span>CBS250 ONLINE</span></div>
+    <div class="status-indicator"><div class="dot amber"></div><span>GUEST VLAN ISOLATED</span></div>
+  </div>
+  <div class="status-bar-right">
+    <span>TZ: Europe/Bratislava</span>
+    <span id="live-clock">--:--:--</span>
+    <span>FortiOS 7.4</span>
+  </div>
 </div>
 
-<h1>FortiGate 60E</h1>
+<nav>
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo">ES</div>
+    <div class="nav-title">Enterprise<span>Lab</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="topology.html">Topology</a></li>
+    <li><a href="soc-dashboard.html">SOC</a></li>
+    <li><a href="threat-intelligence-feed.html">Threat Intel</a></li>
+    <li><a href="incident-response-case.html">IR</a></li>
+    <li><a href="architecture-overview.html">Architecture</a></li>
+    <li><a href="device-fortigate.html" class="active">FortiGate</a></li>
+    <li><a href="device-cbs250.html">CBS250</a></li>
+  </ul>
+</nav>
 
-<div class="card">
-<h2>Firewall Security Gateway</h2>
-<ul>
-<li>Inter-VLAN routing</li>
-<li>Firewall policy enforcement</li>
-<li>NAT configuration</li>
-<li>DHCP services</li>
-<li>Traffic inspection</li>
-</ul>
-</div>
+<main>
 
-<div class="card">
-<h2>Common Troubleshooting Commands</h2>
-<pre>diagnose debug flow
-diagnose sys session list
-diagnose sniffer packet any "host 10.10.20.100" 4</pre>
-</div>
+  <div class="page-header">
+    <div class="page-tag">▶ Device Documentation // NGFW</div>
+    <h1>FortiGate <span>60E</span></h1>
+    <p class="page-subtitle">
+      Next-Generation Firewall · Edge router, inter-VLAN routing, UTM enforcement, NAT, DHCP.
+      Running FortiOS 7.4 with full FortiGuard subscription.
+    </p>
+  </div>
 
-</div>
+  <!-- DEVICE SPECS -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Device Specifications</h2>
+      <div class="section-line"></div>
+      <span class="section-tag tag-cyan">HARDWARE</span>
+    </div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label">Model</div><div class="spec-value cyan">FortiGate 60E</div></div>
+      <div class="spec-item"><div class="spec-label">Firmware</div><div class="spec-value">FortiOS 7.4.x</div></div>
+      <div class="spec-item"><div class="spec-label">Firewall Throughput</div><div class="spec-value green">3 Gbps</div></div>
+      <div class="spec-item"><div class="spec-label">IPS Throughput</div><div class="spec-value amber">400 Mbps</div></div>
+      <div class="spec-item"><div class="spec-label">NGFW Throughput</div><div class="spec-value amber">200 Mbps</div></div>
+      <div class="spec-item"><div class="spec-label">Interfaces</div><div class="spec-value">7× GE RJ45 + 2× WAN</div></div>
+      <div class="spec-item"><div class="spec-label">Max Sessions</div><div class="spec-value">1.3M concurrent</div></div>
+      <div class="spec-item"><div class="spec-label">FortiGuard</div><div class="spec-value green">Active · All Services</div></div>
+    </div>
+  </div>
+
+  <!-- INTERFACES -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Interface Configuration</h2>
+      <div class="section-line"></div>
+      <span class="section-tag tag-cyan">INTERFACES</span>
+    </div>
+    <table class="iface-table">
+      <thead>
+        <tr><th>Interface</th><th>Type</th><th>VLAN</th><th>IP Address</th><th>Role</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="if-name">wan1</td><td>Physical</td><td class="if-vlan">—</td><td class="if-ip">DHCP (ISP)</td><td class="if-role">WAN Uplink</td><td><span class="badge badge-green">UP</span></td></tr>
+        <tr><td class="if-name">internal1</td><td>Physical</td><td class="if-vlan">Trunk</td><td class="if-ip">—</td><td class="if-role">Trunk to CBS250</td><td><span class="badge badge-green">UP</span></td></tr>
+        <tr><td class="if-name">vlan20</td><td>VLAN</td><td class="if-vlan">20</td><td class="if-ip">192.168.20.1/24</td><td class="if-role">Users Gateway</td><td><span class="badge badge-green">UP</span></td></tr>
+        <tr><td class="if-name">vlan30</td><td>VLAN</td><td class="if-vlan">30</td><td class="if-ip">192.168.30.1/24</td><td class="if-role">Management Gateway</td><td><span class="badge badge-green">UP</span></td></tr>
+        <tr><td class="if-name">vlan40</td><td>VLAN</td><td class="if-vlan">40</td><td class="if-ip">192.168.40.1/24</td><td class="if-role">SOC Monitoring GW</td><td><span class="badge badge-green">UP</span></td></tr>
+        <tr><td class="if-name">vlan50</td><td>VLAN</td><td class="if-vlan">50</td><td class="if-ip">192.168.50.1/24</td><td class="if-role">Server Infrastructure GW</td><td><span class="badge badge-green">UP</span></td></tr>
+        <tr><td class="if-name">vlan60</td><td>VLAN</td><td class="if-vlan">60</td><td class="if-ip">192.168.60.1/24</td><td class="if-role">Guest Gateway</td><td><span class="badge badge-amber">ISOLATED</span></td></tr>
+        <tr><td class="if-name">vlan70</td><td>VLAN</td><td class="if-vlan">70</td><td class="if-ip">192.168.70.1/24</td><td class="if-role">Backup Infrastructure GW</td><td><span class="badge badge-green">UP</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="cli-block">
+      <div class="cli-header">
+        <span class="cli-title">CLI — Interface Config (VLAN20 example)</span>
+        <button class="cli-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+      <div class="cli-body"><pre><span class="c-comment"># FortiGate 60E — VLAN subinterface configuration</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">config system interface</span>
+<span class="c-prompt">FG60E (interface) # </span><span class="c-cmd">edit</span> <span class="c-val">"vlan20"</span>
+<span class="c-key">    set vdom</span>          <span class="c-val">root</span>
+<span class="c-key">    set ip</span>            <span class="c-val">192.168.20.1 255.255.255.0</span>
+<span class="c-key">    set allowaccess</span>   <span class="c-val">ping</span>
+<span class="c-key">    set type</span>          <span class="c-val">vlan</span>
+<span class="c-key">    set vlanid</span>        <span class="c-val">20</span>
+<span class="c-key">    set interface</span>     <span class="c-val">"internal1"</span>
+<span class="c-key">    set role</span>          <span class="c-val">lan</span>
+<span class="c-key">    set description</span>   <span class="c-val">"Users Network"</span>
+<span class="c-prompt">FG60E (vlan20) # </span><span class="c-cmd">next</span>
+<span class="c-prompt">FG60E (interface) # </span><span class="c-cmd">end</span></pre></div>
+    </div>
+  </div>
+
+  <!-- FIREWALL POLICIES -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Firewall Policy Table</h2>
+      <div class="section-line"></div>
+      <span class="section-tag tag-red">POLICIES</span>
+    </div>
+    <table class="policy-table">
+      <thead>
+        <tr><th>ID</th><th>Name</th><th>Source Zone</th><th>Dest Zone</th><th>Service</th><th>Action</th><th>Security Profile</th><th>Log</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="p-id">1</td><td class="p-name">Users-to-WAN</td>
+          <td>vlan20</td><td>wan1</td><td>ALL</td>
+          <td><span class="p-allow">ACCEPT</span></td>
+          <td class="p-profile">utm-users</td><td><span class="badge badge-cyan">All</span></td>
+        </tr>
+        <tr>
+          <td class="p-id">2</td><td class="p-name">Guest-to-WAN</td>
+          <td>vlan60</td><td>wan1</td><td>HTTP, HTTPS, DNS</td>
+          <td><span class="p-allow">ACCEPT</span></td>
+          <td class="p-profile">utm-guest</td><td><span class="badge badge-cyan">All</span></td>
+        </tr>
+        <tr>
+          <td class="p-id">3</td><td class="p-name">Servers-to-WAN</td>
+          <td>vlan50</td><td>wan1</td><td>HTTP, HTTPS, NTP, DNS</td>
+          <td><span class="p-allow">ACCEPT</span></td>
+          <td class="p-profile">utm-servers</td><td><span class="badge badge-cyan">All</span></td>
+        </tr>
+        <tr>
+          <td class="p-id">4</td><td class="p-name">SOC-to-WAN</td>
+          <td>vlan40</td><td>wan1</td><td>ALL</td>
+          <td><span class="p-allow">ACCEPT</span></td>
+          <td class="p-profile">utm-soc</td><td><span class="badge badge-cyan">All</span></td>
+        </tr>
+        <tr>
+          <td class="p-id">5</td><td class="p-name">Block-Guest-to-Users</td>
+          <td>vlan60</td><td>vlan20</td><td>ALL</td>
+          <td><span class="p-deny">DENY</span></td>
+          <td class="p-profile">—</td><td><span class="badge badge-amber">Security</span></td>
+        </tr>
+        <tr>
+          <td class="p-id">6</td><td class="p-name">Block-Guest-to-Servers</td>
+          <td>vlan60</td><td>vlan50</td><td>ALL</td>
+          <td><span class="p-deny">DENY</span></td>
+          <td class="p-profile">—</td><td><span class="badge badge-amber">Security</span></td>
+        </tr>
+        <tr>
+          <td class="p-id">7</td><td class="p-name">Block-Users-to-MGMT</td>
+          <td>vlan20</td><td>vlan30</td><td>ALL</td>
+          <td><span class="p-deny">DENY</span></td>
+          <td class="p-profile">—</td><td><span class="badge badge-amber">Security</span></td>
+        </tr>
+        <tr>
+          <td class="p-id">8</td><td class="p-name">Block-Guest-to-MGMT</td>
+          <td>vlan60</td><td>vlan30</td><td>ALL</td>
+          <td><span class="p-deny">DENY</span></td>
+          <td class="p-profile">—</td><td><span class="badge badge-amber">Security</span></td>
+        </tr>
+        <tr>
+          <td class="p-id">9</td><td class="p-name">SOC-Monitoring-Access</td>
+          <td>vlan40</td><td>vlan20, vlan50, vlan60</td><td>SNMP, SSH, SYSLOG</td>
+          <td><span class="p-allow">ACCEPT</span></td>
+          <td class="p-profile">—</td><td><span class="badge badge-cyan">All</span></td>
+        </tr>
+        <tr>
+          <td class="p-id">99</td><td class="p-name">Implicit-Deny-All</td>
+          <td>ANY</td><td>ANY</td><td>ALL</td>
+          <td><span class="p-deny">DENY</span></td>
+          <td class="p-profile">—</td><td><span class="badge badge-amber">Security</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="cli-block">
+      <div class="cli-header">
+        <span class="cli-title">CLI — Firewall Policy (Guest-to-WAN example)</span>
+        <button class="cli-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+      <div class="cli-body"><pre><span class="c-prompt">FG60E # </span><span class="c-cmd">config firewall policy</span>
+<span class="c-prompt">FG60E (policy) # </span><span class="c-cmd">edit</span> <span class="c-val">2</span>
+<span class="c-key">    set name</span>          <span class="c-val">"Guest-to-WAN"</span>
+<span class="c-key">    set srcintf</span>       <span class="c-val">"vlan60"</span>
+<span class="c-key">    set dstintf</span>       <span class="c-val">"wan1"</span>
+<span class="c-key">    set srcaddr</span>       <span class="c-val">"all"</span>
+<span class="c-key">    set dstaddr</span>       <span class="c-val">"all"</span>
+<span class="c-key">    set action</span>        <span class="c-val">accept</span>
+<span class="c-key">    set schedule</span>      <span class="c-val">"always"</span>
+<span class="c-key">    set service</span>       <span class="c-val">"HTTP" "HTTPS" "DNS"</span>
+<span class="c-key">    set utm-status</span>    <span class="c-val">enable</span>
+<span class="c-key">    set profile-type</span>  <span class="c-val">single</span>
+<span class="c-key">    set profile-group</span> <span class="c-val">"utm-guest"</span>
+<span class="c-key">    set nat</span>           <span class="c-val">enable</span>
+<span class="c-key">    set logtraffic</span>    <span class="c-val">all</span>
+<span class="c-prompt">FG60E (2) # </span><span class="c-cmd">next</span>
+<span class="c-prompt">FG60E (policy) # </span><span class="c-cmd">end</span></pre></div>
+    </div>
+  </div>
+
+  <!-- UTM PROFILES -->
+  <div class="section">
+    <div class="section-header">
+      <h2>UTM Security Profiles</h2>
+      <div class="section-line"></div>
+      <span class="section-tag tag-purple">UTM</span>
+    </div>
+    <div class="utm-grid">
+      <div class="utm-item">
+        <div class="utm-item-header">
+          <span class="utm-item-title">IPS</span>
+          <span class="badge badge-red">BLOCK</span>
+        </div>
+        <div class="utm-item-desc">Extended signature set. Blocking mode — all critical/high severity automatically dropped. FortiGuard updated daily.</div>
+      </div>
+      <div class="utm-item">
+        <div class="utm-item-header">
+          <span class="utm-item-title">Web Filter</span>
+          <span class="badge badge-green">ACTIVE</span>
+        </div>
+        <div class="utm-item-desc">FortiGuard category-based filtering. Blocks: Malware, Phishing, P2P, Gambling, Adult on Users VLAN.</div>
+      </div>
+      <div class="utm-item">
+        <div class="utm-item-header">
+          <span class="utm-item-title">App Control</span>
+          <span class="badge badge-green">ACTIVE</span>
+        </div>
+        <div class="utm-item-desc">L7 application awareness. Blocks: Tor, BitTorrent, Anonymous proxies. Monitors social media usage.</div>
+      </div>
+      <div class="utm-item">
+        <div class="utm-item-header">
+          <span class="utm-item-title">SSL Inspection</span>
+          <span class="badge badge-amber">DEEP</span>
+        </div>
+        <div class="utm-item-desc">Deep SSL/TLS inspection on Users and Servers egress. Certificate pinning exceptions for banking sites.</div>
+      </div>
+      <div class="utm-item">
+        <div class="utm-item-header">
+          <span class="utm-item-title">Antivirus</span>
+          <span class="badge badge-green">ACTIVE</span>
+        </div>
+        <div class="utm-item-desc">FortiGuard AV scanning on HTTP/HTTPS/FTP/SMTP flows. Grayware detection enabled.</div>
+      </div>
+      <div class="utm-item">
+        <div class="utm-item-header">
+          <span class="utm-item-title">DNS Filter</span>
+          <span class="badge badge-green">ACTIVE</span>
+        </div>
+        <div class="utm-item-desc">FortiGuard DNS filtering. Blocks DNS-over-HTTPS bypass attempts. Sinkhole for known C2 domains.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DHCP -->
+  <div class="section">
+    <div class="section-header">
+      <h2>DHCP Server Configuration</h2>
+      <div class="section-line"></div>
+      <span class="section-tag tag-cyan">DHCP</span>
+    </div>
+    <div class="cli-block">
+      <div class="cli-header">
+        <span class="cli-title">CLI — DHCP Servers per VLAN</span>
+        <button class="cli-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+      <div class="cli-body"><pre><span class="c-prompt">FG60E # </span><span class="c-cmd">config system dhcp server</span>
+
+<span class="c-comment"># VLAN20 – Users</span>
+<span class="c-prompt">FG60E (server) # </span><span class="c-cmd">edit</span> <span class="c-val">1</span>
+<span class="c-key">    set interface</span>     <span class="c-val">"vlan20"</span>
+<span class="c-key">    set dns-server1</span>   <span class="c-val">1.1.1.1</span>
+<span class="c-key">    set dns-server2</span>   <span class="c-val">8.8.8.8</span>
+<span class="c-key">    set default-gateway</span> <span class="c-val">192.168.20.1</span>
+<span class="c-key">    set netmask</span>       <span class="c-val">255.255.255.0</span>
+<span class="c-key">    set lease-time</span>    <span class="c-val">86400</span>
+<span class="c-cmd">    config ip-range</span>
+<span class="c-cmd">        edit</span> <span class="c-val">1</span>
+<span class="c-key">            set start-ip</span> <span class="c-val">192.168.20.100</span>
+<span class="c-key">            set end-ip</span>   <span class="c-val">192.168.20.200</span>
+<span class="c-cmd">        next</span>
+<span class="c-cmd">    end</span>
+<span class="c-prompt">FG60E (1) # </span><span class="c-cmd">next</span>
+
+<span class="c-comment"># VLAN60 – Guest (isolated, rate-limited)</span>
+<span class="c-prompt">FG60E (server) # </span><span class="c-cmd">edit</span> <span class="c-val">3</span>
+<span class="c-key">    set interface</span>     <span class="c-val">"vlan60"</span>
+<span class="c-key">    set dns-server1</span>   <span class="c-val">1.1.1.1</span>
+<span class="c-key">    set default-gateway</span> <span class="c-val">192.168.60.1</span>
+<span class="c-key">    set netmask</span>       <span class="c-val">255.255.255.0</span>
+<span class="c-key">    set lease-time</span>    <span class="c-val">3600</span>
+<span class="c-cmd">    config ip-range</span>
+<span class="c-cmd">        edit</span> <span class="c-val">1</span>
+<span class="c-key">            set start-ip</span> <span class="c-val">192.168.60.100</span>
+<span class="c-key">            set end-ip</span>   <span class="c-val">192.168.60.150</span>
+<span class="c-cmd">        next</span>
+<span class="c-cmd">    end</span>
+<span class="c-prompt">FG60E (3) # </span><span class="c-cmd">next</span>
+<span class="c-prompt">FG60E (server) # </span><span class="c-cmd">end</span></pre></div>
+    </div>
+  </div>
+
+  <!-- DIAGNOSTICS -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Diagnostic Commands</h2>
+      <div class="section-line"></div>
+      <span class="section-tag tag-amber">DIAG</span>
+    </div>
+    <div class="cli-block">
+      <div class="cli-header">
+        <span class="cli-title">Traffic & Session Diagnostics</span>
+        <button class="cli-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+      <div class="cli-body"><pre><span class="c-comment"># View active sessions</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose sys session list</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose sys session filter src</span> <span class="c-val">192.168.20.0/24</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose sys session filter dport</span> <span class="c-val">443</span>
+
+<span class="c-comment"># Packet sniffer</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose sniffer packet</span> <span class="c-val">vlan20</span> <span class="c-val">'host 192.168.20.50'</span> <span class="c-val">4</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose sniffer packet</span> <span class="c-val">any</span> <span class="c-val">'port 53'</span> <span class="c-val">4</span> <span class="c-val">0</span> <span class="c-val">l</span>
+
+<span class="c-comment"># Debug flow (trace packet path through FW)</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose debug reset</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose debug flow filter addr</span> <span class="c-val">192.168.60.100</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose debug flow show function-name</span> <span class="c-val">enable</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose debug flow trace start</span> <span class="c-val">100</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose debug enable</span>
+<span class="c-comment"># ... reproduce traffic ...</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose debug disable</span>
+
+<span class="c-comment"># Check routing table</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">get router info routing-table all</span>
+
+<span class="c-comment"># Check policy hit counters</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose firewall iprope show</span> <span class="c-val">100004</span> <span class="c-val">0</span>
+
+<span class="c-comment"># GeoIP block verification</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose ip block list</span>
+
+<span class="c-comment"># IPS status</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">get ips status</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose ips anomaly list</span></pre></div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span>Enterprise Security Lab · <span id="footer-year"></span></span>
+  <span>FortiGate 60E · FortiOS 7.4 · <a href="index.html">← Home</a></span>
+</footer>
+
+<script>
+  function updateClock() {
+    document.getElementById('live-clock').textContent =
+      new Date().toLocaleTimeString('en-GB', { timeZone: 'Europe/Bratislava', hour12: false });
+  }
+  setInterval(updateClock, 1000); updateClock();
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  function copyCode(btn) {
+    const pre = btn.closest('.cli-block').querySelector('pre');
+    const text = pre.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  }
+</script>
 </body>
 </html>
