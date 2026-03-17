@@ -1,37 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Enterprise Security Lab</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 40px 20px;
-      background: #f7f9fc;
-      color: #1f2937;
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    h1 {
-      margin-top: 0;
-    }
-    .box {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Security Lab</title>
+
+<style>
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:#f7f9fc;
+margin:0;
+padding:0;
+color:#1f2937;
+}
+
+header{
+background:#111827;
+color:white;
+padding:40px;
+text-align:center;
+}
+
+header h1{
+margin:0;
+font-size:32px;
+}
+
+header p{
+margin-top:10px;
+color:#d1d5db;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:40px 20px;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,0.06);
+margin-bottom:30px;
+}
+
+img{
+max-width:100%;
+border-radius:8px;
+border:1px solid #e5e7eb;
+margin-top:20px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.box{
+background:#f9fafb;
+padding:20px;
+border-radius:8px;
+border:1px solid #e5e7eb;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+th,td{
+border:1px solid #e5e7eb;
+padding:10px;
+text-align:left;
+}
+
+th{
+background:#f3f4f6;
+}
+
+footer{
+text-align:center;
+padding:30px;
+color:#6b7280;
+}
+
+</style>
+
 </head>
+
 <body>
-  <div class="box">
-    <h1>Enterprise Security Lab</h1>
-    <p>GitLab Pages is working.</p>
-    <p>This is the initial public site for the Enterprise Security Lab project.</p>
-  </div>
+
+<header>
+
+<h1>Enterprise Security Lab</h1>
+
+<p>
+Enterprise network architecture, VLAN segmentation,
+firewall security policies and monitoring visibility.
+</p>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Overview</h2>
+
+<p>
+This project demonstrates an enterprise-style network environment
+with firewall-controlled segmentation, VLAN architecture,
+and infrastructure monitoring visibility.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>Network Topology</h2>
+
+<p>Main infrastructure architecture.</p>
+
+<img src="assets/images/topology.png">
+
+</div>
+
+<div class="card">
+
+<h2>VLAN Segmentation</h2>
+
+<table>
+
+<tr>
+<th>VLAN</th>
+<th>Role</th>
+</tr>
+
+<tr>
+<td>10</td>
+<td>Management</td>
+</tr>
+
+<tr>
+<td>20</td>
+<td>Users</td>
+</tr>
+
+<tr>
+<td>30</td>
+<td>Servers</td>
+</tr>
+
+<tr>
+<td>40</td>
+<td>Guest</td>
+</tr>
+
+<tr>
+<td>50</td>
+<td>Monitoring</td>
+</tr>
+
+</table>
+
+<img src="assets/images/vlan-segmentation.png">
+
+</div>
+
+<div class="card">
+
+<h2>Firewall Traffic Flow</h2>
+
+<p>
+The firewall enforces communication rules between network zones.
+</p>
+
+<ul>
+
+<li>Users VLAN → Internet (Allow)</li>
+<li>Users VLAN → Servers (Allow)</li>
+<li>Guest VLAN → Internet (Allow)</li>
+<li>Guest VLAN → Internal Network (Deny)</li>
+<li>Monitoring VLAN → Infrastructure Devices (Allow)</li>
+
+</ul>
+
+<img src="assets/images/traffic-flow.png">
+
+</div>
+
+<div class="card">
+
+<h2>Infrastructure Components</h2>
+
+<div class="grid">
+
+<div class="box">
+<h3>fw01</h3>
+<p>Firewall controlling segmentation and security policies.</p>
+</div>
+
+<div class="box">
+<h3>sw01</h3>
+<p>Managed switch providing VLAN segmentation.</p>
+</div>
+
+<div class="box">
+<h3>ap01</h3>
+<p>Wireless access point for user and guest connectivity.</p>
+</div>
+
+<div class="box">
+<h3>srv01</h3>
+<p>Infrastructure server hosting internal services.</p>
+</div>
+
+<div class="box">
+<h3>soc01</h3>
+<p>Monitoring and logging system.</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+
+Enterprise Security Lab Documentation
+
+</footer>
+
 </body>
 </html>
