@@ -3,221 +3,197 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab – Incident Response Case</title>
-
-<link rel="stylesheet" href="style.css">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+<title>Incident Response Case — Enterprise Security Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-.hero{
-background:linear-gradient(180deg,#0f172a,#0b1320);
-border:1px solid #334155;
-border-radius:16px;
-padding:24px;
-margin-bottom:24px;
-box-shadow:0 8px 24px rgba(0,0,0,.22);
-}
+:root{--bg-base:#060a0f;--bg-surface:#0c1420;--bg-card:#101c2e;--border:#1e3050;--border-glow:#1e4a7a;--cyan:#00c8ff;--green:#00ff9d;--amber:#ffb300;--red:#ff3b5c;--purple:#8b5cf6;--text:#e2eaf5;--muted:#7a9ab8;--dim:#3d5a77;--mono:'JetBrains Mono',monospace;--display:'Syne',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-base);color:var(--text);font-family:var(--mono);font-size:13px;line-height:1.6;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.status-bar{position:fixed;top:0;left:0;right:0;height:32px;background:rgba(6,10,15,0.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:1000;backdrop-filter:blur(12px)}
+.sbl{display:flex;align-items:center;gap:16px;font-size:10px;color:var(--dim);letter-spacing:.05em}
+.si{display:flex;align-items:center;gap:5px;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.dot{width:6px;height:6px;border-radius:50%;animation:pulse 2s infinite}
+.dot.green{background:var(--green);box-shadow:0 0 6px var(--green)}.dot.amber{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.sbr{display:flex;align-items:center;gap:20px;font-size:10px;color:var(--dim)}
+#lc{color:var(--cyan);font-weight:500}
+nav{position:fixed;top:32px;left:0;right:0;height:52px;background:rgba(12,20,32,.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:999;backdrop-filter:blur(12px)}
+.nb{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nl{width:30px;height:30px;border:1.5px solid var(--cyan);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--cyan);font-family:var(--display);font-weight:800}
+.nt{font-family:var(--display);font-weight:700;font-size:13px;color:var(--text)}.nt span{color:var(--cyan)}
+.nls{display:flex;align-items:center;gap:2px;list-style:none}
+.nls a{display:block;padding:5px 10px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-radius:3px;transition:all .2s;border:1px solid transparent}
+.nls a:hover,.nls a.active{color:var(--cyan);border-color:var(--border-glow);background:rgba(0,200,255,.08)}
+main{position:relative;z-index:1;padding:84px 24px 80px;max-width:1100px;margin:0 auto}
+.ph{padding:48px 0 32px;border-bottom:1px solid var(--border);margin-bottom:32px}
+.ptag{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:16px;border:1px solid rgba(255,59,92,.25);padding:4px 12px;border-radius:2px}
+.ph h1{font-family:var(--display);font-size:clamp(22px,3vw,38px);font-weight:800;color:var(--text);margin-bottom:8px}.ph h1 span{color:var(--cyan)}
+.ph p{color:var(--muted);font-size:13px;max-width:640px;line-height:1.7}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);margin-top:32px}
+.sh h2{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.sl{flex:1;height:1px;background:linear-gradient(to right,var(--border),transparent)}
+.st{font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:2px;font-weight:500}
+.tr{color:var(--red);background:rgba(255,59,92,.08);border:1px solid rgba(255,59,92,.2)}
+.tg{color:var(--green);background:rgba(0,255,157,.08);border:1px solid rgba(0,255,157,.2)}
+.tc{color:var(--cyan);background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.2)}
+.ta{color:var(--amber);background:rgba(255,179,0,.08);border:1px solid rgba(255,179,0,.2)}
 
-.hero p{
-max-width:980px;
-margin:12px auto 0;
-color:#94a3b8;
-line-height:1.7;
-}
+/* CASE META */
+.case-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:32px}
+.cm-item{background:var(--bg-card);padding:14px 18px}
+.cm-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
+.cm-value{font-family:var(--display);font-size:13px;font-weight:700}
+.cv-r{color:var(--red)}.cv-a{color:var(--amber)}.cv-g{color:var(--green)}.cv-c{color:var(--cyan)}
 
-.case-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-margin-bottom:18px;
-}
+/* TIMELINE */
+.timeline{position:relative;margin-bottom:32px}
+.timeline::before{content:'';position:absolute;left:16px;top:0;bottom:0;width:1px;background:var(--border)}
+.tl-item{display:flex;gap:20px;margin-bottom:20px;position:relative}
+.tl-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;z-index:1}
+.td-detect{background:#1a0505;border:2px solid var(--red);color:var(--red)}
+.td-contain{background:#1a0f00;border:2px solid var(--amber);color:var(--amber)}
+.td-eradicate{background:#051a0e;border:2px solid var(--green);color:var(--green)}
+.td-recover{background:#05101e;border:2px solid var(--cyan);color:var(--cyan)}
+.td-postmortem{background:#0e0a1e;border:2px solid var(--purple);color:var(--purple)}
+.tl-content{flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:14px 18px}
+.tl-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.tl-phase{font-family:var(--display);font-size:12px;font-weight:700;color:var(--text)}
+.tl-time{font-size:10px;color:var(--dim)}
+.tl-body{font-size:11px;color:var(--muted);line-height:1.6}
+.tl-body strong{color:var(--text);font-weight:500}
 
-.panel{
-background:linear-gradient(180deg,#0f172a,#0b1320);
-border:1px solid #334155;
-border-radius:16px;
-padding:20px;
-text-align:left;
-box-shadow:0 8px 24px rgba(0,0,0,.22);
-}
+/* CLI snippet inline */
+.inline-cli{background:#020810;border:1px solid var(--border);border-radius:3px;padding:10px 14px;margin-top:10px;font-size:11px;overflow-x:auto}
+.inline-cli pre{margin:0;line-height:1.6;white-space:pre}
+.cp{color:var(--dim)}.cc{color:var(--cyan)}.ck{color:var(--amber)}.cv{color:var(--green)}.cm{color:#3d5a77;font-style:italic}.co{color:var(--muted)}
 
-.panel h2{
-margin-top:0;
-}
+.badge{display:inline-flex;padding:2px 8px;border-radius:2px;font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.bg{color:var(--green);background:rgba(0,255,157,.08);border:1px solid rgba(0,255,157,.2)}
+.br{color:var(--red);background:rgba(255,59,92,.08);border:1px solid rgba(255,59,92,.2)}
+.ba{color:var(--amber);background:rgba(255,179,0,.08);border:1px solid rgba(255,179,0,.2)}
 
-.summary-list{
-margin:0;
-padding-left:18px;
-line-height:1.8;
-color:#cbd5e1;
-}
-
-.timeline{
-margin-top:8px;
-}
-
-.timeline-item{
-padding:14px 0;
-border-bottom:1px solid #1f2937;
-display:grid;
-grid-template-columns:120px 1fr;
-gap:16px;
-}
-
-.timeline-item:last-child{
-border-bottom:none;
-}
-
-.time{
-color:#60a5fa;
-font-weight:700;
-}
-
-.badge{
-display:inline-block;
-padding:4px 8px;
-border-radius:999px;
-font-size:11px;
-font-weight:700;
-border:1px solid transparent;
-margin-right:8px;
-}
-
-.badge.blocked{
-background:rgba(239,68,68,.14);
-color:#fca5a5;
-border-color:rgba(239,68,68,.3);
-}
-
-.badge.detected{
-background:rgba(56,189,248,.14);
-color:#7dd3fc;
-border-color:rgba(56,189,248,.3);
-}
-
-.badge.contained{
-background:rgba(34,197,94,.14);
-color:#86efac;
-border-color:rgba(34,197,94,.3);
-}
-
-.badge.review{
-background:rgba(245,158,11,.14);
-color:#fcd34d;
-border-color:rgba(245,158,11,.3);
-}
-
-.full{
-margin-top:18px;
-}
-
-@media (max-width:980px){
-.case-grid{
-grid-template-columns:1fr;
-}
-.timeline-item{
-grid-template-columns:1fr;
-gap:8px;
-}
-}
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:24px;max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--dim)}
+footer a{color:var(--cyan);text-decoration:none}
+@media(max-width:768px){.nls{display:none}}
 </style>
 </head>
 <body>
-
-<div class="container">
-
-<div class="nav">
-<a href="index.html">Home</a>
-<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-<a href="topology.html">Topology</a>
-<a href="network-diagram.html">Network Diagram</a>
-<a href="network-zones.html">Network Zones</a>
-<a href="attack-paths.html">Attack Simulation</a>
-<a href="attack-surface.html">Attack Surface</a>
-<a href="architecture-overview.html">Architecture</a>
-<a href="architecture-decisions.html">Architecture Decisions</a>
-<a href="security-model.html">Security Model</a>
-<a href="security-operations.html">Security Operations</a>
-<a href="interactive-security-architecture.html">Architecture Map</a>
-<a href="firewall-policy-map.html">Policy Map</a>
-<a href="soc-timeline.html">SOC Timeline</a>
-<a href="traffic-simulation.html">Traffic Simulation</a>
-<a href="network-telemetry-map.html">Telemetry Map</a>
-<a href="soc-dashboard.html">SOC Dashboard</a>
-<a href="soc-command-center.html">SOC Command Center</a>
-<a href="global-attack-map.html">Global Attack Map</a>
-<a href="threat-intelligence-feed.html">Threat Intel Feed</a>
-<a href="executive-security-overview.html">Executive Overview</a>
-<a href="incident-response-case.html">Incident Response</a>
-<a href="security-controls-mapping.html">Controls Mapping</a>
-<a href="device-fortigate.html">FortiGate</a>
-<a href="device-cbs250.html">CBS250</a>
-<a href="troubleshooting.html">Troubleshooting</a>
+<div class="status-bar">
+  <div class="sbl">
+    <div class="si"><div class="dot green"></div><span>INCIDENT CLOSED</span></div>
+    <div class="si"><div class="dot green"></div><span>LATERAL MOVEMENT BLOCKED</span></div>
+    <div class="si"><div class="dot amber"></div><span>POST-MORTEM COMPLETE</span></div>
+  </div>
+  <div class="sbr"><span>TZ: Europe/Bratislava</span><span id="lc">--:--:--</span><span>NIST IR SP 800-61</span></div>
 </div>
+<nav>
+  <a href="index.html" class="nb"><div class="nl">ES</div><div class="nt">Enterprise<span>Lab</span></div></a>
+  <ul class="nls">
+    <li><a href="index.html">Home</a></li><li><a href="topology.html">Topology</a></li>
+    <li><a href="soc-dashboard.html">SOC</a></li><li><a href="threat-intelligence-feed.html">Threat Intel</a></li>
+    <li><a href="incident-response-case.html" class="active">IR</a></li><li><a href="architecture-overview.html">Architecture</a></li>
+    <li><a href="device-fortigate.html">FortiGate</a></li><li><a href="device-cbs250.html">CBS250</a></li>
+  </ul>
+</nav>
+<main>
+  <div class="ph">
+    <div class="ptag">▶ Incident Response // NIST SP 800-61</div>
+    <h1>IR Case <span>ESL-IR-001</span></h1>
+    <p>Documented incident: Guest VLAN lateral movement attempt blocked by FortiGate policy. Full NIST SP 800-61 response cycle — Detection, Containment, Eradication, Recovery, Post-mortem.</p>
+  </div>
 
-<h1>Incident Response Case</h1>
+  <!-- CASE META -->
+  <div class="case-meta">
+    <div class="cm-item"><div class="cm-label">Case ID</div><div class="cm-value cv-c">ESL-IR-001</div></div>
+    <div class="cm-item"><div class="cm-label">Severity</div><div class="cm-value cv-a">HIGH</div></div>
+    <div class="cm-item"><div class="cm-label">Status</div><div class="cm-value cv-g">CLOSED</div></div>
+    <div class="cm-item"><div class="cm-label">MITRE Tactic</div><div class="cm-value cv-r">Lateral Movement</div></div>
+    <div class="cm-item"><div class="cm-label">Technique</div><div class="cm-value">T1046 · T1021</div></div>
+    <div class="cm-item"><div class="cm-label">Source IP</div><div class="cm-value cv-r">10.10.60.44</div></div>
+    <div class="cm-item"><div class="cm-label">Target Zone</div><div class="cm-value">VLAN20 Users</div></div>
+    <div class="cm-item"><div class="cm-label">MTTR</div><div class="cm-value cv-g">11 min</div></div>
+  </div>
 
-<div class="hero">
-<h2>Case Study: Guest VLAN Attempted Lateral Movement</h2>
-<p>
-This incident case documents a simulated security event where an untrusted guest endpoint attempted to reach
-protected internal assets. The event was detected, blocked and reviewed as part of an incident response workflow.
-</p>
-</div>
+  <!-- TIMELINE -->
+  <div class="sh"><h2>Incident Timeline</h2><div class="sl"></div><span class="st tr">NIST SP 800-61</span></div>
+  <div class="timeline">
 
-<div class="case-grid">
-    <div class="panel">
-        <h2>Incident Summary</h2>
-        <ul class="summary-list">
-            <li><strong>Incident:</strong> Guest VLAN attempted access to Users VLAN</li>
-            <li><strong>Source Zone:</strong> VLAN60 – Guest</li>
-            <li><strong>Target Zone:</strong> VLAN20 – Users</li>
-            <li><strong>Detection Method:</strong> Firewall deny policy + SOC event monitoring</li>
-            <li><strong>Impact:</strong> No access granted, traffic blocked at policy layer</li>
-            <li><strong>Status:</strong> Contained and documented</li>
-        </ul>
+    <div class="tl-item">
+      <div class="tl-dot td-detect">D</div>
+      <div class="tl-content">
+        <div class="tl-header"><span class="tl-phase">Phase 1 — Detection</span><span class="tl-time">05:12:44 · T+0:00</span></div>
+        <div class="tl-body">
+          FortiGate IPS triggered on <strong>247 SYN packets in 3 seconds</strong> from 10.10.60.44 targeting 10.10.20.0/24. Alert classified as network scan (MITRE T1046). Policy ID 8 (Block-Guest-to-Users) automatically denied all traffic. IPS signature <strong>id=48155 (Network.Scan.Detection)</strong> logged to FortiAnalyzer.
+          <div class="inline-cli"><pre><span class="cm"># FortiGate IPS log entry</span>
+<span class="co">date=2024-03-17 time=05:12:44 devname="FG60E" logid="0419016384"</span>
+<span class="co">type="utm" subtype="ips" eventtype="signature" level="alert"</span>
+<span class="co">srcip=10.10.60.44 dstip=10.10.20.0/24 proto=6</span>
+<span class="co">attack="Network.Scan.Detection" severity="high" action="dropped"</span>
+<span class="co">policyid=8 ref="http://www.fortinet.com/ids/ID48155"</span></pre></div>
+        </div>
+      </div>
     </div>
 
-    <div class="panel">
-        <h2>Root Cause & Containment</h2>
-        <ul class="summary-list">
-            <li><strong>Root Cause:</strong> Untrusted endpoint initiated unauthorized east-west traffic.</li>
-            <li><strong>Containment:</strong> Firewall deny rule prevented lateral movement.</li>
-            <li><strong>Validation:</strong> Policy map and telemetry confirmed no successful session.</li>
-            <li><strong>Follow-up:</strong> Event recorded for incident review and tuning validation.</li>
-        </ul>
+    <div class="tl-item">
+      <div class="tl-dot td-contain">C</div>
+      <div class="tl-content">
+        <div class="tl-header"><span class="tl-phase">Phase 2 — Containment</span><span class="tl-time">05:14:22 · T+1:38</span></div>
+        <div class="tl-body">
+          Verified FortiGate policy ID 8 was actively denying all traffic from VLAN60 to VLAN20. Confirmed with packet sniffer — zero packets crossing zone boundary. Added temporary <strong>explicit host block</strong> for 10.10.60.44 pending investigation. Guest VLAN already fully isolated by design.
+          <div class="inline-cli"><pre><span class="cm"># Verify block is in place</span>
+<span class="cp">FG60E # </span><span class="cc">diagnose debug flow filter</span> <span class="ck">src</span> <span class="cv">10.10.60.44</span>
+<span class="cp">FG60E # </span><span class="cc">diagnose debug flow trace start</span> <span class="cv">20</span>
+<span class="cp">FG60E # </span><span class="cc">diagnose debug enable</span>
+<span class="cm"># Output confirmed: "Denied by forward policy check, drop"</span>
+<span class="cm"># policyid=8, act=deny</span></pre></div>
+        </div>
+      </div>
     </div>
-</div>
 
-<div class="panel full">
-    <h2>Incident Timeline</h2>
-    <div class="timeline">
-        <div class="timeline-item">
-            <div class="time">12:41:05</div>
-            <div><span class="badge detected">Detected</span> Guest endpoint initiated connection attempt toward protected user segment.</div>
+    <div class="tl-item">
+      <div class="tl-dot td-eradicate">E</div>
+      <div class="tl-content">
+        <div class="tl-header"><span class="tl-phase">Phase 3 — Eradication</span><span class="tl-time">05:19:05 · T+6:21</span></div>
+        <div class="tl-body">
+          DHCP lease for 10.10.60.44 identified and released. MAC address <strong>logged for threat intel</strong>. Device identified as unmanaged IoT device connected to Guest VLAN gi6 on SW-A. Device disconnected from network. No lateral movement to VLAN20 confirmed — zero successful connections in session table from 10.10.60.44 to any internal VLAN.
         </div>
-        <div class="timeline-item">
-            <div class="time">12:41:06</div>
-            <div><span class="badge blocked">Blocked</span> FortiGate matched deny policy and prevented the session from crossing zones.</div>
-        </div>
-        <div class="timeline-item">
-            <div class="time">12:41:07</div>
-            <div><span class="badge contained">Contained</span> Event was confirmed as contained with no successful internal access.</div>
-        </div>
-        <div class="timeline-item">
-            <div class="time">12:42:10</div>
-            <div><span class="badge review">Review</span> Security monitoring workflow logged the event for incident documentation and control validation.</div>
-        </div>
-        <div class="timeline-item">
-            <div class="time">12:45:00</div>
-            <div><span class="badge review">Lessons Learned</span> Segmentation and explicit deny rules were validated as effective against lateral movement attempts.</div>
-        </div>
+      </div>
     </div>
-</div>
 
-</div>
+    <div class="tl-item">
+      <div class="tl-dot td-recover">R</div>
+      <div class="tl-content">
+        <div class="tl-header"><span class="tl-phase">Phase 4 — Recovery</span><span class="tl-time">05:23:01 · T+10:17</span></div>
+        <div class="tl-body">
+          Temporary host block removed (device disconnected). Guest VLAN policies confirmed intact. IPS signatures verified as current. No changes required to existing firewall policy — <strong>segmentation worked as designed</strong>. Normal operations confirmed.
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot td-postmortem">P</div>
+      <div class="tl-content">
+        <div class="tl-header"><span class="tl-phase">Phase 5 — Post-Mortem</span><span class="tl-time">Completed · T+120 min</span></div>
+        <div class="tl-body">
+          <strong>Root cause:</strong> Unmanaged device on Guest VLAN exhibited scanning behavior consistent with IoT malware (Mirai variant suspected). <br><br>
+          <strong>What worked:</strong> FortiGate policy ID 8 immediately denied all lateral movement attempts. IPS detected and alerted within seconds. Zero VLAN20 hosts were affected.<br><br>
+          <strong>Improvements identified:</strong> Add port security MAC limit on Guest ports (SW-A gi6). Consider captive portal for Guest VLAN. Add IoT VLAN40 as dedicated zone.
+          <strong>MTTR: 11 minutes</strong> from detection to confirmed containment.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+<footer>
+  <span>Enterprise Security Lab · <span id="fy"></span></span>
+  <span>IR Case ESL-IR-001 · NIST SP 800-61 · <a href="soc-dashboard.html">← SOC</a> · <a href="index.html">Home</a></span>
+</footer>
+<script>
+  function uc(){document.getElementById('lc').textContent=new Date().toLocaleTimeString('en-GB',{timeZone:'Europe/Bratislava',hour12:false})}
+  setInterval(uc,1000);uc();document.getElementById('fy').textContent=new Date().getFullYear();
+</script>
 </body>
 </html>
