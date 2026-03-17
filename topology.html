@@ -3,61 +3,194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab – Network Topology</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Network Topology — Enterprise Security Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-body{background:#060b16;color:#e2e8f0;font-family:'Inter',sans-serif;margin:0;text-align:center}
-.container{max-width:1100px;margin:auto;padding:40px 20px 80px}
-.nav{margin-bottom:30px}
-.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
-.nav a:hover{background:#1e293b}
-.card{background:#0f172a;border:1px solid #334155;border-radius:14px;padding:24px;text-align:left}
-ul{text-align:left}
+:root{--bg-base:#060a0f;--bg-surface:#0c1420;--bg-card:#101c2e;--border:#1e3050;--border-glow:#1e4a7a;--cyan:#00c8ff;--green:#00ff9d;--amber:#ffb300;--red:#ff3b5c;--purple:#8b5cf6;--blue:#3b82f6;--text:#e2eaf5;--muted:#7a9ab8;--dim:#3d5a77;--mono:'JetBrains Mono',monospace;--display:'Syne',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-base);color:var(--text);font-family:var(--mono);font-size:13px;line-height:1.6;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.status-bar{position:fixed;top:0;left:0;right:0;height:32px;background:rgba(6,10,15,0.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:1000;backdrop-filter:blur(12px)}
+.sbl{display:flex;align-items:center;gap:16px;font-size:10px;color:var(--dim);letter-spacing:.05em}
+.si{display:flex;align-items:center;gap:5px;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.dot{width:6px;height:6px;border-radius:50%;animation:pulse 2s infinite}
+.dot.green{background:var(--green);box-shadow:0 0 6px var(--green)}.dot.amber{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.sbr{display:flex;align-items:center;gap:20px;font-size:10px;color:var(--dim)}
+#lc{color:var(--cyan);font-weight:500}
+nav{position:fixed;top:32px;left:0;right:0;height:52px;background:rgba(12,20,32,.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:999;backdrop-filter:blur(12px)}
+.nb{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nl{width:30px;height:30px;border:1.5px solid var(--cyan);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--cyan);font-family:var(--display);font-weight:800}
+.nt{font-family:var(--display);font-weight:700;font-size:13px;color:var(--text)}.nt span{color:var(--cyan)}
+.nls{display:flex;align-items:center;gap:2px;list-style:none}
+.nls a{display:block;padding:5px 10px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-radius:3px;transition:all .2s;border:1px solid transparent}
+.nls a:hover,.nls a.active{color:var(--cyan);border-color:var(--border-glow);background:rgba(0,200,255,.08)}
+main{position:relative;z-index:1;padding:84px 24px 80px;max-width:1200px;margin:0 auto}
+.ph{padding:48px 0 32px;border-bottom:1px solid var(--border);margin-bottom:32px}
+.ptag{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--cyan);margin-bottom:16px;border:1px solid rgba(0,200,255,.25);padding:4px 12px;border-radius:2px}
+.ph h1{font-family:var(--display);font-size:clamp(24px,3vw,40px);font-weight:800;color:var(--text);margin-bottom:8px}.ph h1 span{color:var(--cyan)}
+.ph p{color:var(--muted);font-size:13px;max-width:640px;line-height:1.7}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);margin-top:32px}
+.sh h2{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.sl{flex:1;height:1px;background:linear-gradient(to right,var(--border),transparent)}
+.st{font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:2px;font-weight:500}
+.tc{color:var(--cyan);background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.2)}
+
+/* TOPOLOGY SVG */
+.topo-wrap{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;padding:32px 20px;margin-bottom:32px}
+.topo-svg{width:100%;max-width:900px;display:block;margin:0 auto}
+@keyframes flow{0%{stroke-dashoffset:300}100%{stroke-dashoffset:0}}
+.fl{stroke-dasharray:6 4;animation:flow 2s linear infinite;opacity:.5}
+.fl2{stroke-dasharray:6 4;animation:flow 2.5s linear infinite;opacity:.5;animation-delay:.5s}
+.fl3{stroke-dasharray:6 4;animation:flow 3s linear infinite;opacity:.5;animation-delay:1s}
+
+/* DEVICE CARDS */
+.device-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:32px}
+.device-card{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:16px 20px}
+.dc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.dc-title{font-family:var(--display);font-size:13px;font-weight:700;color:var(--text)}
+.dc-rows{display:flex;flex-direction:column;gap:4px}
+.dc-row{display:flex;justify-content:space-between;font-size:11px}
+.dc-key{color:var(--dim)}.dc-val{color:var(--muted)}
+.dc-val.c{color:var(--cyan)}.dc-val.g{color:var(--green)}.dc-val.a{color:var(--amber)}
+.badge{display:inline-flex;padding:2px 8px;border-radius:2px;font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.bg{color:var(--green);background:rgba(0,255,157,.08);border:1px solid rgba(0,255,157,.2)}
+.ba{color:var(--amber);background:rgba(255,179,0,.08);border:1px solid rgba(255,179,0,.2)}
+
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:24px;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--dim)}
+footer a{color:var(--cyan);text-decoration:none}
+@media(max-width:768px){.nls{display:none}}
 </style>
 </head>
 <body>
-<div class="container">
-
-<div class="nav">
-<a href="index.html">Home</a>
-<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-<a href="topology.html">Topology</a>
-<a href="network-diagram.html">Network Diagram</a>
-<a href="network-zones.html">Network Zones</a>
-<a href="attack-paths.html">Attack Simulation</a>
-<a href="attack-surface.html">Attack Surface</a>
-<a href="architecture-overview.html">Architecture</a>
-<a href="architecture-decisions.html">Architecture Decisions</a>
-<a href="security-model.html">Security Model</a>
-<a href="security-operations.html">Security Operations</a>
-<a href="interactive-security-architecture.html">Architecture Map</a>
-<a href="firewall-policy-map.html">Policy Map</a>
-<a href="soc-timeline.html">SOC Timeline</a>
-<a href="traffic-simulation.html">Traffic Simulation</a>
-<a href="network-telemetry-map.html">Telemetry Map</a>
-<a href="soc-dashboard.html">SOC Dashboard</a>
-<a href="soc-command-center.html">SOC Command Center</a>
-<a href="device-fortigate.html">FortiGate</a>
-<a href="device-cbs250.html">CBS250</a>
-<a href="troubleshooting.html">Troubleshooting</a>
+<div class="status-bar">
+  <div class="sbl">
+    <div class="si"><div class="dot green"></div><span>FORTIGATE ONLINE</span></div>
+    <div class="si"><div class="dot green"></div><span>SW-A ONLINE</span></div>
+    <div class="si"><div class="dot green"></div><span>SW-B ONLINE</span></div>
+  </div>
+  <div class="sbr"><span>TZ: Europe/Bratislava</span><span id="lc">--:--:--</span><span>FortiOS 7.4</span></div>
 </div>
+<nav>
+  <a href="index.html" class="nb"><div class="nl">ES</div><div class="nt">Enterprise<span>Lab</span></div></a>
+  <ul class="nls">
+    <li><a href="index.html">Home</a></li><li><a href="topology.html" class="active">Topology</a></li>
+    <li><a href="soc-dashboard.html">SOC</a></li><li><a href="threat-intelligence-feed.html">Threat Intel</a></li>
+    <li><a href="incident-response-case.html">IR</a></li><li><a href="architecture-overview.html">Architecture</a></li>
+    <li><a href="device-fortigate.html">FortiGate</a></li><li><a href="device-cbs250.html">CBS250</a></li>
+  </ul>
+</nav>
+<main>
+  <div class="ph">
+    <div class="ptag">▶ Infrastructure // Physical Topology</div>
+    <h1>Network <span>Topology</span></h1>
+    <p>Physical and logical topology of the enterprise security lab. FortiGate 60E as edge NGFW, two cascaded CBS250-8PP-D switches providing VLAN segmentation across 6 security zones.</p>
+  </div>
 
-<h1>Network Topology</h1>
+  <div class="sh"><h2>Physical Topology Diagram</h2><div class="sl"></div><span class="st tc">LIVE</span></div>
+  <div class="topo-wrap">
+    <svg class="topo-svg" viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg">
+      <!-- ISP/Internet -->
+      <rect x="350" y="10" width="200" height="50" rx="4" fill="#0d1230" stroke="#6366f1" stroke-width="1.5"/>
+      <text x="450" y="32" text-anchor="middle" fill="#818cf8" font-family="'JetBrains Mono'" font-size="11" font-weight="700">INTERNET / ISP</text>
+      <text x="450" y="48" text-anchor="middle" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="9">WAN — DHCP</text>
 
-<div class="card">
-<h2>Infrastructure Layout</h2>
-<p>The lab network is segmented using VLAN architecture with a FortiGate firewall acting as the central security gateway.</p>
-<ul>
-<li>Internet uplink through ISP modem</li>
-<li>FortiGate 60E for inter-VLAN routing and security enforcement</li>
-<li>Cisco CBS250 for Layer 2 access switching</li>
-<li>Users, Management and Guest as current core zones</li>
-</ul>
-<p>This topology reflects a small enterprise-style security design with clear trust boundaries.</p>
-</div>
+      <!-- Line Internet → FG -->
+      <line x1="450" y1="60" x2="450" y2="110" stroke="#3d5a77" stroke-width="2"/>
+      <line x1="450" y1="60" x2="450" y2="110" stroke="#6366f1" stroke-width="2" class="fl"/>
+      <text x="462" y="90" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="8">wan1</text>
 
-</div>
+      <!-- FortiGate -->
+      <rect x="300" y="110" width="300" height="60" rx="4" fill="#1a0808" stroke="#ef4444" stroke-width="2"/>
+      <text x="450" y="136" text-anchor="middle" fill="#f87171" font-family="'Syne'" font-size="13" font-weight="800">FortiGate 60E</text>
+      <text x="450" y="154" text-anchor="middle" fill="#7a9ab8" font-family="'JetBrains Mono'" font-size="9">NGFW · UTM · NAT · FortiOS 7.4 · 10.10.30.1/24</text>
+
+      <!-- Line FG → SW-A -->
+      <line x1="450" y1="170" x2="450" y2="230" stroke="#3d5a77" stroke-width="2"/>
+      <line x1="450" y1="170" x2="450" y2="230" stroke="#3b82f6" stroke-width="2" class="fl2"/>
+      <text x="462" y="205" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="8">802.1Q Trunk · gi1</text>
+
+      <!-- SW-A -->
+      <rect x="290" y="230" width="320" height="56" rx="4" fill="#050e1a" stroke="#3b82f6" stroke-width="1.5"/>
+      <text x="450" y="254" text-anchor="middle" fill="#60a5fa" font-family="'Syne'" font-size="12" font-weight="800">SW-A — CBS250-8PP-D</text>
+      <text x="450" y="270" text-anchor="middle" fill="#7a9ab8" font-family="'JetBrains Mono'" font-size="9">Primary Switch · Mgmt: 10.10.30.2 · ROS 3.5.3.2</text>
+
+      <!-- SW-A to SW-B -->
+      <line x1="610" y1="258" x2="720" y2="320" stroke="#3d5a77" stroke-width="1.5"/>
+      <line x1="610" y1="258" x2="720" y2="320" stroke="#3b82f6" stroke-width="1.5" class="fl3"/>
+      <text x="675" y="285" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="8">Trunk · gi4→gi1</text>
+
+      <!-- SW-B -->
+      <rect x="620" y="320" width="260" height="56" rx="4" fill="#050e1a" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <text x="750" y="344" text-anchor="middle" fill="#60a5fa" font-family="'Syne'" font-size="12" font-weight="800">SW-B — CBS250-8PP-D</text>
+      <text x="750" y="360" text-anchor="middle" fill="#7a9ab8" font-family="'JetBrains Mono'" font-size="9">Secondary Switch · ROS 3.5.3.2</text>
+
+      <!-- VLANs from SW-A (left side) -->
+      <line x1="340" y1="286" x2="200" y2="340" stroke="#00ff9d" stroke-width="1.5" class="fl"/>
+      <rect x="100" y="340" width="200" height="50" rx="3" fill="#051a0e" stroke="#00ff9d" stroke-width="1.2"/>
+      <text x="200" y="362" text-anchor="middle" fill="#00ff9d" font-family="'JetBrains Mono'" font-size="10" font-weight="700">VLAN 20 — Users</text>
+      <text x="200" y="378" text-anchor="middle" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="8">10.10.20.0/24 · gi5</text>
+
+      <line x1="340" y1="286" x2="200" y2="410" stroke="#3b82f6" stroke-width="1.5" class="fl2"/>
+      <rect x="100" y="410" width="200" height="50" rx="3" fill="#05101e" stroke="#3b82f6" stroke-width="1.2"/>
+      <text x="200" y="432" text-anchor="middle" fill="#60a5fa" font-family="'JetBrains Mono'" font-size="10" font-weight="700">VLAN 30 — Mgmt</text>
+      <text x="200" y="448" text-anchor="middle" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="8">10.10.30.0/24 · gi2,gi3</text>
+
+      <line x1="450" y1="286" x2="450" y2="340" stroke="#ffb300" stroke-width="1.5" class="fl3"/>
+      <rect x="350" y="340" width="200" height="50" rx="3" fill="#1a0f00" stroke="#ffb300" stroke-width="1.2" stroke-dasharray="5,3"/>
+      <text x="450" y="362" text-anchor="middle" fill="#ffb300" font-family="'JetBrains Mono'" font-size="10" font-weight="700">VLAN 60 — Guest</text>
+      <text x="450" y="378" text-anchor="middle" fill="#ffb300" font-family="'JetBrains Mono'" font-size="8">10.10.60.0/24 · ISOLATED · gi6</text>
+
+      <!-- VLANs from SW-B -->
+      <line x1="720" y1="376" x2="720" y2="420" stroke="#8b5cf6" stroke-width="1.2"/>
+      <rect x="630" y="420" width="180" height="46" rx="3" fill="#0e0a1e" stroke="#8b5cf6" stroke-width="1.2" stroke-dasharray="4,3"/>
+      <text x="720" y="440" text-anchor="middle" fill="#a78bfa" font-family="'JetBrains Mono'" font-size="9" font-weight="700">VLAN 40 — SOC</text>
+      <text x="720" y="455" text-anchor="middle" fill="#3d5a77" font-family="'JetBrains Mono'" font-size="8">10.10.40.0/24 · PLANNED</text>
+    </svg>
+  </div>
+
+  <!-- DEVICE CARDS -->
+  <div class="sh"><h2>Device Summary</h2><div class="sl"></div><span class="st tc">INVENTORY</span></div>
+  <div class="device-grid">
+    <div class="device-card">
+      <div class="dc-header"><span class="dc-title">FortiGate 60E</span><span class="badge bg">ONLINE</span></div>
+      <div class="dc-rows">
+        <div class="dc-row"><span class="dc-key">Role</span><span class="dc-val c">NGFW · Edge Router</span></div>
+        <div class="dc-row"><span class="dc-key">Firmware</span><span class="dc-val">FortiOS 7.4</span></div>
+        <div class="dc-row"><span class="dc-key">Mgmt IP</span><span class="dc-val g">10.10.30.1</span></div>
+        <div class="dc-row"><span class="dc-key">WAN</span><span class="dc-val">DHCP (ISP)</span></div>
+        <div class="dc-row"><span class="dc-key">Uplink</span><span class="dc-val">wan1 → ISP · internal1 → SW-A</span></div>
+      </div>
+    </div>
+    <div class="device-card">
+      <div class="dc-header"><span class="dc-title">SW-A — CBS250-8PP-D</span><span class="badge bg">ONLINE</span></div>
+      <div class="dc-rows">
+        <div class="dc-row"><span class="dc-key">Role</span><span class="dc-val c">Primary L2 Switch</span></div>
+        <div class="dc-row"><span class="dc-key">Firmware</span><span class="dc-val">ROS 3.5.3.2</span></div>
+        <div class="dc-row"><span class="dc-key">Mgmt IP</span><span class="dc-val g">10.10.30.2</span></div>
+        <div class="dc-row"><span class="dc-key">Uplink</span><span class="dc-val">gi1 → FG · gi4 → SW-B</span></div>
+        <div class="dc-row"><span class="dc-key">VLANs active</span><span class="dc-val a">20, 30, 60</span></div>
+      </div>
+    </div>
+    <div class="device-card">
+      <div class="dc-header"><span class="dc-title">SW-B — CBS250-8PP-D</span><span class="badge bg">ONLINE</span></div>
+      <div class="dc-rows">
+        <div class="dc-row"><span class="dc-key">Role</span><span class="dc-val c">Secondary L2 Switch</span></div>
+        <div class="dc-row"><span class="dc-key">Firmware</span><span class="dc-val">ROS 3.5.3.2</span></div>
+        <div class="dc-row"><span class="dc-key">Uplink</span><span class="dc-val">gi1 → SW-A gi4</span></div>
+        <div class="dc-row"><span class="dc-key">VLANs active</span><span class="dc-val a">20, 30, 60</span></div>
+        <div class="dc-row"><span class="dc-key">Planned</span><span class="dc-val">VLAN 40, 50, 70</span></div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <span>Enterprise Security Lab · <span id="fy"></span></span>
+  <span>FortiGate 60E · 2× CBS250-8PP-D · <a href="index.html">← Home</a></span>
+</footer>
+<script>
+  function uc(){document.getElementById('lc').textContent=new Date().toLocaleTimeString('en-GB',{timeZone:'Europe/Bratislava',hour12:false})}
+  setInterval(uc,1000);uc();document.getElementById('fy').textContent=new Date().getFullYear();
+</script>
 </body>
 </html>
