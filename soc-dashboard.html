@@ -3,236 +3,263 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab – SOC Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>SOC Dashboard — Enterprise Security Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-body{
-    background:#030712;
-    color:#e5e7eb;
-    font-family:'Inter',sans-serif;
-    margin:0;
-}
-.container{
-    max-width:1400px;
-    margin:auto;
-    padding:30px 20px 80px;
-}
-.nav{
-    text-align:center;
-    margin-bottom:24px;
-}
-.nav a{
-    display:inline-block;
-    margin:6px;
-    padding:10px 16px;
-    border:1px solid #334155;
-    border-radius:999px;
-    color:#dbeafe;
-    text-decoration:none;
-    background:#0b1320;
-}
-.nav a:hover{background:#1e293b}
-h1{text-align:center;margin:10px 0 24px}
-.dashboard{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-    gap:18px;
-    margin-bottom:22px;
-}
-.panel{
-    background:#0f172a;
-    border:1px solid #334155;
-    border-radius:12px;
-    padding:20px;
-    box-shadow:0 8px 24px rgba(0,0,0,.25);
-}
-.metric-label{color:#94a3b8;font-size:14px;margin-bottom:8px}
-.metric{font-size:34px;font-weight:700}
-.green{color:#22c55e}
-.red{color:#ef4444}
-.orange{color:#f59e0b}
-.blue{color:#60a5fa}
-.graph{
-    height:140px;
-    background:linear-gradient(180deg,#0f172a,#020617);
-    border-radius:8px;
-    margin-top:12px;
-    position:relative;
-    overflow:hidden;
-}
-.bar{
-    position:absolute;
-    bottom:0;
-    width:10px;
-    background:#38bdf8;
-    border-radius:4px 4px 0 0;
-}
-.stream{
-    max-height:250px;
-    overflow:auto;
-    text-align:left;
-}
-.event{
-    padding:10px 0;
-    border-bottom:1px solid #1f2937;
-    font-size:14px;
-}
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:6px;
-}
-th,td{
-    padding:10px;
-    border-bottom:1px solid #1f2937;
-    text-align:left;
-}
-th{
-    color:#94a3b8;
-    font-size:12px;
-    text-transform:uppercase;
-}
-.badge-ok{color:#22c55e;font-weight:700}
-.badge-bad{color:#ef4444;font-weight:700}
-.chart-wrap{
-    display:grid;
-    grid-template-columns:1.2fr 1fr;
-    gap:18px;
-    margin-top:18px;
-}
-@media (max-width:980px){
-    .chart-wrap{grid-template-columns:1fr}
-}
+:root{--bg-base:#060a0f;--bg-surface:#0c1420;--bg-card:#101c2e;--border:#1e3050;--border-glow:#1e4a7a;--cyan:#00c8ff;--green:#00ff9d;--amber:#ffb300;--red:#ff3b5c;--purple:#8b5cf6;--text:#e2eaf5;--muted:#7a9ab8;--dim:#3d5a77;--mono:'JetBrains Mono',monospace;--display:'Syne',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-base);color:var(--text);font-family:var(--mono);font-size:13px;line-height:1.6;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.status-bar{position:fixed;top:0;left:0;right:0;height:32px;background:rgba(6,10,15,0.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:1000;backdrop-filter:blur(12px)}
+.sbl{display:flex;align-items:center;gap:16px;font-size:10px;color:var(--dim);letter-spacing:.05em}
+.si{display:flex;align-items:center;gap:5px;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.dot{width:6px;height:6px;border-radius:50%;animation:pulse 2s infinite}
+.dot.green{background:var(--green);box-shadow:0 0 6px var(--green)}.dot.amber{background:var(--amber);box-shadow:0 0 6px var(--amber)}.dot.red{background:var(--red);box-shadow:0 0 6px var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.sbr{display:flex;align-items:center;gap:20px;font-size:10px;color:var(--dim)}
+#lc{color:var(--cyan);font-weight:500}
+nav{position:fixed;top:32px;left:0;right:0;height:52px;background:rgba(12,20,32,.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:999;backdrop-filter:blur(12px)}
+.nb{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nl{width:30px;height:30px;border:1.5px solid var(--cyan);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--cyan);font-family:var(--display);font-weight:800}
+.nt{font-family:var(--display);font-weight:700;font-size:13px;color:var(--text)}.nt span{color:var(--cyan)}
+.nls{display:flex;align-items:center;gap:2px;list-style:none}
+.nls a{display:block;padding:5px 10px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-radius:3px;transition:all .2s;border:1px solid transparent}
+.nls a:hover,.nls a.active{color:var(--cyan);border-color:var(--border-glow);background:rgba(0,200,255,.08)}
+main{position:relative;z-index:1;padding:84px 24px 80px;max-width:1400px;margin:0 auto}
+.ph{padding:40px 0 28px;border-bottom:1px solid var(--border);margin-bottom:28px}
+.ptag{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--green);margin-bottom:12px;border:1px solid rgba(0,255,157,.25);padding:4px 12px;border-radius:2px}
+.ph h1{font-family:var(--display);font-size:clamp(22px,3vw,36px);font-weight:800;color:var(--text);margin-bottom:6px}.ph h1 span{color:var(--cyan)}
+.ph p{color:var(--muted);font-size:12px;line-height:1.6}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.sh h2{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.sl{flex:1;height:1px;background:linear-gradient(to right,var(--border),transparent)}
+.st{font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:2px;font-weight:500}
+.tg{color:var(--green);background:rgba(0,255,157,.08);border:1px solid rgba(0,255,157,.2)}
+.tr{color:var(--red);background:rgba(255,59,92,.08);border:1px solid rgba(255,59,92,.2)}
+.ta{color:var(--amber);background:rgba(255,179,0,.08);border:1px solid rgba(255,179,0,.2)}
+.tc{color:var(--cyan);background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.2)}
+
+/* METRICS */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:28px}
+.metric{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;padding:14px;position:relative;overflow:hidden}
+.metric::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.m-cyan::before{background:var(--cyan)}.m-green::before{background:var(--green)}
+.m-amber::before{background:var(--amber)}.m-red::before{background:var(--red)}.m-purple::before{background:var(--purple)}
+.m-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.m-value{font-family:var(--display);font-size:26px;font-weight:800;line-height:1;margin-bottom:4px}
+.m-cyan .m-value{color:var(--cyan)}.m-green .m-value{color:var(--green)}.m-amber .m-value{color:var(--amber)}.m-red .m-value{color:var(--red)}.m-purple .m-value{color:var(--purple)}
+.m-sub{font-size:10px;color:var(--dim)}
+
+/* ALERT QUEUE */
+.alert-queue{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;margin-bottom:28px;overflow:hidden}
+.aq-header{background:var(--bg-card);padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.aq-title{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.alert-item{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid rgba(30,48,80,.4);font-size:11px;transition:background .15s}
+.alert-item:hover{background:rgba(0,200,255,.03)}
+.alert-item:last-child{border-bottom:none}
+.a-sev{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.a-crit{background:var(--red);box-shadow:0 0 6px var(--red)}
+.a-high{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+.a-med{background:var(--cyan);box-shadow:0 0 6px var(--cyan)}
+.a-low{background:var(--dim)}
+.a-time{color:var(--dim);white-space:nowrap;width:56px;font-size:10px}
+.a-type{color:var(--amber);white-space:nowrap;width:120px;font-size:10px;font-weight:600}
+.a-src{color:var(--cyan);white-space:nowrap;width:110px}
+.a-msg{color:var(--muted);flex:1}
+.a-status{white-space:nowrap}
+.badge{display:inline-flex;padding:2px 7px;border-radius:2px;font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.b-new{color:var(--red);background:rgba(255,59,92,.1);border:1px solid rgba(255,59,92,.25)}
+.b-inv{color:var(--amber);background:rgba(255,179,0,.1);border:1px solid rgba(255,179,0,.25)}
+.b-res{color:var(--green);background:rgba(0,255,157,.1);border:1px solid rgba(0,255,157,.25)}
+.b-fp{color:var(--dim);background:rgba(61,90,119,.1);border:1px solid rgba(61,90,119,.25)}
+
+/* TWO COL */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
+@media(max-width:900px){.two-col{grid-template-columns:1fr}}
+.panel{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.panel-header{background:var(--bg-card);padding:10px 16px;border-bottom:1px solid var(--border);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.panel-body{padding:16px}
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(30,48,80,.3);font-size:11px}
+.stat-row:last-child{border-bottom:none}
+.sr-key{color:var(--dim)}.sr-val{color:var(--muted)}.sr-val.c{color:var(--cyan)}.sr-val.g{color:var(--green)}.sr-val.a{color:var(--amber)}.sr-val.r{color:var(--red)}
+
+/* BAR CHART */
+.bar-chart{display:flex;flex-direction:column;gap:8px}
+.bar-row{display:flex;align-items:center;gap:10px;font-size:10px}
+.bar-label{color:var(--muted);width:80px;flex-shrink:0}
+.bar-track{flex:1;height:8px;background:var(--bg-elevated,#162336);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;border-radius:2px;transition:width .5s}
+.bar-val{color:var(--dim);width:30px;text-align:right;flex-shrink:0}
+
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:24px;max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--dim)}
+footer a{color:var(--cyan);text-decoration:none}
+@media(max-width:768px){.nls{display:none}}
 </style>
 </head>
 <body>
-<div class="container">
-
-<div class="nav">
-<a href="index.html">Home</a>
-<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-<a href="topology.html">Topology</a>
-<a href="network-diagram.html">Network Diagram</a>
-<a href="network-zones.html">Network Zones</a>
-<a href="attack-paths.html">Attack Simulation</a>
-<a href="attack-surface.html">Attack Surface</a>
-<a href="architecture-overview.html">Architecture</a>
-<a href="architecture-decisions.html">Architecture Decisions</a>
-<a href="security-model.html">Security Model</a>
-<a href="security-operations.html">Security Operations</a>
-<a href="interactive-security-architecture.html">Architecture Map</a>
-<a href="firewall-policy-map.html">Policy Map</a>
-<a href="soc-timeline.html">SOC Timeline</a>
-<a href="traffic-simulation.html">Traffic Simulation</a>
-<a href="network-telemetry-map.html">Telemetry Map</a>
-<a href="soc-dashboard.html">SOC Dashboard</a>
-<a href="soc-command-center.html">SOC Command Center</a>
-<a href="device-fortigate.html">FortiGate</a>
-<a href="device-cbs250.html">CBS250</a>
-<a href="troubleshooting.html">Troubleshooting</a>
+<div class="status-bar">
+  <div class="sbl">
+    <div class="si"><div class="dot green"></div><span>FORTIGATE ONLINE</span></div>
+    <div class="si"><div class="dot green"></div><span>IPS ACTIVE</span></div>
+    <div class="si"><div class="dot red"></div><span>2 OPEN ALERTS</span></div>
+  </div>
+  <div class="sbr"><span>TZ: Europe/Bratislava</span><span id="lc">--:--:--</span><span>FortiOS 7.4</span></div>
 </div>
+<nav>
+  <a href="index.html" class="nb"><div class="nl">ES</div><div class="nt">Enterprise<span>Lab</span></div></a>
+  <ul class="nls">
+    <li><a href="index.html">Home</a></li><li><a href="topology.html">Topology</a></li>
+    <li><a href="soc-dashboard.html" class="active">SOC</a></li><li><a href="threat-intelligence-feed.html">Threat Intel</a></li>
+    <li><a href="incident-response-case.html">IR</a></li><li><a href="architecture-overview.html">Architecture</a></li>
+    <li><a href="device-fortigate.html">FortiGate</a></li><li><a href="device-cbs250.html">CBS250</a></li>
+  </ul>
+</nav>
+<main>
+  <div class="ph">
+    <div class="ptag">▶ SOC // Security Operations Center</div>
+    <h1>SOC <span>Dashboard</span></h1>
+    <p>Security monitoring overview — FortiGate 60E event feed, alert queue, IPS detections, and threat metrics for the enterprise lab environment.</p>
+  </div>
 
-<h1>SOC Dashboard</h1>
+  <!-- METRICS -->
+  <div class="metrics">
+    <div class="metric m-red"><div class="m-label">Open Alerts</div><div class="m-value" id="m-alerts">2</div><div class="m-sub">1 critical · 1 high</div></div>
+    <div class="metric m-amber"><div class="m-label">Blocked (24h)</div><div class="m-value" id="m-blocked">213</div><div class="m-sub">IPS + GeoIP + WebFilter</div></div>
+    <div class="metric m-cyan"><div class="m-label">Active Sessions</div><div class="m-value" id="m-sessions">47</div><div class="m-sub">VLAN20 dominant</div></div>
+    <div class="metric m-green"><div class="m-label">IPS Signatures</div><div class="m-value">9841</div><div class="m-sub">DB v24.0.11.0</div></div>
+    <div class="metric m-purple"><div class="m-label">Policy Hits (24h)</div><div class="m-value" id="m-hits">1247</div><div class="m-sub">across 12 policies</div></div>
+    <div class="metric m-amber"><div class="m-label">MTTR</div><div class="m-value">14</div><div class="m-sub">min avg this week</div></div>
+  </div>
 
-<div class="dashboard">
+  <!-- ALERT QUEUE -->
+  <div class="sh"><h2>Alert Queue</h2><div class="sl"></div><span class="st tr">2 OPEN</span></div>
+  <div class="alert-queue">
+    <div class="aq-header">
+      <span class="aq-title">Active Alerts — Requires Triage</span>
+      <span style="font-size:10px;color:var(--dim)">Last updated: <span id="aq-time">--:--</span></span>
+    </div>
+    <div class="alert-item">
+      <div class="a-sev a-crit"></div>
+      <div class="a-time" id="t1">05:12:44</div>
+      <div class="a-type">IPS CRITICAL</div>
+      <div class="a-src">10.10.60.44</div>
+      <div class="a-msg">Port scan detected VLAN60→VLAN20 — 247 SYN packets in 3s — policy=DENY id=8</div>
+      <div class="a-status"><span class="badge b-new">NEW</span></div>
+    </div>
+    <div class="alert-item">
+      <div class="a-sev a-high"></div>
+      <div class="a-time" id="t2">04:58:11</div>
+      <div class="a-type">AUTH FAILURE</div>
+      <div class="a-src">10.10.30.99</div>
+      <div class="a-msg">SSH brute-force attempt VLAN30 — 14 failed logins in 60s — source unknown</div>
+      <div class="a-status"><span class="badge b-inv">INVESTING</span></div>
+    </div>
+    <div class="alert-item">
+      <div class="a-sev a-med"></div>
+      <div class="a-time">03:41:05</div>
+      <div class="a-type">WEB FILTER</div>
+      <div class="a-src">10.10.20.87</div>
+      <div class="a-msg">Blocked: category=Malware-Distribution url=dl.suspicious-cdn.net — policy=utm-users</div>
+      <div class="a-status"><span class="badge b-res">RESOLVED</span></div>
+    </div>
+    <div class="alert-item">
+      <div class="a-sev a-med"></div>
+      <div class="a-time">02:15:33</div>
+      <div class="a-type">IPS HIGH</div>
+      <div class="a-src">WAN</div>
+      <div class="a-msg">Inbound CVE-2024-21887 exploit attempt — dropped by IPS sig id=48291 — src=185.220.101.x</div>
+      <div class="a-status"><span class="badge b-res">RESOLVED</span></div>
+    </div>
+    <div class="alert-item">
+      <div class="a-sev a-low"></div>
+      <div class="a-time">01:03:17</div>
+      <div class="a-type">GEO BLOCK</div>
+      <div class="a-src">WAN</div>
+      <div class="a-msg">GeoIP block: 22 inbound packets from RU/CN/KP — all dropped at wan1</div>
+      <div class="a-status"><span class="badge b-fp">AUTO-DENY</span></div>
+    </div>
+  </div>
+
+  <!-- TWO COL -->
+  <div class="two-col">
     <div class="panel">
-        <div class="metric-label">Packets / sec</div>
-        <div class="metric orange" id="pps">188</div>
+      <div class="panel-header">Top Blocked Categories (24h)</div>
+      <div class="panel-body">
+        <div class="bar-chart">
+          <div class="bar-row"><span class="bar-label">GeoIP Block</span><div class="bar-track"><div class="bar-fill" style="width:88%;background:var(--red)"></div></div><span class="bar-val">88</span></div>
+          <div class="bar-row"><span class="bar-label">IPS Drops</span><div class="bar-track"><div class="bar-fill" style="width:62%;background:var(--amber)"></div></div><span class="bar-val">62</span></div>
+          <div class="bar-row"><span class="bar-label">Web Filter</span><div class="bar-track"><div class="bar-fill" style="width:41%;background:var(--cyan)"></div></div><span class="bar-val">41</span></div>
+          <div class="bar-row"><span class="bar-label">App Control</span><div class="bar-track"><div class="bar-fill" style="width:22%;background:var(--purple)"></div></div><span class="bar-val">22</span></div>
+          <div class="bar-row"><span class="bar-label">DNS Filter</span><div class="bar-track"><div class="bar-fill" style="width:16%;background:var(--green)"></div></div><span class="bar-val">16</span></div>
+        </div>
+      </div>
     </div>
     <div class="panel">
-        <div class="metric-label">Blocked Attacks</div>
-        <div class="metric red" id="attacks">9</div>
+      <div class="panel-header">SLA & Performance Metrics</div>
+      <div class="panel-body">
+        <div class="stat-row"><span class="sr-key">Mean Time to Detect</span><span class="sr-val g">4.2 min</span></div>
+        <div class="stat-row"><span class="sr-key">Mean Time to Respond</span><span class="sr-val g">14 min</span></div>
+        <div class="stat-row"><span class="sr-key">False Positive Rate</span><span class="sr-val a">8.3%</span></div>
+        <div class="stat-row"><span class="sr-key">IPS Block Rate</span><span class="sr-val g">99.2%</span></div>
+        <div class="stat-row"><span class="sr-key">Alerts Closed (7d)</span><span class="sr-val c">34 / 36</span></div>
+        <div class="stat-row"><span class="sr-key">Policy Deny Hits (24h)</span><span class="sr-val r">213</span></div>
+        <div class="stat-row"><span class="sr-key">Uptime (30d)</span><span class="sr-val g">99.97%</span></div>
+      </div>
     </div>
-    <div class="panel">
-        <div class="metric-label">Active Sessions</div>
-        <div class="metric blue" id="sessions">54</div>
-    </div>
-    <div class="panel">
-        <div class="metric-label">Firewall Throughput</div>
-        <div class="metric green" id="throughput">142 Mbps</div>
-    </div>
-</div>
+  </div>
 
-<div class="chart-wrap">
-    <div class="panel">
-        <div class="metric-label">Traffic Activity</div>
-        <div class="graph" id="graph"></div>
-    </div>
-
-    <div class="panel">
-        <div class="metric-label">Top Talkers</div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Source</th>
-                    <th>Destination</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>10.10.20.100</td><td>1.1.1.1</td><td class="badge-ok">Allowed</td></tr>
-                <tr><td>10.10.60.100</td><td>8.8.8.8</td><td class="badge-ok">Allowed</td></tr>
-                <tr><td>10.10.60.100</td><td>10.10.20.100</td><td class="badge-bad">Blocked</td></tr>
-                <tr><td>10.10.20.100</td><td>10.10.30.2</td><td class="badge-bad">Blocked</td></tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<div class="panel" style="margin-top:18px">
-    <div class="metric-label">Threat Event Stream</div>
-    <div class="stream" id="events">
-        <div class="event">User traffic allowed VLAN20 → Internet</div>
-        <div class="event">Guest network high DNS traffic</div>
-        <div class="event">Guest VLAN attempted access to Users VLAN</div>
-    </div>
-</div>
-
-</div>
-
+  <!-- LIVE LOG -->
+  <div class="sh"><h2>Firewall Event Log</h2><div class="sl"></div><span class="st tg">LIVE</span></div>
+  <div id="log" style="background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;padding:16px;font-size:11px;max-height:200px;overflow:hidden;position:relative">
+    <div style="position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(transparent,var(--bg-surface));z-index:1"></div>
+  </div>
+</main>
+<footer>
+  <span>Enterprise Security Lab · <span id="fy"></span></span>
+  <span>SOC Dashboard · FortiGate 60E · <a href="index.html">← Home</a></span>
+</footer>
 <script>
-function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+  function uc(){
+    const t=new Date().toLocaleTimeString('en-GB',{timeZone:'Europe/Bratislava',hour12:false});
+    document.getElementById('lc').textContent=t;
+    document.getElementById('aq-time').textContent=t;
+  }
+  setInterval(uc,1000);uc();
+  document.getElementById('fy').textContent=new Date().getFullYear();
 
-function updateMetrics(){
-    document.getElementById("pps").innerText=rand(150,300);
-    document.getElementById("attacks").innerText=rand(5,20);
-    document.getElementById("sessions").innerText=rand(30,80);
-    document.getElementById("throughput").innerText=rand(90,250)+" Mbps";
-}
-setInterval(updateMetrics,2000);
+  const evts=[
+    {s:'ALERT',sc:'VLAN60',m:'Port scan blocked: 10.10.60.44 → 10.10.20.0/24 — policy=DENY id=8'},
+    {s:'INFO', sc:'VLAN20',m:'DNS query resolved: FortiGuard category=Technology'},
+    {s:'WARN', sc:'VLAN30',m:'SSH login attempt: 10.10.30.99 — failed auth x3'},
+    {s:'OK',   sc:'FGVM',  m:'IPS signatures updated: v24.0.11.0 — 9841 active'},
+    {s:'ALERT',sc:'WAN',   m:'GeoIP block: inbound RU/CN — 22 packets dropped'},
+    {s:'INFO', sc:'VLAN20',m:'Web filter allow: category=Technology src=10.10.20.50'},
+    {s:'WARN', sc:'VLAN20',m:'Web filter block: category=Malware src=10.10.20.87'},
+    {s:'OK',   sc:'FGVM',  m:'FortiGuard license valid: IPS+AppCtrl+WebFilter+AV'},
+    {s:'INFO', sc:'VLAN60',m:'Guest DHCP lease: 10.10.60.112 — lease=3600s'},
+    {s:'ALERT',sc:'WAN',   m:'IPS drop: CVE-2024-21887 exploit attempt — sig=48291'},
+  ];
+  const log=document.getElementById('log');
+  let idx=0;
+  const colors={ALERT:'#ff3b5c',INFO:'#00c8ff',WARN:'#ffb300',OK:'#00ff9d'};
+  function addLog(){
+    const e=evts[idx++%evts.length];
+    const t=new Date().toLocaleTimeString('en-GB',{hour12:false});
+    const d=document.createElement('div');
+    d.style.cssText='display:flex;gap:12px;padding:3px 0;border-bottom:1px solid rgba(30,48,80,.4)';
+    d.innerHTML=`<span style="color:#3d5a77;flex-shrink:0;white-space:nowrap">${t}</span><span style="color:${colors[e.s]};font-weight:700;width:50px;flex-shrink:0">${e.s}</span><span style="color:#00c8ff;flex-shrink:0;width:70px">${e.sc}</span><span style="color:#7a9ab8">${e.m}</span>`;
+    log.insertBefore(d,log.firstChild);
+    while(log.children.length>15)log.removeChild(log.lastChild);
+  }
+  for(let i=0;i<6;i++)addLog();
+  setInterval(addLog,3200);
 
-function createGraph(){
-    const graph=document.getElementById("graph");
-    setInterval(()=>{
-        const bar=document.createElement("div");
-        bar.className="bar";
-        bar.style.height=rand(20,130)+"px";
-        bar.style.left=graph.children.length*12+"px";
-        graph.appendChild(bar);
-        if(graph.children.length>80){graph.removeChild(graph.firstChild);}
-    },350);
-}
-createGraph();
-
-const sampleEvents=[
-    "Users VLAN traffic allowed to internet",
-    "Blocked east-west flow from guest network",
-    "Management access restriction policy matched",
-    "Firewall throughput spike detected",
-    "Guest DNS activity increased",
-    "Session table count updated"
-];
-
-setInterval(()=>{
-    const box=document.getElementById("events");
-    const div=document.createElement("div");
-    div.className="event";
-    div.textContent=sampleEvents[Math.floor(Math.random()*sampleEvents.length)];
-    box.prepend(div);
-    while(box.children.length>8){box.removeChild(box.lastChild);}
-},2200);
+  // Animate counters
+  function counter(id,target){
+    let c=0;const s=Math.max(1,Math.floor(target/40));
+    const t=setInterval(()=>{c=Math.min(c+s,target);document.getElementById(id).textContent=c;if(c>=target)clearInterval(t)},30);
+  }
+  counter('m-blocked',213);counter('m-sessions',47);counter('m-hits',1247);
 </script>
 </body>
 </html>
