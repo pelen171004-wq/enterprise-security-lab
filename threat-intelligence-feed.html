@@ -3,535 +3,163 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab – Threat Intelligence Feed</title>
-
-<link rel="stylesheet" href="style.css">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+<title>Threat Intelligence Feed — Enterprise Security Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-.hero{
-background:linear-gradient(180deg,#0f172a,#0b1320);
-border:1px solid #334155;
-border-radius:16px;
-padding:24px;
-margin-bottom:24px;
-box-shadow:0 8px 24px rgba(0,0,0,.22);
-}
+:root{--bg-base:#060a0f;--bg-surface:#0c1420;--bg-card:#101c2e;--border:#1e3050;--border-glow:#1e4a7a;--cyan:#00c8ff;--green:#00ff9d;--amber:#ffb300;--red:#ff3b5c;--purple:#8b5cf6;--text:#e2eaf5;--muted:#7a9ab8;--dim:#3d5a77;--mono:'JetBrains Mono',monospace;--display:'Syne',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-base);color:var(--text);font-family:var(--mono);font-size:13px;line-height:1.6;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.status-bar{position:fixed;top:0;left:0;right:0;height:32px;background:rgba(6,10,15,0.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:1000;backdrop-filter:blur(12px)}
+.sbl{display:flex;align-items:center;gap:16px;font-size:10px;color:var(--dim);letter-spacing:.05em}
+.si{display:flex;align-items:center;gap:5px;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.dot{width:6px;height:6px;border-radius:50%;animation:pulse 2s infinite}
+.dot.green{background:var(--green);box-shadow:0 0 6px var(--green)}.dot.amber{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.sbr{display:flex;align-items:center;gap:20px;font-size:10px;color:var(--dim)}
+#lc{color:var(--cyan);font-weight:500}
+nav{position:fixed;top:32px;left:0;right:0;height:52px;background:rgba(12,20,32,.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:999;backdrop-filter:blur(12px)}
+.nb{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nl{width:30px;height:30px;border:1.5px solid var(--cyan);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--cyan);font-family:var(--display);font-weight:800}
+.nt{font-family:var(--display);font-weight:700;font-size:13px;color:var(--text)}.nt span{color:var(--cyan)}
+.nls{display:flex;align-items:center;gap:2px;list-style:none}
+.nls a{display:block;padding:5px 10px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-radius:3px;transition:all .2s;border:1px solid transparent}
+.nls a:hover,.nls a.active{color:var(--cyan);border-color:var(--border-glow);background:rgba(0,200,255,.08)}
+main{position:relative;z-index:1;padding:84px 24px 80px;max-width:1200px;margin:0 auto}
+.ph{padding:48px 0 32px;border-bottom:1px solid var(--border);margin-bottom:32px}
+.ptag{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:16px;border:1px solid rgba(255,179,0,.25);padding:4px 12px;border-radius:2px}
+.ph h1{font-family:var(--display);font-size:clamp(22px,3vw,38px);font-weight:800;color:var(--text);margin-bottom:8px}.ph h1 span{color:var(--cyan)}
+.ph p{color:var(--muted);font-size:13px;max-width:640px;line-height:1.7}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);margin-top:32px}
+.sh h2{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.sl{flex:1;height:1px;background:linear-gradient(to right,var(--border),transparent)}
+.st{font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:2px;font-weight:500}
+.ta{color:var(--amber);background:rgba(255,179,0,.08);border:1px solid rgba(255,179,0,.2)}
+.tr{color:var(--red);background:rgba(255,59,92,.08);border:1px solid rgba(255,59,92,.2)}
+.tc{color:var(--cyan);background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.2)}
+.tp{color:var(--purple);background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2)}
 
-.hero p{
-max-width:980px;
-margin:12px auto 0;
-color:#94a3b8;
-line-height:1.7;
-}
+table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:28px}
+thead th{background:var(--bg-surface);padding:8px 12px;text-align:left;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--border)}
+tbody td{padding:9px 12px;border-bottom:1px solid rgba(30,48,80,.5);color:var(--muted)}
+tbody tr:hover td{background:rgba(0,200,255,.03)}
+.tid{color:var(--cyan);font-weight:500;font-family:var(--mono)}.tn{color:var(--text);font-weight:500}
+.tc2{color:var(--amber)}.td{color:var(--green)}.tf{color:var(--red)}
+.badge{display:inline-flex;padding:2px 8px;border-radius:2px;font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.b-block{color:var(--green);background:rgba(0,255,157,.08);border:1px solid rgba(0,255,157,.2)}
+.b-detect{color:var(--amber);background:rgba(255,179,0,.08);border:1px solid rgba(255,179,0,.2)}
+.b-partial{color:var(--cyan);background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.2)}
 
-.top-metrics{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:18px;
-margin-bottom:24px;
-}
+/* CVE CARDS */
+.cve-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;margin-bottom:28px}
+.cve-card{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:16px;border-left:3px solid}
+.cve-crit{border-left-color:var(--red)}.cve-high{border-left-color:var(--amber)}.cve-med{border-left-color:var(--cyan)}
+.cve-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.cve-id{color:var(--cyan);font-weight:700;font-size:12px}.cve-score{font-family:var(--display);font-size:14px;font-weight:800}
+.cs-crit{color:var(--red)}.cs-high{color:var(--amber)}.cs-med{color:var(--cyan)}
+.cve-name{color:var(--text);font-size:11px;font-weight:500;margin-bottom:6px}
+.cve-desc{color:var(--muted);font-size:10px;line-height:1.5;margin-bottom:8px}
+.cve-footer{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--dim)}
 
-.metric-box{
-background:linear-gradient(180deg,#0f172a,#0b1320);
-border:1px solid #334155;
-border-radius:16px;
-padding:20px;
-text-align:left;
-box-shadow:0 8px 24px rgba(0,0,0,.22);
-}
-
-.metric-label{
-font-size:12px;
-text-transform:uppercase;
-letter-spacing:.06em;
-color:#94a3b8;
-margin-bottom:8px;
-}
-
-.metric-value{
-font-size:30px;
-font-weight:700;
-}
-
-.red{color:#ef4444;}
-.orange{color:#f59e0b;}
-.blue{color:#60a5fa;}
-.green{color:#22c55e;}
-.purple{color:#a78bfa;}
-
-.main-grid{
-display:grid;
-grid-template-columns:1.15fr .95fr;
-gap:18px;
-}
-
-.panel{
-background:linear-gradient(180deg,#0f172a,#0b1320);
-border:1px solid #334155;
-border-radius:16px;
-padding:20px;
-text-align:left;
-box-shadow:0 8px 24px rgba(0,0,0,.22);
-}
-
-.panel h2{
-margin:0 0 14px;
-font-size:22px;
-}
-
-.feed{
-max-height:440px;
-overflow:auto;
-}
-
-.feed-item{
-padding:14px 0;
-border-bottom:1px solid #1f2937;
-line-height:1.6;
-}
-
-.feed-item:last-child{
-border-bottom:none;
-}
-
-.badge{
-display:inline-block;
-padding:4px 8px;
-border-radius:999px;
-font-size:11px;
-font-weight:700;
-margin-right:8px;
-border:1px solid transparent;
-}
-
-.badge.critical{
-background:rgba(239,68,68,.14);
-color:#fca5a5;
-border-color:rgba(239,68,68,.3);
-}
-
-.badge.high{
-background:rgba(245,158,11,.14);
-color:#fcd34d;
-border-color:rgba(245,158,11,.3);
-}
-
-.badge.medium{
-background:rgba(56,189,248,.14);
-color:#7dd3fc;
-border-color:rgba(56,189,248,.3);
-}
-
-.badge.low{
-background:rgba(34,197,94,.14);
-color:#86efac;
-border-color:rgba(34,197,94,.3);
-}
-
-.badge.mitre{
-background:rgba(167,139,250,.14);
-color:#c4b5fd;
-border-color:rgba(167,139,250,.3);
-}
-
-.muted{
-color:#94a3b8;
-font-size:13px;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-}
-
-th,td{
-padding:12px 10px;
-border-bottom:1px solid #1f2937;
-text-align:left;
-vertical-align:top;
-}
-
-th{
-color:#94a3b8;
-font-size:12px;
-text-transform:uppercase;
-letter-spacing:.04em;
-}
-
-.score{
-font-weight:700;
-}
-
-.score.critical{color:#ef4444;}
-.score.high{color:#f59e0b;}
-.score.medium{color:#60a5fa;}
-.score.low{color:#22c55e;}
-
-.ioc-grid{
-display:grid;
-grid-template-columns:1fr;
-gap:12px;
-}
-
-.ioc-card{
-background:#111827;
-border:1px solid #334155;
-border-radius:12px;
-padding:14px;
-}
-
-.ioc-type{
-font-size:12px;
-text-transform:uppercase;
-letter-spacing:.05em;
-color:#94a3b8;
-margin-bottom:6px;
-}
-
-.ioc-value{
-font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
-font-size:13px;
-word-break:break-all;
-color:#e5e7eb;
-}
-
-.legend{
-margin-top:18px;
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-color:#94a3b8;
-font-size:13px;
-}
-
-.legend span{
-display:inline-flex;
-align-items:center;
-gap:8px;
-}
-
-.dot{
-width:10px;
-height:10px;
-border-radius:999px;
-display:inline-block;
-}
-
-.dot.red{background:#ef4444;}
-.dot.orange{background:#f59e0b;}
-.dot.blue{background:#60a5fa;}
-.dot.green{background:#22c55e;}
-.dot.purple{background:#a78bfa;}
-
-@media (max-width:980px){
-.main-grid{
-grid-template-columns:1fr;
-}
-}
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:24px;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--dim)}
+footer a{color:var(--cyan);text-decoration:none}
+@media(max-width:768px){.nls{display:none}}
 </style>
 </head>
 <body>
-
-<div class="container">
-
-<div class="nav">
-<a href="index.html">Home</a>
-<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-<a href="topology.html">Topology</a>
-<a href="network-diagram.html">Network Diagram</a>
-<a href="network-zones.html">Network Zones</a>
-<a href="attack-paths.html">Attack Simulation</a>
-<a href="attack-surface.html">Attack Surface</a>
-<a href="architecture-overview.html">Architecture</a>
-<a href="architecture-decisions.html">Architecture Decisions</a>
-<a href="security-model.html">Security Model</a>
-<a href="security-operations.html">Security Operations</a>
-<a href="interactive-security-architecture.html">Architecture Map</a>
-<a href="firewall-policy-map.html">Policy Map</a>
-<a href="soc-timeline.html">SOC Timeline</a>
-<a href="traffic-simulation.html">Traffic Simulation</a>
-<a href="network-telemetry-map.html">Telemetry Map</a>
-<a href="soc-dashboard.html">SOC Dashboard</a>
-<a href="soc-command-center.html">SOC Command Center</a>
-<a href="global-attack-map.html">Global Attack Map</a>
-<a href="threat-intelligence-feed.html">Threat Intel Feed</a>
-<a href="device-fortigate.html">FortiGate</a>
-<a href="device-cbs250.html">CBS250</a>
-<a href="troubleshooting.html">Troubleshooting</a>
+<div class="status-bar">
+  <div class="sbl">
+    <div class="si"><div class="dot green"></div><span>FORTIGUARD ACTIVE</span></div>
+    <div class="si"><div class="dot green"></div><span>IPS v24.0.11.0</span></div>
+    <div class="si"><div class="dot amber"></div><span>3 CVEs MONITORED</span></div>
+  </div>
+  <div class="sbr"><span>TZ: Europe/Bratislava</span><span id="lc">--:--:--</span><span>MITRE ATT&CK v14</span></div>
 </div>
+<nav>
+  <a href="index.html" class="nb"><div class="nl">ES</div><div class="nt">Enterprise<span>Lab</span></div></a>
+  <ul class="nls">
+    <li><a href="index.html">Home</a></li><li><a href="topology.html">Topology</a></li>
+    <li><a href="soc-dashboard.html">SOC</a></li><li><a href="threat-intelligence-feed.html" class="active">Threat Intel</a></li>
+    <li><a href="incident-response-case.html">IR</a></li><li><a href="architecture-overview.html">Architecture</a></li>
+    <li><a href="device-fortigate.html">FortiGate</a></li><li><a href="device-cbs250.html">CBS250</a></li>
+  </ul>
+</nav>
+<main>
+  <div class="ph">
+    <div class="ptag">▶ Threat Intelligence // MITRE ATT&CK v14</div>
+    <h1>Threat <span>Intelligence Feed</span></h1>
+    <p>MITRE ATT&CK technique coverage mapped to FortiGate IPS signatures, CVE monitoring for lab components, and IOC tracking. FortiGuard threat intelligence active.</p>
+  </div>
 
-<h1>Threat Intelligence Feed</h1>
+  <!-- MITRE TABLE -->
+  <div class="sh"><h2>MITRE ATT&CK Coverage — Enterprise Matrix</h2><div class="sl"></div><span class="st tp">ATT&CK v14</span></div>
+  <table>
+    <thead><tr><th>Technique ID</th><th>Name</th><th>Tactic</th><th>Detection</th><th>FortiGate Control</th><th>Coverage</th></tr></thead>
+    <tbody>
+      <tr><td class="tid">T1046</td><td class="tn">Network Service Discovery</td><td class="tc2">Discovery</td><td>IPS sig #48155</td><td>IPS blocking mode</td><td><span class="badge b-block">BLOCK</span></td></tr>
+      <tr><td class="tid">T1190</td><td class="tn">Exploit Public-Facing App</td><td class="tc2">Initial Access</td><td>IPS CVE signatures</td><td>IPS + FortiGuard</td><td><span class="badge b-block">BLOCK</span></td></tr>
+      <tr><td class="tid">T1021</td><td class="tn">Remote Services</td><td class="tc2">Lateral Movement</td><td>Policy deny + IPS</td><td>Policy ID 8–11</td><td><span class="badge b-block">BLOCK</span></td></tr>
+      <tr><td class="tid">T1071</td><td class="tn">App Layer Protocol (C2)</td><td class="tc2">C&C</td><td>App Control + DNS Filter</td><td>utm-users profile</td><td><span class="badge b-block">BLOCK</span></td></tr>
+      <tr><td class="tid">T1048</td><td class="tn">Exfil Over Alternative Protocol</td><td class="tc2">Exfiltration</td><td>App Control (P2P/DNS)</td><td>utm-users + DNS sinkhole</td><td><span class="badge b-detect">DETECT</span></td></tr>
+      <tr><td class="tid">T1566</td><td class="tn">Phishing</td><td class="tc2">Initial Access</td><td>Web Filter (Phishing cat)</td><td>FortiGuard Web Filter</td><td><span class="badge b-block">BLOCK</span></td></tr>
+      <tr><td class="tid">T1133</td><td class="tn">External Remote Services</td><td class="tc2">Initial Access</td><td>WAN deny-all inbound</td><td>FG WAN policy</td><td><span class="badge b-block">BLOCK</span></td></tr>
+      <tr><td class="tid">T1572</td><td class="tn">Protocol Tunneling</td><td class="tc2">C&C</td><td>App Control (Tor/Proxy)</td><td>App Control block</td><td><span class="badge b-block">BLOCK</span></td></tr>
+      <tr><td class="tid">T1550</td><td class="tn">Use Alternate Auth Material</td><td class="tc2">Lateral Movement</td><td>IPS anomaly detection</td><td>IPS monitor</td><td><span class="badge b-detect">DETECT</span></td></tr>
+      <tr><td class="tid">T1018</td><td class="tn">Remote System Discovery</td><td class="tc2">Discovery</td><td>IPS + VLAN boundary</td><td>Inter-VLAN deny</td><td><span class="badge b-partial">PARTIAL</span></td></tr>
+    </tbody>
+  </table>
 
-<div class="hero">
-<h2>Interactive Threat Intelligence & Detection View</h2>
-<p>
-This page simulates a threat intelligence dashboard combining MITRE ATT&CK mapping, CVE tracking,
-IOC feeds and threat severity categorization for SOC-style analysis workflows.
-</p>
-</div>
-
-<div class="top-metrics">
-    <div class="metric-box">
-        <div class="metric-label">Active Threats</div>
-        <div class="metric-value red" id="activeThreats">18</div>
+  <!-- CVE MONITORING -->
+  <div class="sh"><h2>CVE Monitoring — Lab Components</h2><div class="sl"></div><span class="st tr">CVE WATCH</span></div>
+  <div class="cve-grid">
+    <div class="cve-card cve-high">
+      <div class="cve-header">
+        <div class="cve-id">CVE-2024-21887</div>
+        <div class="cve-score cs-high">8.2</div>
+      </div>
+      <div class="cve-name">Ivanti Connect Secure RCE</div>
+      <div class="cve-desc">Command injection in web components. Exploited in the wild. Not directly applicable to lab but IPS signatures deployed as detection measure.</div>
+      <div class="cve-footer"><span>FortiOS IPS sig: 48291</span><span class="badge b-block">MITIGATED</span></div>
     </div>
-    <div class="metric-box">
-        <div class="metric-label">IOC Matches</div>
-        <div class="metric-value orange" id="iocMatches">43</div>
+    <div class="cve-card cve-med">
+      <div class="cve-header">
+        <div class="cve-id">CVE-2024-23897</div>
+        <div class="cve-score cs-med">7.5</div>
+      </div>
+      <div class="cve-name">Jenkins CLI Path Traversal</div>
+      <div class="cve-desc">Arbitrary file read via CLI. No Jenkins in lab. Monitoring inbound exploitation attempts at WAN — IPS blocking all CVE traffic.</div>
+      <div class="cve-footer"><span>IPS blocking inbound</span><span class="badge b-block">MONITORED</span></div>
     </div>
-    <div class="metric-box">
-        <div class="metric-label">Mapped Techniques</div>
-        <div class="metric-value purple" id="mappedTechniques">12</div>
+    <div class="cve-card cve-high">
+      <div class="cve-header">
+        <div class="cve-id">CVE-2023-46805</div>
+        <div class="cve-score cs-high">8.2</div>
+      </div>
+      <div class="cve-name">Ivanti Authentication Bypass</div>
+      <div class="cve-desc">Auth bypass in Ivanti ICS/IPS products. Paired with CVE-2024-21887 in active campaigns. FortiGuard signatures active.</div>
+      <div class="cve-footer"><span>FortiGuard active</span><span class="badge b-block">MITIGATED</span></div>
     </div>
-    <div class="metric-box">
-        <div class="metric-label">High Severity CVEs</div>
-        <div class="metric-value blue" id="highCVEs">7</div>
-    </div>
-</div>
+  </div>
 
-<div class="main-grid">
-
-    <div class="panel">
-        <h2>Live Threat Feed</h2>
-        <div class="feed" id="threatFeed">
-            <div class="feed-item">
-                <span class="badge critical">CRITICAL</span>
-                Suspicious command-and-control callback pattern matched threat intel rule.
-                <div class="muted">IOC correlation: outbound beacon pattern detected</div>
-            </div>
-            <div class="feed-item">
-                <span class="badge high">HIGH</span>
-                Multiple blocked authentication attempts observed from untrusted guest segment.
-                <div class="muted">Correlation source: firewall policy + login telemetry</div>
-            </div>
-            <div class="feed-item">
-                <span class="badge medium">MEDIUM</span>
-                Reconnaissance-style DNS burst detected against public resolver targets.
-                <div class="muted">Analytic source: traffic behavior anomaly</div>
-            </div>
-        </div>
-
-        <div class="legend">
-            <span><i class="dot red"></i> Critical</span>
-            <span><i class="dot orange"></i> High</span>
-            <span><i class="dot blue"></i> Medium</span>
-            <span><i class="dot green"></i> Low</span>
-            <span><i class="dot purple"></i> MITRE-mapped</span>
-        </div>
-    </div>
-
-    <div class="panel">
-        <h2>MITRE ATT&CK Mapping</h2>
-        <table id="mitreTable">
-            <thead>
-                <tr>
-                    <th>Technique</th>
-                    <th>ID</th>
-                    <th>Severity</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Valid Accounts</td>
-                    <td>T1078</td>
-                    <td class="score high">High</td>
-                </tr>
-                <tr>
-                    <td>Network Service Scanning</td>
-                    <td>T1046</td>
-                    <td class="score medium">Medium</td>
-                </tr>
-                <tr>
-                    <td>Phishing</td>
-                    <td>T1566</td>
-                    <td class="score critical">Critical</td>
-                </tr>
-                <tr>
-                    <td>Command and Scripting Interpreter</td>
-                    <td>T1059</td>
-                    <td class="score high">High</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="panel">
-        <h2>CVE Detection Feed</h2>
-        <table id="cveTable">
-            <thead>
-                <tr>
-                    <th>CVE</th>
-                    <th>Description</th>
-                    <th>Risk</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>CVE-2024-XXXX</td>
-                    <td>Remote code execution pattern detected in simulated threat feed.</td>
-                    <td class="score critical">Critical</td>
-                </tr>
-                <tr>
-                    <td>CVE-2024-YYYY</td>
-                    <td>Authentication bypass signature mapped to exposed service behavior.</td>
-                    <td class="score high">High</td>
-                </tr>
-                <tr>
-                    <td>CVE-2024-ZZZZ</td>
-                    <td>Web application exploit attempt correlated with IPS-like logic.</td>
-                    <td class="score medium">Medium</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="panel">
-        <h2>IOC Feed</h2>
-        <div class="ioc-grid" id="iocFeed">
-            <div class="ioc-card">
-                <div class="ioc-type">Domain IOC</div>
-                <div class="ioc-value">suspicious-control-node.example</div>
-            </div>
-            <div class="ioc-card">
-                <div class="ioc-type">IP IOC</div>
-                <div class="ioc-value">185.203.116.77</div>
-            </div>
-            <div class="ioc-card">
-                <div class="ioc-type">SHA256 IOC</div>
-                <div class="ioc-value">8c1d7db14ef2c7b9413ae3bb95d4c9d68a17e7c2b7af9df2b9f54112b782eabc</div>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-</div>
-
+  <!-- IOC TABLE -->
+  <div class="sh"><h2>IOC Feed — Recent Detections</h2><div class="sl"></div><span class="st ta">IOC</span></div>
+  <table>
+    <thead><tr><th>Type</th><th>Indicator</th><th>Confidence</th><th>Source</th><th>Action Taken</th><th>Last Seen</th></tr></thead>
+    <tbody>
+      <tr><td class="tc2">IP</td><td style="color:var(--red);font-family:var(--mono)">185.220.101.x/24</td><td><span class="badge b-block">HIGH</span></td><td>FortiGuard TI</td><td>GeoIP block + IPS drop</td><td>Today</td></tr>
+      <tr><td class="tc2">DOMAIN</td><td style="color:var(--red);font-family:var(--mono)">dl.suspicious-cdn.net</td><td><span class="badge b-block">HIGH</span></td><td>FortiGuard WebFilter</td><td>DNS blocked + logged</td><td>Today</td></tr>
+      <tr><td class="tc2">IP RANGE</td><td style="color:var(--amber);font-family:var(--mono)">RU/CN/KP ASNs</td><td><span class="badge b-block">HIGH</span></td><td>FortiGuard GeoIP</td><td>WAN inbound deny-all</td><td>Ongoing</td></tr>
+      <tr><td class="tc2">MAC</td><td style="color:var(--amber);font-family:var(--mono)">aa:bb:cc:dd:ee:ff</td><td><span class="badge b-detect">MEDIUM</span></td><td>IR Case ESL-IR-001</td><td>Disconnected from VLAN60</td><td>03-17-2026</td></tr>
+    </tbody>
+  </table>
+</main>
+<footer>
+  <span>Enterprise Security Lab · <span id="fy"></span></span>
+  <span>MITRE ATT&CK v14 · FortiGuard · <a href="index.html">← Home</a></span>
+</footer>
 <script>
-function rand(min,max){
-    return Math.floor(Math.random()*(max-min+1))+min;
-}
-
-const threatSamples = [
-    {sev:"critical", text:"Outbound callback pattern matched known botnet infrastructure.", note:"IOC correlation: command-and-control traffic signature"},
-    {sev:"high", text:"Credential spraying behavior blocked across external login surface.", note:"Source: authentication anomaly + firewall correlation"},
-    {sev:"medium", text:"Reconnaissance-style network scan detected against exposed services.", note:"Source: service scan behavior analytics"},
-    {sev:"low", text:"Background suspicious DNS querying observed from untrusted segment.", note:"Source: DNS anomaly monitoring"},
-    {sev:"critical", text:"Exploit delivery attempt aligned with known remote code execution chain.", note:"Source: simulated CVE detection logic"},
-    {sev:"high", text:"Lateral movement attempt denied between guest and protected internal zone.", note:"Source: east-west policy violation"}
-];
-
-const mitreSamples = [
-    ["Valid Accounts","T1078","High"],
-    ["Network Service Scanning","T1046","Medium"],
-    ["Phishing","T1566","Critical"],
-    ["Command and Scripting Interpreter","T1059","High"],
-    ["Remote Services","T1021","High"],
-    ["Brute Force","T1110","Medium"],
-    ["Ingress Tool Transfer","T1105","Critical"]
-];
-
-const cveSamples = [
-    ["CVE-2024-XXXX","Remote code execution pattern detected in simulated threat feed.","Critical"],
-    ["CVE-2024-YYYY","Authentication bypass signature mapped to exposed service behavior.","High"],
-    ["CVE-2024-ZZZZ","Web application exploit attempt correlated with IPS-like logic.","Medium"],
-    ["CVE-2024-ABCD","Privilege escalation behavior aligned with known exploit chain.","High"],
-    ["CVE-2024-QWER","Suspicious deserialization payload observed in HTTP traffic.","Critical"]
-];
-
-const iocSamples = [
-    ["Domain IOC","suspicious-control-node.example"],
-    ["IP IOC","185.203.116.77"],
-    ["SHA256 IOC","8c1d7db14ef2c7b9413ae3bb95d4c9d68a17e7c2b7af9df2b9f54112b782eabc"],
-    ["Domain IOC","cdn-verify-login.security-check.example"],
-    ["IP IOC","91.218.114.44"],
-    ["SHA256 IOC","c6fb903c5d6f6d5480e0c95f8cb3183dc3e67f9b5336fbf1efb8d59bd5e7f014"]
-];
-
-function severityClass(sev){
-    const s = sev.toLowerCase();
-    if(s === "critical") return "critical";
-    if(s === "high") return "high";
-    if(s === "medium") return "medium";
-    return "low";
-}
-
-function updateMetrics(){
-    document.getElementById("activeThreats").textContent = rand(12,29);
-    document.getElementById("iocMatches").textContent = rand(28,67);
-    document.getElementById("mappedTechniques").textContent = rand(8,18);
-    document.getElementById("highCVEs").textContent = rand(4,11);
-}
-
-function updateThreatFeed(){
-    const feed = document.getElementById("threatFeed");
-    const item = threatSamples[rand(0, threatSamples.length-1)];
-    const div = document.createElement("div");
-    div.className = "feed-item";
-    div.innerHTML = `
-        <span class="badge ${severityClass(item.sev)}">${item.sev.toUpperCase()}</span>
-        ${item.text}
-        <div class="muted">${item.note}</div>
-    `;
-    feed.prepend(div);
-    while(feed.children.length > 7){
-        feed.removeChild(feed.lastChild);
-    }
-}
-
-function updateMitre(){
-    const tbody = document.querySelector("#mitreTable tbody");
-    const selected = [...mitreSamples].sort(() => Math.random() - 0.5).slice(0,4);
-    tbody.innerHTML = selected.map(row => {
-        const sev = row[2].toLowerCase();
-        return `<tr>
-            <td>${row[0]}</td>
-            <td>${row[1]}</td>
-            <td class="score ${severityClass(sev)}">${row[2]}</td>
-        </tr>`;
-    }).join("");
-}
-
-function updateCVEs(){
-    const tbody = document.querySelector("#cveTable tbody");
-    const selected = [...cveSamples].sort(() => Math.random() - 0.5).slice(0,3);
-    tbody.innerHTML = selected.map(row => {
-        const sev = row[2].toLowerCase();
-        return `<tr>
-            <td>${row[0]}</td>
-            <td>${row[1]}</td>
-            <td class="score ${severityClass(sev)}">${row[2]}</td>
-        </tr>`;
-    }).join("");
-}
-
-function updateIOCs(){
-    const box = document.getElementById("iocFeed");
-    const selected = [...iocSamples].sort(() => Math.random() - 0.5).slice(0,3);
-    box.innerHTML = selected.map(ioc => `
-        <div class="ioc-card">
-            <div class="ioc-type">${ioc[0]}</div>
-            <div class="ioc-value">${ioc[1]}</div>
-        </div>
-    `).join("");
-}
-
-updateMetrics();
-updateThreatFeed();
-updateMitre();
-updateCVEs();
-updateIOCs();
-
-setInterval(updateMetrics, 2600);
-setInterval(updateThreatFeed, 3200);
-setInterval(updateMitre, 5200);
-setInterval(updateCVEs, 6100);
-setInterval(updateIOCs, 4700);
+  function uc(){document.getElementById('lc').textContent=new Date().toLocaleTimeString('en-GB',{timeZone:'Europe/Bratislava',hour12:false})}
+  setInterval(uc,1000);uc();document.getElementById('fy').textContent=new Date().getFullYear();
 </script>
-
 </body>
 </html>
