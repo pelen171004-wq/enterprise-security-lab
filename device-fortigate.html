@@ -314,12 +314,12 @@ footer a { color: var(--cyan); text-decoration: none; }
       <tbody>
         <tr><td class="if-name">wan1</td><td>Physical</td><td class="if-vlan">—</td><td class="if-ip">DHCP (ISP)</td><td class="if-role">WAN Uplink</td><td><span class="badge badge-green">UP</span></td></tr>
         <tr><td class="if-name">internal1</td><td>Physical</td><td class="if-vlan">Trunk</td><td class="if-ip">—</td><td class="if-role">Trunk to CBS250</td><td><span class="badge badge-green">UP</span></td></tr>
-        <tr><td class="if-name">vlan20</td><td>VLAN</td><td class="if-vlan">20</td><td class="if-ip">192.168.20.1/24</td><td class="if-role">Users Gateway</td><td><span class="badge badge-green">UP</span></td></tr>
-        <tr><td class="if-name">vlan30</td><td>VLAN</td><td class="if-vlan">30</td><td class="if-ip">192.168.30.1/24</td><td class="if-role">Management Gateway</td><td><span class="badge badge-green">UP</span></td></tr>
-        <tr><td class="if-name">vlan40</td><td>VLAN</td><td class="if-vlan">40</td><td class="if-ip">192.168.40.1/24</td><td class="if-role">SOC Monitoring GW</td><td><span class="badge badge-green">UP</span></td></tr>
-        <tr><td class="if-name">vlan50</td><td>VLAN</td><td class="if-vlan">50</td><td class="if-ip">192.168.50.1/24</td><td class="if-role">Server Infrastructure GW</td><td><span class="badge badge-green">UP</span></td></tr>
-        <tr><td class="if-name">vlan60</td><td>VLAN</td><td class="if-vlan">60</td><td class="if-ip">192.168.60.1/24</td><td class="if-role">Guest Gateway</td><td><span class="badge badge-amber">ISOLATED</span></td></tr>
-        <tr><td class="if-name">vlan70</td><td>VLAN</td><td class="if-vlan">70</td><td class="if-ip">192.168.70.1/24</td><td class="if-role">Backup Infrastructure GW</td><td><span class="badge badge-green">UP</span></td></tr>
+        <tr><td class="if-name">vlan20</td><td>VLAN</td><td class="if-vlan">20</td><td class="if-ip">10.10.20.1/24</td><td class="if-role">Users Gateway</td><td><span class="badge badge-green">UP</span></td></tr>
+        <tr><td class="if-name">vlan30</td><td>VLAN</td><td class="if-vlan">30</td><td class="if-ip">10.10.30.1/24</td><td class="if-role">Management Gateway</td><td><span class="badge badge-green">UP</span></td></tr>
+        <tr><td class="if-name">vlan40</td><td>VLAN</td><td class="if-vlan">40</td><td class="if-ip">10.10.40.1/24</td><td class="if-role">SOC Monitoring GW</td><td><span class="badge badge-green">UP</span></td></tr>
+        <tr><td class="if-name">vlan50</td><td>VLAN</td><td class="if-vlan">50</td><td class="if-ip">10.10.50.1/24</td><td class="if-role">Server Infrastructure GW</td><td><span class="badge badge-green">UP</span></td></tr>
+        <tr><td class="if-name">vlan60</td><td>VLAN</td><td class="if-vlan">60</td><td class="if-ip">10.10.60.1/24</td><td class="if-role">Guest Gateway</td><td><span class="badge badge-amber">ISOLATED</span></td></tr>
+        <tr><td class="if-name">vlan70</td><td>VLAN</td><td class="if-vlan">70</td><td class="if-ip">10.10.70.1/24</td><td class="if-role">Backup Infrastructure GW</td><td><span class="badge badge-green">UP</span></td></tr>
       </tbody>
     </table>
 
@@ -332,7 +332,7 @@ footer a { color: var(--cyan); text-decoration: none; }
 <span class="c-prompt">FG60E # </span><span class="c-cmd">config system interface</span>
 <span class="c-prompt">FG60E (interface) # </span><span class="c-cmd">edit</span> <span class="c-val">"vlan20"</span>
 <span class="c-key">    set vdom</span>          <span class="c-val">root</span>
-<span class="c-key">    set ip</span>            <span class="c-val">192.168.20.1 255.255.255.0</span>
+<span class="c-key">    set ip</span>            <span class="c-val">10.10.20.1 255.255.255.0</span>
 <span class="c-key">    set allowaccess</span>   <span class="c-val">ping</span>
 <span class="c-key">    set type</span>          <span class="c-val">vlan</span>
 <span class="c-key">    set vlanid</span>        <span class="c-val">20</span>
@@ -516,13 +516,13 @@ footer a { color: var(--cyan); text-decoration: none; }
 <span class="c-key">    set interface</span>     <span class="c-val">"vlan20"</span>
 <span class="c-key">    set dns-server1</span>   <span class="c-val">1.1.1.1</span>
 <span class="c-key">    set dns-server2</span>   <span class="c-val">8.8.8.8</span>
-<span class="c-key">    set default-gateway</span> <span class="c-val">192.168.20.1</span>
+<span class="c-key">    set default-gateway</span> <span class="c-val">10.10.20.1</span>
 <span class="c-key">    set netmask</span>       <span class="c-val">255.255.255.0</span>
 <span class="c-key">    set lease-time</span>    <span class="c-val">86400</span>
 <span class="c-cmd">    config ip-range</span>
 <span class="c-cmd">        edit</span> <span class="c-val">1</span>
-<span class="c-key">            set start-ip</span> <span class="c-val">192.168.20.100</span>
-<span class="c-key">            set end-ip</span>   <span class="c-val">192.168.20.200</span>
+<span class="c-key">            set start-ip</span> <span class="c-val">10.10.20.100</span>
+<span class="c-key">            set end-ip</span>   <span class="c-val">10.10.20.200</span>
 <span class="c-cmd">        next</span>
 <span class="c-cmd">    end</span>
 <span class="c-prompt">FG60E (1) # </span><span class="c-cmd">next</span>
@@ -531,13 +531,13 @@ footer a { color: var(--cyan); text-decoration: none; }
 <span class="c-prompt">FG60E (server) # </span><span class="c-cmd">edit</span> <span class="c-val">3</span>
 <span class="c-key">    set interface</span>     <span class="c-val">"vlan60"</span>
 <span class="c-key">    set dns-server1</span>   <span class="c-val">1.1.1.1</span>
-<span class="c-key">    set default-gateway</span> <span class="c-val">192.168.60.1</span>
+<span class="c-key">    set default-gateway</span> <span class="c-val">10.10.60.1</span>
 <span class="c-key">    set netmask</span>       <span class="c-val">255.255.255.0</span>
 <span class="c-key">    set lease-time</span>    <span class="c-val">3600</span>
 <span class="c-cmd">    config ip-range</span>
 <span class="c-cmd">        edit</span> <span class="c-val">1</span>
-<span class="c-key">            set start-ip</span> <span class="c-val">192.168.60.100</span>
-<span class="c-key">            set end-ip</span>   <span class="c-val">192.168.60.150</span>
+<span class="c-key">            set start-ip</span> <span class="c-val">10.10.60.100</span>
+<span class="c-key">            set end-ip</span>   <span class="c-val">10.10.60.150</span>
 <span class="c-cmd">        next</span>
 <span class="c-cmd">    end</span>
 <span class="c-prompt">FG60E (3) # </span><span class="c-cmd">next</span>
@@ -559,16 +559,16 @@ footer a { color: var(--cyan); text-decoration: none; }
       </div>
       <div class="cli-body"><pre><span class="c-comment"># View active sessions</span>
 <span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose sys session list</span>
-<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose sys session filter src</span> <span class="c-val">192.168.20.0/24</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose sys session filter src</span> <span class="c-val">10.10.20.0/24</span>
 <span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose sys session filter dport</span> <span class="c-val">443</span>
 
 <span class="c-comment"># Packet sniffer</span>
-<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose sniffer packet</span> <span class="c-val">vlan20</span> <span class="c-val">'host 192.168.20.50'</span> <span class="c-val">4</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose sniffer packet</span> <span class="c-val">vlan20</span> <span class="c-val">'host 10.10.20.50'</span> <span class="c-val">4</span>
 <span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose sniffer packet</span> <span class="c-val">any</span> <span class="c-val">'port 53'</span> <span class="c-val">4</span> <span class="c-val">0</span> <span class="c-val">l</span>
 
 <span class="c-comment"># Debug flow (trace packet path through FW)</span>
 <span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose debug reset</span>
-<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose debug flow filter addr</span> <span class="c-val">192.168.60.100</span>
+<span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose debug flow filter addr</span> <span class="c-val">10.10.60.100</span>
 <span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose debug flow show function-name</span> <span class="c-val">enable</span>
 <span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose debug flow trace start</span> <span class="c-val">100</span>
 <span class="c-prompt">FG60E # </span><span class="c-cmd">diagnose debug enable</span>
