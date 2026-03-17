@@ -13,62 +13,102 @@
       background: #f7f9fc;
       color: #1f2937;
     }
+
     header {
       background: #111827;
       color: white;
       padding: 40px 20px;
       text-align: center;
     }
+
+    header h1 {
+      margin: 0 0 10px 0;
+      font-size: 2.2rem;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 1rem;
+      color: #d1d5db;
+    }
+
     main {
       max-width: 1100px;
       margin: 0 auto;
       padding: 30px 20px 60px;
     }
+
     section {
       background: white;
       padding: 24px;
       margin-bottom: 24px;
       border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
     }
-    h1, h2, h3 {
+
+    h2, h3 {
       margin-top: 0;
     }
+
     img {
       max-width: 100%;
       height: auto;
+      display: block;
       border-radius: 8px;
       border: 1px solid #e5e7eb;
       margin-top: 12px;
     }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 16px;
     }
+
     .card {
       background: #f9fafb;
       border: 1px solid #e5e7eb;
       border-radius: 10px;
       padding: 16px;
     }
+
     ul {
       padding-left: 20px;
     }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background: #f3f4f6;
+    }
+
     code {
       background: #f3f4f6;
       padding: 2px 6px;
       border-radius: 6px;
     }
+
     footer {
       text-align: center;
       padding: 30px 20px;
       color: #6b7280;
     }
+
     a {
       color: #2563eb;
       text-decoration: none;
     }
+
     a:hover {
       text-decoration: underline;
     }
@@ -77,7 +117,7 @@
 <body>
   <header>
     <h1>Enterprise Security Lab</h1>
-    <p>Enterprise-style network architecture, segmentation, firewall policy control, and monitoring visibility.</p>
+    <p>Enterprise-style network architecture, VLAN segmentation, firewall policy control, and monitoring visibility.</p>
   </header>
 
   <main>
@@ -85,41 +125,66 @@
       <h2>Overview</h2>
       <p>
         This project documents a simulated enterprise network environment designed to demonstrate practical
-        network engineering and security concepts including VLAN segmentation, firewall-controlled inter-VLAN
-        communication, centralized policy enforcement, and monitoring visibility.
+        network engineering and security concepts such as segmentation, firewall-controlled inter-VLAN communication,
+        centralized policy enforcement, and operational monitoring.
       </p>
     </section>
 
     <section>
       <h2>Topology Diagram</h2>
       <p>Main high-level network topology.</p>
-      <img src="../assets/images/topology.png" alt="Network Topology Diagram">
+      <img src="assets/images/topology.png" alt="Network Topology Diagram">
     </section>
 
     <section>
       <h2>VLAN Segmentation</h2>
-      <p>The network is segmented into multiple VLANs to separate trust levels and operational roles.</p>
-      <ul>
-        <li>VLAN 10 – Management</li>
-        <li>VLAN 20 – Users</li>
-        <li>VLAN 30 – Servers</li>
-        <li>VLAN 40 – Guest</li>
-        <li>VLAN 50 – Monitoring</li>
-      </ul>
-      <img src="../assets/images/vlan-segmentation.png" alt="VLAN Segmentation Diagram">
+      <p>The network is divided into separate VLANs to enforce trust boundaries and role-based segmentation.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>VLAN</th>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>VLAN 10</td>
+            <td>Management</td>
+          </tr>
+          <tr>
+            <td>VLAN 20</td>
+            <td>Users</td>
+          </tr>
+          <tr>
+            <td>VLAN 30</td>
+            <td>Servers</td>
+          </tr>
+          <tr>
+            <td>VLAN 40</td>
+            <td>Guest</td>
+          </tr>
+          <tr>
+            <td>VLAN 50</td>
+            <td>Monitoring</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <img src="assets/images/vlan-segmentation.png" alt="VLAN Segmentation Diagram">
     </section>
 
     <section>
       <h2>Traffic Flow Model</h2>
-      <p>The firewall controls communication between internal zones and the internet.</p>
+      <p>The firewall controls communication between internal zones and external networks.</p>
       <ul>
         <li>Users VLAN → Internet (Allowed)</li>
-        <li>Users VLAN → Servers (Allowed)</li>
+        <li>Users VLAN → Servers (Allowed when required)</li>
         <li>Guest VLAN → Internet (Allowed)</li>
         <li>Guest VLAN → Internal Network (Denied)</li>
         <li>Monitoring VLAN → Infrastructure Devices (Allowed)</li>
       </ul>
-      <img src="../assets/images/traffic-flow.png" alt="Traffic Flow Diagram">
+      <img src="assets/images/traffic-flow.png" alt="Traffic Flow Diagram">
     </section>
 
     <section>
@@ -127,23 +192,27 @@
       <div class="grid">
         <div class="card">
           <h3>fw01</h3>
-          <p>Firewall handling segmentation, inter-VLAN routing, NAT, and security policy enforcement.</p>
+          <p>Firewall providing inter-VLAN routing, segmentation, NAT, and centralized security policy enforcement.</p>
         </div>
+
         <div class="card">
           <h3>sw01</h3>
           <p>Managed switch providing VLAN segmentation, trunking, and endpoint connectivity.</p>
         </div>
+
         <div class="card">
           <h3>ap01</h3>
-          <p>Wireless access point for user and guest wireless access with VLAN mapping.</p>
+          <p>Wireless access point providing user and guest connectivity with VLAN-based SSID separation.</p>
         </div>
+
         <div class="card">
           <h3>srv01</h3>
-          <p>Infrastructure server providing internal services such as DNS, DHCP, or applications.</p>
+          <p>Infrastructure server hosting internal services such as DNS, DHCP, and application workloads.</p>
         </div>
+
         <div class="card">
           <h3>soc01</h3>
-          <p>Monitoring and logging system for visibility, dashboards, and event analysis.</p>
+          <p>Monitoring and logging platform used for visibility, dashboards, and event analysis.</p>
         </div>
       </div>
     </section>
