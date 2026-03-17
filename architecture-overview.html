@@ -3,61 +3,167 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab – Architecture Overview</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Architecture Overview — Enterprise Security Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-body{background:#060b16;color:#e2e8f0;font-family:'Inter',sans-serif;margin:0;text-align:center}
-.container{max-width:1100px;margin:auto;padding:40px 20px 80px}
-.nav{margin-bottom:30px}
-.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
-.nav a:hover{background:#1e293b}
-.card{background:#0f172a;border:1px solid #334155;border-radius:14px;padding:24px;text-align:left}
-ul{text-align:left}
+:root{--bg-base:#060a0f;--bg-surface:#0c1420;--bg-card:#101c2e;--border:#1e3050;--border-glow:#1e4a7a;--cyan:#00c8ff;--green:#00ff9d;--amber:#ffb300;--red:#ff3b5c;--purple:#8b5cf6;--text:#e2eaf5;--muted:#7a9ab8;--dim:#3d5a77;--mono:'JetBrains Mono',monospace;--display:'Syne',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-base);color:var(--text);font-family:var(--mono);font-size:13px;line-height:1.6;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.status-bar{position:fixed;top:0;left:0;right:0;height:32px;background:rgba(6,10,15,0.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:1000;backdrop-filter:blur(12px)}
+.sbl{display:flex;align-items:center;gap:16px;font-size:10px;color:var(--dim);letter-spacing:.05em}
+.si{display:flex;align-items:center;gap:5px;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.dot{width:6px;height:6px;border-radius:50%;animation:pulse 2s infinite}
+.dot.green{background:var(--green);box-shadow:0 0 6px var(--green)}.dot.amber{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.sbr{display:flex;align-items:center;gap:20px;font-size:10px;color:var(--dim)}
+#lc{color:var(--cyan);font-weight:500}
+nav{position:fixed;top:32px;left:0;right:0;height:52px;background:rgba(12,20,32,.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:999;backdrop-filter:blur(12px)}
+.nb{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nl{width:30px;height:30px;border:1.5px solid var(--cyan);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--cyan);font-family:var(--display);font-weight:800}
+.nt{font-family:var(--display);font-weight:700;font-size:13px;color:var(--text)}.nt span{color:var(--cyan)}
+.nls{display:flex;align-items:center;gap:2px;list-style:none}
+.nls a{display:block;padding:5px 10px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-radius:3px;transition:all .2s;border:1px solid transparent}
+.nls a:hover,.nls a.active{color:var(--cyan);border-color:var(--border-glow);background:rgba(0,200,255,.08)}
+main{position:relative;z-index:1;padding:84px 24px 80px;max-width:1200px;margin:0 auto}
+.ph{padding:48px 0 32px;border-bottom:1px solid var(--border);margin-bottom:32px}
+.ptag{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--purple);margin-bottom:16px;border:1px solid rgba(139,92,246,.25);padding:4px 12px;border-radius:2px}
+.ph h1{font-family:var(--display);font-size:clamp(24px,3vw,40px);font-weight:800;color:var(--text);margin-bottom:8px}.ph h1 span{color:var(--cyan)}
+.ph p{color:var(--muted);font-size:13px;max-width:640px;line-height:1.7}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border);margin-top:32px}
+.sh h2{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.sl{flex:1;height:1px;background:linear-gradient(to right,var(--border),transparent)}
+.st{font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:2px;font-weight:500}
+.tp{color:var(--purple);background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2)}
+.tc{color:var(--cyan);background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.2)}
+.tg{color:var(--green);background:rgba(0,255,157,.08);border:1px solid rgba(0,255,157,.2)}
+
+/* PRINCIPLES */
+.principles{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:32px}
+.principle{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:20px;position:relative;overflow:hidden}
+.principle::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.p-cyan::before{background:var(--cyan)}.p-green::before{background:var(--green)}
+.p-amber::before{background:var(--amber)}.p-red::before{background:var(--red)}
+.p-purple::before{background:var(--purple)}
+.p-num{font-size:28px;font-family:var(--display);font-weight:800;color:var(--border);margin-bottom:8px}
+.p-title{font-family:var(--display);font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px}
+.p-desc{font-size:11px;color:var(--muted);line-height:1.6}
+.p-impl{margin-top:10px;font-size:10px;color:var(--dim);border-top:1px solid var(--border);padding-top:8px}
+
+/* LAYERS */
+.layers{display:flex;flex-direction:column;gap:4px;margin-bottom:32px}
+.layer{background:var(--bg-card);border:1px solid var(--border);border-radius:3px;padding:14px 20px;display:flex;align-items:center;gap:16px}
+.l-num{font-family:var(--display);font-size:20px;font-weight:800;color:var(--border);width:32px;flex-shrink:0}
+.l-title{font-family:var(--display);font-size:12px;font-weight:700;width:180px;flex-shrink:0}
+.l-desc{font-size:11px;color:var(--muted);flex:1}
+.l-tech{font-size:10px;color:var(--dim);text-align:right;flex-shrink:0}
+
+/* FRAMEWORK TABLE */
+table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:32px}
+thead th{background:var(--bg-surface);padding:8px 12px;text-align:left;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--border)}
+tbody td{padding:9px 12px;border-bottom:1px solid rgba(30,48,80,.5);color:var(--muted)}
+tbody tr:hover td{background:rgba(0,200,255,.03)}
+.fn{color:var(--text);font-weight:500}.fc{color:var(--cyan)}.fg{color:var(--green)}
+
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:24px;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--dim)}
+footer a{color:var(--cyan);text-decoration:none}
+@media(max-width:768px){.nls{display:none}.layer{flex-direction:column;align-items:flex-start}}
 </style>
 </head>
 <body>
-<div class="container">
-
-<div class="nav">
-<a href="index.html">Home</a>
-<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-<a href="topology.html">Topology</a>
-<a href="network-diagram.html">Network Diagram</a>
-<a href="network-zones.html">Network Zones</a>
-<a href="attack-paths.html">Attack Simulation</a>
-<a href="attack-surface.html">Attack Surface</a>
-<a href="architecture-overview.html">Architecture</a>
-<a href="architecture-decisions.html">Architecture Decisions</a>
-<a href="security-model.html">Security Model</a>
-<a href="security-operations.html">Security Operations</a>
-<a href="interactive-security-architecture.html">Architecture Map</a>
-<a href="firewall-policy-map.html">Policy Map</a>
-<a href="soc-timeline.html">SOC Timeline</a>
-<a href="traffic-simulation.html">Traffic Simulation</a>
-<a href="network-telemetry-map.html">Telemetry Map</a>
-<a href="soc-dashboard.html">SOC Dashboard</a>
-<a href="soc-command-center.html">SOC Command Center</a>
-<a href="device-fortigate.html">FortiGate</a>
-<a href="device-cbs250.html">CBS250</a>
-<a href="troubleshooting.html">Troubleshooting</a>
+<div class="status-bar">
+  <div class="sbl">
+    <div class="si"><div class="dot green"></div><span>FORTIGATE ONLINE</span></div>
+    <div class="si"><div class="dot green"></div><span>SW-A ONLINE</span></div>
+    <div class="si"><div class="dot amber"></div><span>GUEST ISOLATED</span></div>
+  </div>
+  <div class="sbr"><span>TZ: Europe/Bratislava</span><span id="lc">--:--:--</span><span>FortiOS 7.4</span></div>
 </div>
+<nav>
+  <a href="index.html" class="nb"><div class="nl">ES</div><div class="nt">Enterprise<span>Lab</span></div></a>
+  <ul class="nls">
+    <li><a href="index.html">Home</a></li><li><a href="topology.html">Topology</a></li>
+    <li><a href="soc-dashboard.html">SOC</a></li><li><a href="threat-intelligence-feed.html">Threat Intel</a></li>
+    <li><a href="incident-response-case.html">IR</a></li><li><a href="architecture-overview.html" class="active">Architecture</a></li>
+    <li><a href="device-fortigate.html">FortiGate</a></li><li><a href="device-cbs250.html">CBS250</a></li>
+  </ul>
+</nav>
+<main>
+  <div class="ph">
+    <div class="ptag">▶ Architecture // Design Principles</div>
+    <h1>Architecture <span>Overview</span></h1>
+    <p>Security architecture design principles underpinning the enterprise lab. Defense-in-depth model with zero-trust segmentation, least-privilege access, and continuous monitoring.</p>
+  </div>
 
-<h1>Architecture Overview</h1>
+  <!-- PRINCIPLES -->
+  <div class="sh"><h2>Core Security Principles</h2><div class="sl"></div><span class="st tp">PRINCIPLES</span></div>
+  <div class="principles">
+    <div class="principle p-cyan">
+      <div class="p-num">01</div>
+      <div class="p-title">Defense in Depth</div>
+      <div class="p-desc">Multiple security layers — perimeter firewall, VLAN segmentation, UTM inspection, DNS filtering. No single point of failure.</div>
+      <div class="p-impl">Implemented: FortiGate UTM + VLAN boundaries + IPS</div>
+    </div>
+    <div class="principle p-green">
+      <div class="p-num">02</div>
+      <div class="p-title">Zero Trust Segmentation</div>
+      <div class="p-desc">No implicit trust between zones. All inter-VLAN traffic must be explicitly permitted. Default-deny at FortiGate policy table bottom.</div>
+      <div class="p-impl">Implemented: 6 VLANs · Implicit deny-all policy ID 99</div>
+    </div>
+    <div class="principle p-amber">
+      <div class="p-num">03</div>
+      <div class="p-title">Least Privilege</div>
+      <div class="p-desc">Each zone has minimum required access. Guest gets internet only. Users cannot reach management plane. SOC has read-only monitoring access.</div>
+      <div class="p-impl">Implemented: Policy IDs 8–11 explicit deny rules</div>
+    </div>
+    <div class="principle p-red">
+      <div class="p-num">04</div>
+      <div class="p-title">Management Plane Isolation</div>
+      <div class="p-desc">VLAN30 management traffic isolated from data plane. Switch management IP only reachable via VLAN30. Break-glass port on SW-A gi2.</div>
+      <div class="p-impl">Implemented: SW-A mgmt 10.10.30.2 · FG gateway 10.10.30.1</div>
+    </div>
+    <div class="principle p-purple">
+      <div class="p-num">05</div>
+      <div class="p-title">Visibility & Logging</div>
+      <div class="p-desc">All firewall policy hits logged. Security events trigger on policy violations. UTM events captured for IPS, web filter, and app control.</div>
+      <div class="p-impl">Implemented: FortiGate log all · Security profile logging</div>
+    </div>
+  </div>
 
-<div class="card">
-<h2>Enterprise Security Design</h2>
-<p>The lab is designed as a segmented enterprise-style network where the FortiGate firewall is the primary policy enforcement point.</p>
-<ul>
-<li>Firewall-based inter-VLAN routing</li>
-<li>Dedicated management network</li>
-<li>Guest internet-only design</li>
-<li>Security visibility and SOC-oriented monitoring concepts</li>
-</ul>
-<p>The architecture follows least privilege, zone isolation and default-deny principles.</p>
-</div>
+  <!-- DEFENSE LAYERS -->
+  <div class="sh"><h2>Defense-in-Depth Layers</h2><div class="sl"></div><span class="st tc">LAYERS</span></div>
+  <div class="layers">
+    <div class="layer"><div class="l-num" style="color:#6366f1">L1</div><div class="l-title" style="color:#818cf8">WAN Perimeter</div><div class="l-desc">GeoIP blocking (RU/CN/KP), inbound deny-all, DDoS protection at ISP edge</div><div class="l-tech">FortiGate wan1</div></div>
+    <div class="layer"><div class="l-num" style="color:#ef4444">L2</div><div class="l-title" style="color:#f87171">NGFW Inspection</div><div class="l-desc">Stateful firewall, NAT, application-aware policies, SSL/TLS deep inspection</div><div class="l-tech">FortiGate 60E</div></div>
+    <div class="layer"><div class="l-num" style="color:#ffb300">L3</div><div class="l-title" style="color:#ffb300">UTM Security Profiles</div><div class="l-desc">IPS (blocking mode), Web Filter (FortiGuard categories), App Control (L7), Antivirus</div><div class="l-tech">FortiGuard UTM</div></div>
+    <div class="layer"><div class="l-num" style="color:#3b82f6">L4</div><div class="l-title" style="color:#60a5fa">Network Segmentation</div><div class="l-desc">6 VLANs with inter-zone deny rules. Users/Guest/Servers/SOC/Mgmt/Backup isolated</div><div class="l-tech">CBS250-8PP-D × 2</div></div>
+    <div class="layer"><div class="l-num" style="color:#00ff9d">L5</div><div class="l-title" style="color:#00ff9d">DNS Security</div><div class="l-desc">FortiGuard DNS filtering, DNS-over-HTTPS bypass blocked, C2 domain sinkholing</div><div class="l-tech">FortiDNS Filter</div></div>
+    <div class="layer"><div class="l-num" style="color:#8b5cf6">L6</div><div class="l-title" style="color:#a78bfa">Monitoring & Detection</div><div class="l-desc">All traffic logs, IPS alerts, UTM events. VLAN40 SOC monitoring (planned)</div><div class="l-tech">FortiAnalyzer · SNMP</div></div>
+  </div>
 
-</div>
+  <!-- FRAMEWORK MAPPING -->
+  <div class="sh"><h2>Framework Alignment</h2><div class="sl"></div><span class="st tg">COMPLIANCE</span></div>
+  <table>
+    <thead><tr><th>Framework</th><th>Function</th><th>Controls Implemented</th><th>Coverage</th></tr></thead>
+    <tbody>
+      <tr><td class="fn">NIST CSF 2.0</td><td>Identify</td><td>Asset inventory, network topology, VLAN map</td><td class="fg">Full</td></tr>
+      <tr><td class="fn">NIST CSF 2.0</td><td>Protect</td><td>Firewall policies, UTM, segmentation, access control</td><td class="fg">Full</td></tr>
+      <tr><td class="fn">NIST CSF 2.0</td><td>Detect</td><td>IPS, FortiGuard AV, log monitoring</td><td class="fc">Partial</td></tr>
+      <tr><td class="fn">CIS Controls v8</td><td>IG1 — Basic Hygiene</td><td>Controls 1–6: Inventory, patching, accounts, email/browser</td><td class="fg">Full</td></tr>
+      <tr><td class="fn">CIS Controls v8</td><td>IG2 — Foundational</td><td>Controls 7–11: Data protection, audit logs, network defense</td><td class="fc">Partial</td></tr>
+      <tr><td class="fn">MITRE ATT&CK v14</td><td>Detection Coverage</td><td>T1046 (scan), T1190 (exploit), T1021 (lateral), T1071 (C2)</td><td class="fc">41/193 techniques</td></tr>
+      <tr><td class="fn">ISO 27001</td><td>A.8 Asset Mgmt</td><td>Network asset inventory, VLAN documentation</td><td class="fg">Full</td></tr>
+      <tr><td class="fn">ISO 27001</td><td>A.13 Communications</td><td>Network segmentation, monitoring, firewall policies</td><td class="fg">Full</td></tr>
+    </tbody>
+  </table>
+</main>
+<footer>
+  <span>Enterprise Security Lab · <span id="fy"></span></span>
+  <span>NIST CSF · CIS Controls v8 · MITRE ATT&CK v14 · <a href="index.html">← Home</a></span>
+</footer>
+<script>
+  function uc(){document.getElementById('lc').textContent=new Date().toLocaleTimeString('en-GB',{timeZone:'Europe/Bratislava',hour12:false})}
+  setInterval(uc,1000);uc();document.getElementById('fy').textContent=new Date().getFullYear();
+</script>
 </body>
 </html>
