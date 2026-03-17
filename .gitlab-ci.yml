@@ -1,9 +1,53 @@
+image: alpine:latest
+
+stages:
+  - validate
+  - deploy
+  - mirror
+
+validate:html:
+  stage: validate
+  script:
+    - apk add --no-cache tidy || true
+    - echo "Validating HTML files..."
+    - for f in *.html; do echo "  $f"; tidy -errors -quiet -utf8 "$f" 2>/dev/null || true; done
+    - echo "Done."
+  allow_failure: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
 pages:
   stage: deploy
   script:
-    - echo "GitLab Pages deployment"
+    - echo "Building GitLab Pages..."
+    - mkdir -p public
+    - cp *.html public/ 2>/dev/null || true
+    - '[ -d assets ] && cp -r assets public/ || true'
+    - '[ -d css ]    && cp -r css    public/ || true'
+    - '[ -d js ]     && cp -r js     public/ || true'
+    - '[ -d img ]    && cp -r img    public/ || true'
+    - echo "Done."
   artifacts:
     paths:
       - public
+    expire_in: 7 days
+  environment:
+    name: preview
+    url: https://pelen171004.gitlab.io/enterprise-security-lab/
   rules:
-    - if: $CI_COMMIT_BRANCH
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
+mirror:github:
+  stage: mirror
+  script:
+    - apk add --no-cache git openssh-client
+    - git config --global user.email "ci@enterprise-security-lab"
+    - git config --global user.name "GitLab CI Mirror"
+    - git clone --mirror "$CI_REPOSITORY_URL" repo-mirror
+    - cd repo-mirror
+    - git remote add github "https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/pelen171004-wq/enterprise-security-lab.git"
+    - git push --mirror github
+    - echo "Mirrored to GitHub successfully."
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  allow_failure: false
