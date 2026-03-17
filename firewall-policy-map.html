@@ -3,60 +3,163 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab – Firewall Policy Map</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Firewall Policy Map — Enterprise Security Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-body{background:#060b16;color:#e2e8f0;font-family:'Inter',sans-serif;margin:0;text-align:center}
-.container{max-width:1100px;margin:auto;padding:40px 20px 80px}
-.nav{margin-bottom:30px}
-.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
-.nav a:hover{background:#1e293b}
-.card{background:#0f172a;border:1px solid #334155;border-radius:14px;padding:24px;text-align:left}
-table{width:100%;border-collapse:collapse}
-th,td{padding:12px 10px;border-bottom:1px solid #334155;text-align:left}
+:root{--bg-base:#060a0f;--bg-surface:#0c1420;--bg-card:#101c2e;--border:#1e3050;--border-glow:#1e4a7a;--cyan:#00c8ff;--green:#00ff9d;--amber:#ffb300;--red:#ff3b5c;--purple:#8b5cf6;--text:#e2eaf5;--muted:#7a9ab8;--dim:#3d5a77;--mono:'JetBrains Mono',monospace;--display:'Syne',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-base);color:var(--text);font-family:var(--mono);font-size:13px;line-height:1.6;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.status-bar{position:fixed;top:0;left:0;right:0;height:32px;background:rgba(6,10,15,0.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:1000;backdrop-filter:blur(12px)}
+.sbl{display:flex;align-items:center;gap:16px;font-size:10px;color:var(--dim);letter-spacing:.05em}
+.si{display:flex;align-items:center;gap:5px;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.dot{width:6px;height:6px;border-radius:50%;animation:pulse 2s infinite}
+.dot.green{background:var(--green);box-shadow:0 0 6px var(--green)}.dot.amber{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.sbr{display:flex;align-items:center;gap:20px;font-size:10px;color:var(--dim)}
+#lc{color:var(--cyan);font-weight:500}
+nav{position:fixed;top:32px;left:0;right:0;height:52px;background:rgba(12,20,32,.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:999;backdrop-filter:blur(12px)}
+.nb{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nl{width:30px;height:30px;border:1.5px solid var(--cyan);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--cyan);font-family:var(--display);font-weight:800}
+.nt{font-family:var(--display);font-weight:700;font-size:13px;color:var(--text)}.nt span{color:var(--cyan)}
+.nls{display:flex;align-items:center;gap:2px;list-style:none}
+.nls a{display:block;padding:5px 10px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-radius:3px;transition:all .2s;border:1px solid transparent}
+.nls a:hover,.nls a.active{color:var(--cyan);border-color:var(--border-glow);background:rgba(0,200,255,.08)}
+main{position:relative;z-index:1;padding-top:84px;max-width:1200px;margin:0 auto;padding:84px 24px 80px}
+.ph{padding:48px 0 32px;border-bottom:1px solid var(--border);margin-bottom:32px}
+.ptag{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--red);margin-bottom:16px;border:1px solid rgba(255,59,92,.25);padding:4px 12px;border-radius:2px}
+.ph h1{font-family:var(--display);font-size:clamp(24px,3vw,40px);font-weight:800;color:var(--text);margin-bottom:8px;line-height:1.1}
+.ph h1 span{color:var(--cyan)}.ph p{color:var(--muted);font-size:13px;max-width:640px;line-height:1.7}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.sh h2{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.sl{flex:1;height:1px;background:linear-gradient(to right,var(--border),transparent)}
+.st{font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:2px;font-weight:500}
+.tc{color:var(--cyan);background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.2)}
+.tr{color:var(--red);background:rgba(255,59,92,.08);border:1px solid rgba(255,59,92,.2)}
+.ta{color:var(--amber);background:rgba(255,179,0,.08);border:1px solid rgba(255,179,0,.2)}
+.tg{color:var(--green);background:rgba(0,255,157,.08);border:1px solid rgba(0,255,157,.2)}
+table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:32px}
+thead th{background:var(--bg-surface);padding:8px 12px;text-align:left;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--border)}
+tbody td{padding:9px 12px;border-bottom:1px solid rgba(30,48,80,.5);color:var(--muted)}
+tbody tr:hover td{background:rgba(0,200,255,.03)}
+.pid{color:var(--cyan);font-weight:500}.pn{color:var(--text);font-weight:500}
+.pa{color:var(--green);font-weight:700}.pd{color:var(--red);font-weight:700}
+.pp{color:var(--purple)}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:2px;font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.bg{color:var(--green);background:rgba(0,255,157,.08);border:1px solid rgba(0,255,157,.2)}
+.br{color:var(--red);background:rgba(255,59,92,.08);border:1px solid rgba(255,59,92,.2)}
+.ba{color:var(--amber);background:rgba(255,179,0,.08);border:1px solid rgba(255,179,0,.2)}
+.bc{color:var(--cyan);background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.2)}
+
+/* MATRIX */
+.matrix{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:32px;font-size:10px}
+.mx-head{background:var(--bg-surface);padding:10px 8px;text-align:center;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);font-weight:600}
+.mx-src{background:var(--bg-card);padding:10px 8px;text-align:center;font-size:9px;font-weight:700;color:var(--muted)}
+.mx-allow{background:#051a0e;color:var(--green);text-align:center;padding:10px 8px;font-size:9px;font-weight:700}
+.mx-deny{background:#1a0505;color:var(--red);text-align:center;padding:10px 8px;font-size:9px;font-weight:700}
+.mx-sel{background:#1a0f00;color:var(--amber);text-align:center;padding:10px 8px;font-size:9px;font-weight:700}
+.mx-self{background:var(--bg-base);color:var(--dim);text-align:center;padding:10px 8px;font-size:9px}
+
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:24px;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--dim)}
+footer a{color:var(--cyan);text-decoration:none}
+@media(max-width:768px){.nls{display:none}}
 </style>
 </head>
 <body>
-<div class="container">
-
-<div class="nav">
-<a href="index.html">Home</a>
-<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-<a href="topology.html">Topology</a>
-<a href="network-diagram.html">Network Diagram</a>
-<a href="network-zones.html">Network Zones</a>
-<a href="attack-paths.html">Attack Simulation</a>
-<a href="attack-surface.html">Attack Surface</a>
-<a href="architecture-overview.html">Architecture</a>
-<a href="architecture-decisions.html">Architecture Decisions</a>
-<a href="security-model.html">Security Model</a>
-<a href="security-operations.html">Security Operations</a>
-<a href="interactive-security-architecture.html">Architecture Map</a>
-<a href="firewall-policy-map.html">Policy Map</a>
-<a href="soc-timeline.html">SOC Timeline</a>
-<a href="traffic-simulation.html">Traffic Simulation</a>
-<a href="network-telemetry-map.html">Telemetry Map</a>
-<a href="soc-dashboard.html">SOC Dashboard</a>
-<a href="soc-command-center.html">SOC Command Center</a>
-<a href="device-fortigate.html">FortiGate</a>
-<a href="device-cbs250.html">CBS250</a>
-<a href="troubleshooting.html">Troubleshooting</a>
+<div class="status-bar">
+  <div class="sbl">
+    <div class="si"><div class="dot green"></div><span>FORTIGATE ONLINE</span></div>
+    <div class="si"><div class="dot green"></div><span>SW-A ONLINE</span></div>
+    <div class="si"><div class="dot amber"></div><span>GUEST ISOLATED</span></div>
+  </div>
+  <div class="sbr"><span>TZ: Europe/Bratislava</span><span id="lc">--:--:--</span><span>FortiOS 7.4</span></div>
 </div>
+<nav>
+  <a href="index.html" class="nb"><div class="nl">ES</div><div class="nt">Enterprise<span>Lab</span></div></a>
+  <ul class="nls">
+    <li><a href="index.html">Home</a></li><li><a href="topology.html">Topology</a></li>
+    <li><a href="soc-dashboard.html">SOC</a></li><li><a href="threat-intelligence-feed.html">Threat Intel</a></li>
+    <li><a href="incident-response-case.html">IR</a></li><li><a href="architecture-overview.html">Architecture</a></li>
+    <li><a href="device-fortigate.html">FortiGate</a></li><li><a href="device-cbs250.html">CBS250</a></li>
+  </ul>
+</nav>
+<main>
+  <div class="ph">
+    <div class="ptag">▶ Security Policy // FortiGate 60E</div>
+    <h1>Firewall <span>Policy Map</span></h1>
+    <p>Complete inter-zone policy matrix for FortiGate 60E. Default-deny posture — all traffic explicitly permitted or blocked. Implicit deny-all at policy table bottom.</p>
+  </div>
 
-<h1>Firewall Policy Map</h1>
+  <!-- ZONE MATRIX -->
+  <div class="sh"><h2>Zone-to-Zone Traffic Matrix</h2><div class="sl"></div><span class="st tc">MATRIX</span></div>
+  <div class="matrix">
+    <div class="mx-head">SRC \ DST</div>
+    <div class="mx-head">WAN</div>
+    <div class="mx-head">VLAN20 Users</div>
+    <div class="mx-head">VLAN30 Mgmt</div>
+    <div class="mx-head">VLAN60 Guest</div>
+    <div class="mx-head">VLAN40 SOC</div>
+    <div class="mx-head">VLAN50 Servers</div>
 
-<div class="card">
-<table>
-<tr><th>Flow</th><th>Decision</th></tr>
-<tr><td>Users → WAN</td><td>✔ ALLOW</td></tr>
-<tr><td>Guest → WAN</td><td>✔ ALLOW</td></tr>
-<tr><td>Guest → Users</td><td>❌ DENY</td></tr>
-<tr><td>Users → MGMT</td><td>❌ DENY</td></tr>
-</table>
-</div>
+    <div class="mx-src">VLAN20 Users</div>
+    <div class="mx-allow">✓ ALLOW</div><div class="mx-self">—</div>
+    <div class="mx-deny">✗ DENY</div><div class="mx-deny">✗ DENY</div>
+    <div class="mx-deny">✗ DENY</div><div class="mx-sel">⚠ SELECT</div>
 
-</div>
+    <div class="mx-src">VLAN30 Mgmt</div>
+    <div class="mx-sel">⚠ SELECT</div><div class="mx-allow">✓ ALLOW</div>
+    <div class="mx-self">—</div><div class="mx-deny">✗ DENY</div>
+    <div class="mx-allow">✓ ALLOW</div><div class="mx-allow">✓ ALLOW</div>
+
+    <div class="mx-src">VLAN60 Guest</div>
+    <div class="mx-allow">✓ ALLOW</div><div class="mx-deny">✗ DENY</div>
+    <div class="mx-deny">✗ DENY</div><div class="mx-self">—</div>
+    <div class="mx-deny">✗ DENY</div><div class="mx-deny">✗ DENY</div>
+
+    <div class="mx-src">VLAN40 SOC</div>
+    <div class="mx-allow">✓ ALLOW</div><div class="mx-allow">✓ READ</div>
+    <div class="mx-allow">✓ READ</div><div class="mx-allow">✓ READ</div>
+    <div class="mx-self">—</div><div class="mx-allow">✓ READ</div>
+
+    <div class="mx-src">VLAN50 Servers</div>
+    <div class="mx-sel">⚠ SELECT</div><div class="mx-deny">✗ DENY</div>
+    <div class="mx-deny">✗ DENY</div><div class="mx-deny">✗ DENY</div>
+    <div class="mx-deny">✗ DENY</div><div class="mx-self">—</div>
+
+    <div class="mx-src">WAN (inbound)</div>
+    <div class="mx-self">—</div><div class="mx-deny">✗ DENY</div>
+    <div class="mx-deny">✗ DENY</div><div class="mx-deny">✗ DENY</div>
+    <div class="mx-deny">✗ DENY</div><div class="mx-deny">✗ DENY</div>
+  </div>
+
+  <!-- POLICY TABLE -->
+  <div class="sh"><h2>FortiGate Policy Table</h2><div class="sl"></div><span class="st tr">POLICIES</span></div>
+  <table>
+    <thead><tr><th>ID</th><th>Name</th><th>Src Zone</th><th>Dst Zone</th><th>Service</th><th>Action</th><th>UTM Profile</th><th>NAT</th><th>Log</th></tr></thead>
+    <tbody>
+      <tr><td class="pid">1</td><td class="pn">Users-to-WAN</td><td>vlan20</td><td>wan1</td><td>ALL</td><td><span class="pa">ACCEPT</span></td><td class="pp">utm-users</td><td><span class="bg">ON</span></td><td><span class="bc">ALL</span></td></tr>
+      <tr><td class="pid">2</td><td class="pn">Guest-to-WAN</td><td>vlan60</td><td>wan1</td><td>HTTP,HTTPS,DNS</td><td><span class="pa">ACCEPT</span></td><td class="pp">utm-guest</td><td><span class="bg">ON</span></td><td><span class="bc">ALL</span></td></tr>
+      <tr><td class="pid">3</td><td class="pn">Servers-to-WAN</td><td>vlan50</td><td>wan1</td><td>HTTP,HTTPS,NTP,DNS</td><td><span class="pa">ACCEPT</span></td><td class="pp">utm-servers</td><td><span class="bg">ON</span></td><td><span class="bc">ALL</span></td></tr>
+      <tr><td class="pid">4</td><td class="pn">SOC-to-WAN</td><td>vlan40</td><td>wan1</td><td>ALL</td><td><span class="pa">ACCEPT</span></td><td class="pp">utm-soc</td><td><span class="bg">ON</span></td><td><span class="bc">ALL</span></td></tr>
+      <tr><td class="pid">5</td><td class="pn">Mgmt-to-WAN</td><td>vlan30</td><td>wan1</td><td>SSH,HTTPS,DNS</td><td><span class="pa">ACCEPT</span></td><td class="pp">utm-mgmt</td><td><span class="bg">ON</span></td><td><span class="bc">ALL</span></td></tr>
+      <tr><td class="pid">6</td><td class="pn">SOC-Monitoring</td><td>vlan40</td><td>vlan20,vlan30,vlan50,vlan60</td><td>SNMP,SSH,SYSLOG,ICMP</td><td><span class="pa">ACCEPT</span></td><td class="pp">—</td><td><span class="br">OFF</span></td><td><span class="bc">ALL</span></td></tr>
+      <tr><td class="pid">7</td><td class="pn">Mgmt-to-Internal</td><td>vlan30</td><td>vlan20,vlan40,vlan50</td><td>SSH,RDP,HTTPS,ICMP</td><td><span class="pa">ACCEPT</span></td><td class="pp">—</td><td><span class="br">OFF</span></td><td><span class="bc">ALL</span></td></tr>
+      <tr><td class="pid">8</td><td class="pn">Block-Guest-to-Users</td><td>vlan60</td><td>vlan20</td><td>ALL</td><td><span class="pd">DENY</span></td><td class="pp">—</td><td><span class="br">OFF</span></td><td><span class="ba">SEC</span></td></tr>
+      <tr><td class="pid">9</td><td class="pn">Block-Guest-to-Mgmt</td><td>vlan60</td><td>vlan30</td><td>ALL</td><td><span class="pd">DENY</span></td><td class="pp">—</td><td><span class="br">OFF</span></td><td><span class="ba">SEC</span></td></tr>
+      <tr><td class="pid">10</td><td class="pn">Block-Guest-to-Servers</td><td>vlan60</td><td>vlan50</td><td>ALL</td><td><span class="pd">DENY</span></td><td class="pp">—</td><td><span class="br">OFF</span></td><td><span class="ba">SEC</span></td></tr>
+      <tr><td class="pid">11</td><td class="pn">Block-Users-to-Mgmt</td><td>vlan20</td><td>vlan30</td><td>ALL</td><td><span class="pd">DENY</span></td><td class="pp">—</td><td><span class="br">OFF</span></td><td><span class="ba">SEC</span></td></tr>
+      <tr><td class="pid">99</td><td class="pn">Implicit-Deny-All</td><td>ANY</td><td>ANY</td><td>ALL</td><td><span class="pd">DENY</span></td><td class="pp">—</td><td><span class="br">OFF</span></td><td><span class="ba">SEC</span></td></tr>
+    </tbody>
+  </table>
+</main>
+<footer>
+  <span>Enterprise Security Lab · <span id="fy"></span></span>
+  <span>FortiGate 60E · Policy Map · <a href="index.html">← Home</a></span>
+</footer>
+<script>
+  function uc(){document.getElementById('lc').textContent=new Date().toLocaleTimeString('en-GB',{timeZone:'Europe/Bratislava',hour12:false})}
+  setInterval(uc,1000);uc();
+  document.getElementById('fy').textContent=new Date().getFullYear();
+</script>
 </body>
 </html>
