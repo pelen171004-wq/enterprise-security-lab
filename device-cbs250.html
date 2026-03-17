@@ -3,66 +3,443 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise Security Lab – Cisco CBS250 Switch</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Cisco CBS250 — Enterprise Security Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-body{background:#060b16;color:#e2e8f0;font-family:'Inter',sans-serif;margin:0;text-align:center}
-.container{max-width:1100px;margin:auto;padding:40px 20px 80px}
-.nav{margin-bottom:30px}
-.nav a{display:inline-block;margin:6px;padding:10px 16px;border:1px solid #334155;border-radius:999px;color:#dbeafe;text-decoration:none;background:#0b1320}
-.nav a:hover{background:#1e293b}
-.card{background:#0f172a;border:1px solid #334155;border-radius:14px;padding:24px;text-align:left}
-table{width:100%;border-collapse:collapse}
-th,td{padding:12px 10px;border-bottom:1px solid #334155;text-align:left}
+:root {
+  --bg-base:#060a0f; --bg-surface:#0c1420; --bg-card:#101c2e; --bg-elevated:#162336;
+  --border:#1e3050; --border-glow:#1e4a7a;
+  --cyan:#00c8ff; --green:#00ff9d; --amber:#ffb300; --red:#ff3b5c;
+  --purple:#8b5cf6; --blue:#3b82f6;
+  --text:#e2eaf5; --muted:#7a9ab8; --dim:#3d5a77;
+  --mono:'JetBrains Mono',monospace; --display:'Syne',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-base);color:var(--text);font-family:var(--mono);font-size:13px;line-height:1.6;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.status-bar{position:fixed;top:0;left:0;right:0;height:32px;background:rgba(6,10,15,0.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:1000;backdrop-filter:blur(12px)}
+.status-bar-left{display:flex;align-items:center;gap:16px;font-size:10px;color:var(--dim);letter-spacing:0.05em}
+.status-indicator{display:flex;align-items:center;gap:5px;font-size:10px;letter-spacing:0.08em;text-transform:uppercase}
+.dot{width:6px;height:6px;border-radius:50%;animation:pulse 2s infinite}
+.dot.green{background:var(--green);box-shadow:0 0 6px var(--green)}
+.dot.amber{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.status-bar-right{display:flex;align-items:center;gap:20px;font-size:10px;color:var(--dim)}
+#live-clock{color:var(--cyan);font-weight:500}
+nav{position:fixed;top:32px;left:0;right:0;height:52px;background:rgba(12,20,32,0.97);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:999;backdrop-filter:blur(12px)}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo{width:30px;height:30px;border:1.5px solid var(--cyan);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--cyan);font-family:var(--display);font-weight:800}
+.nav-title{font-family:var(--display);font-weight:700;font-size:13px;color:var(--text)}
+.nav-title span{color:var(--cyan)}
+.nav-links{display:flex;align-items:center;gap:2px;list-style:none}
+.nav-links a{display:block;padding:5px 10px;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-radius:3px;transition:all 0.2s;border:1px solid transparent}
+.nav-links a:hover,.nav-links a.active{color:var(--cyan);border-color:var(--border-glow);background:rgba(0,200,255,0.08)}
+main{position:relative;z-index:1;padding-top:84px;max-width:1200px;margin:0 auto;padding-left:24px;padding-right:24px;padding-bottom:80px}
+.page-header{padding:48px 0 32px;border-bottom:1px solid var(--border);margin-bottom:32px}
+.page-tag{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue);margin-bottom:16px;border:1px solid rgba(59,130,246,0.25);padding:4px 12px;border-radius:2px}
+.page-header h1{font-family:var(--display);font-size:clamp(24px,3vw,40px);font-weight:800;color:var(--text);margin-bottom:8px;line-height:1.1}
+.page-header h1 span{color:var(--cyan)}
+.page-subtitle{color:var(--muted);font-size:13px;max-width:640px;line-height:1.7}
+.specs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:32px}
+.spec-item{background:var(--bg-card);padding:16px 20px}
+.spec-label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.spec-value{font-family:var(--display);font-size:14px;font-weight:700;color:var(--text)}
+.spec-value.cyan{color:var(--cyan)}.spec-value.green{color:var(--green)}.spec-value.amber{color:var(--amber)}.spec-value.blue{color:var(--blue)}
+.section{margin-bottom:40px}
+.section-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.section-header h2{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted)}
+.section-line{flex:1;height:1px;background:linear-gradient(to right,var(--border),transparent)}
+.section-tag{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:2px 8px;border-radius:2px;font-weight:500}
+.tag-cyan{color:var(--cyan);background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.2)}
+.tag-amber{color:var(--amber);background:rgba(255,179,0,0.08);border:1px solid rgba(255,179,0,0.2)}
+.tag-blue{color:var(--blue);background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2)}
+.tag-green{color:var(--green);background:rgba(0,255,157,0.08);border:1px solid rgba(0,255,157,0.2)}
+
+/* SWITCH PANELS */
+.switch-panels{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px}
+@media(max-width:900px){.switch-panels{grid-template-columns:1fr}}
+.switch-panel{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.switch-panel-header{background:var(--bg-surface);padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.switch-panel-title{font-family:var(--display);font-size:13px;font-weight:700;color:var(--text)}
+.switch-panel-sub{font-size:10px;color:var(--dim);margin-top:2px}
+.switch-body{padding:16px}
+.port-row{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:8px}
+.port{height:44px;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;font-weight:700;cursor:default;transition:all 0.15s;border:1px solid transparent;gap:2px}
+.port:hover{transform:translateY(-3px)}
+.port-num{font-size:8px;opacity:0.6;font-weight:400}
+.port-vlan{font-size:9px;font-weight:700}
+.p-trunk{background:#1a0505;border-color:#ff3b5c;color:#ff3b5c}
+.p-users{background:#051a0e;border-color:#00ff9d;color:#00ff9d}
+.p-mgmt{background:#05101e;border-color:#3b82f6;color:#60a5fa}
+.p-soc{background:#0e0a1e;border-color:#8b5cf6;color:#a78bfa;opacity:0.5}
+.p-server{background:#061419;border-color:#00c8ff;color:#00c8ff;opacity:0.5}
+.p-guest{background:#1a0f00;border-color:#ffb300;color:#ffb300}
+.p-planned{background:#080c12;border-color:#3d5a77;color:#3d5a77;border-style:dashed}
+.port-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.port-legend-item{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--muted)}
+.port-legend-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+
+.port-table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:16px}
+.port-table thead th{background:var(--bg-surface);padding:7px 12px;text-align:left;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--border)}
+.port-table tbody td{padding:8px 12px;border-bottom:1px solid rgba(30,48,80,0.5);color:var(--muted)}
+.port-table tbody tr:hover td{background:rgba(0,200,255,0.03)}
+.port-table tbody tr.planned td{opacity:0.5}
+.pt-port{color:var(--cyan);font-weight:500}.pt-vlan{color:var(--amber)}.pt-purpose{color:var(--text)}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:2px;font-size:9px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
+.badge-green{color:var(--green);background:rgba(0,255,157,0.08);border:1px solid rgba(0,255,157,0.2)}
+.badge-amber{color:var(--amber);background:rgba(255,179,0,0.08);border:1px solid rgba(255,179,0,0.2)}
+.badge-cyan{color:var(--cyan);background:rgba(0,200,255,0.08);border:1px solid rgba(0,200,255,0.2)}
+.badge-dim{color:var(--dim);background:rgba(61,90,119,0.08);border:1px solid rgba(61,90,119,0.2);border-style:dashed}
+
+.cli-block{background:#020810;border:1px solid var(--border);border-radius:4px;margin-bottom:16px;overflow:hidden}
+.cli-header{background:var(--bg-surface);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.cli-title{font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--dim)}
+.cli-copy{font-size:9px;color:var(--dim);cursor:pointer;padding:2px 8px;border:1px solid var(--border);border-radius:2px;background:transparent;transition:all 0.2s;letter-spacing:0.06em;text-transform:uppercase}
+.cli-copy:hover{color:var(--cyan);border-color:var(--border-glow)}
+.cli-body{padding:16px;overflow-x:auto}
+.cli-body pre{margin:0;font-family:var(--mono);font-size:12px;line-height:1.7;white-space:pre}
+.c-prompt{color:var(--dim)}.c-cmd{color:var(--cyan)}.c-key{color:var(--amber)}
+.c-val{color:var(--green)}.c-comment{color:#3d5a77;font-style:italic}
+
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:24px;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--dim)}
+footer a{color:var(--cyan);text-decoration:none}
+@media(max-width:768px){.nav-links{display:none}}
 </style>
 </head>
 <body>
-<div class="container">
 
-<div class="nav">
-<a href="index.html">Home</a>
-<a href="Enterprise_Lab_Dashboard_v4.html">Dashboard</a>
-<a href="topology.html">Topology</a>
-<a href="network-diagram.html">Network Diagram</a>
-<a href="network-zones.html">Network Zones</a>
-<a href="attack-paths.html">Attack Simulation</a>
-<a href="attack-surface.html">Attack Surface</a>
-<a href="architecture-overview.html">Architecture</a>
-<a href="architecture-decisions.html">Architecture Decisions</a>
-<a href="security-model.html">Security Model</a>
-<a href="security-operations.html">Security Operations</a>
-<a href="interactive-security-architecture.html">Architecture Map</a>
-<a href="firewall-policy-map.html">Policy Map</a>
-<a href="soc-timeline.html">SOC Timeline</a>
-<a href="traffic-simulation.html">Traffic Simulation</a>
-<a href="network-telemetry-map.html">Telemetry Map</a>
-<a href="soc-dashboard.html">SOC Dashboard</a>
-<a href="soc-command-center.html">SOC Command Center</a>
-<a href="device-fortigate.html">FortiGate</a>
-<a href="device-cbs250.html">CBS250</a>
-<a href="troubleshooting.html">Troubleshooting</a>
+<div class="status-bar">
+  <div class="status-bar-left">
+    <div class="status-indicator"><div class="dot green"></div><span>SW-A ONLINE</span></div>
+    <div class="status-indicator"><div class="dot green"></div><span>SW-B ONLINE</span></div>
+    <div class="status-indicator"><div class="dot amber"></div><span>GUEST VLAN ISOLATED</span></div>
+  </div>
+  <div class="status-bar-right">
+    <span>TZ: Europe/Bratislava</span>
+    <span id="live-clock">--:--:--</span>
+    <span>ROS 3.5.3.2</span>
+  </div>
 </div>
 
-<h1>Cisco CBS250</h1>
+<nav>
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo">ES</div>
+    <div class="nav-title">Enterprise<span>Lab</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="topology.html">Topology</a></li>
+    <li><a href="soc-dashboard.html">SOC</a></li>
+    <li><a href="threat-intelligence-feed.html">Threat Intel</a></li>
+    <li><a href="incident-response-case.html">IR</a></li>
+    <li><a href="architecture-overview.html">Architecture</a></li>
+    <li><a href="device-fortigate.html">FortiGate</a></li>
+    <li><a href="device-cbs250.html" class="active">CBS250</a></li>
+  </ul>
+</nav>
 
-<div class="card">
-<h2>Layer 2 Switching Infrastructure</h2>
-<p>The CBS250 provides VLAN segmentation, access ports and trunk connectivity to the firewall.</p>
-</div>
+<main>
 
-<div class="card">
-<table>
-<tr><th>Port</th><th>Purpose</th></tr>
-<tr><td>Gi1</td><td>Trunk to FortiGate</td></tr>
-<tr><td>Gi2</td><td>Management fallback</td></tr>
-<tr><td>Gi3</td><td>Admin access</td></tr>
-<tr><td>Gi4</td><td>Guest VLAN60</td></tr>
-<tr><td>Gi5</td><td>Users VLAN20</td></tr>
-</table>
-</div>
+  <div class="page-header">
+    <div class="page-tag">▶ Device Documentation // L2 Switch</div>
+    <h1>Cisco <span>CBS250-8PP-D</span> × 2</h1>
+    <p class="page-subtitle">
+      Dva 8-portové PoE+ managed switche v kaskádovanej topológii.
+      SW-A uplink → FortiGate 60E · SW-B kaskáda → SW-A Gi4.
+      Firmware ROS 3.5.3.2 · CBS CLI syntax.
+    </p>
+  </div>
 
-</div>
+  <!-- SPECS -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Device Specifications</h2>
+      <div class="section-line"></div>
+      <span class="section-tag tag-blue">HARDWARE</span>
+    </div>
+    <div class="specs-grid">
+      <div class="spec-item"><div class="spec-label">Model</div><div class="spec-value blue">CBS250-8PP-D</div></div>
+      <div class="spec-item"><div class="spec-label">Units</div><div class="spec-value cyan">2× (SW-A + SW-B)</div></div>
+      <div class="spec-item"><div class="spec-label">Ports</div><div class="spec-value">8× GE PoE+ RJ45</div></div>
+      <div class="spec-item"><div class="spec-label">PoE Budget</div><div class="spec-value amber">65W per switch</div></div>
+      <div class="spec-item"><div class="spec-label">Firmware</div><div class="spec-value">ROS 3.5.3.2</div></div>
+      <div class="spec-item"><div class="spec-label">Mgmt IP SW-A</div><div class="spec-value green">10.10.30.2</div></div>
+      <div class="spec-item"><div class="spec-label">Topology</div><div class="spec-value">SW-A→FG · SW-B→SW-A</div></div>
+      <div class="spec-item"><div class="spec-label">CLI</div><div class="spec-value cyan">CBS syntax (SSH)</div></div>
+    </div>
+  </div>
+
+  <!-- PORT MAPS -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Port Assignment Maps</h2>
+      <div class="section-line"></div>
+      <span class="section-tag tag-cyan">PORT MAP</span>
+    </div>
+    <div class="switch-panels">
+      <!-- SW-A -->
+      <div class="switch-panel">
+        <div class="switch-panel-header">
+          <div>
+            <div class="switch-panel-title">SW-A — CBS250-8PP-D</div>
+            <div class="switch-panel-sub">Mgmt IP: 10.10.30.2 · Uplink → FortiGate Gi1</div>
+          </div>
+          <span class="badge badge-green">ACTIVE</span>
+        </div>
+        <div class="switch-body">
+          <div class="port-row">
+            <div class="port p-trunk"   title="gi1 — Trunk to FortiGate 60E"><span class="port-num">gi1</span><span class="port-vlan">TRUNK</span></div>
+            <div class="port p-mgmt"    title="gi2 — VLAN30 break-glass"><span class="port-num">gi2</span><span class="port-vlan">V30</span></div>
+            <div class="port p-mgmt"    title="gi3 — VLAN30 management"><span class="port-num">gi3</span><span class="port-vlan">V30</span></div>
+            <div class="port p-trunk"   title="gi4 — Trunk to SW-B"><span class="port-num">gi4</span><span class="port-vlan">TRUNK</span></div>
+            <div class="port p-users"   title="gi5 — VLAN20 local user"><span class="port-num">gi5</span><span class="port-vlan">V20</span></div>
+            <div class="port p-guest"   title="gi6 — VLAN60 local guest"><span class="port-num">gi6</span><span class="port-vlan">V60</span></div>
+            <div class="port p-planned" title="gi7 — PLANNED: VLAN40 SOC"><span class="port-num">gi7</span><span class="port-vlan">PLAN</span></div>
+            <div class="port p-planned" title="gi8 — PLANNED: VLAN50 Server"><span class="port-num">gi8</span><span class="port-vlan">PLAN</span></div>
+          </div>
+          <div class="port-legend">
+            <div class="port-legend-item"><div class="port-legend-dot" style="background:#ff3b5c"></div>Trunk</div>
+            <div class="port-legend-item"><div class="port-legend-dot" style="background:#00ff9d"></div>VLAN20</div>
+            <div class="port-legend-item"><div class="port-legend-dot" style="background:#3b82f6"></div>VLAN30</div>
+            <div class="port-legend-item"><div class="port-legend-dot" style="background:#ffb300"></div>VLAN60</div>
+            <div class="port-legend-item"><div class="port-legend-dot" style="background:#3d5a77"></div>Planned</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SW-B -->
+      <div class="switch-panel">
+        <div class="switch-panel-header">
+          <div>
+            <div class="switch-panel-title">SW-B — CBS250-8PP-D</div>
+            <div class="switch-panel-sub">Uplink → SW-A gi4 · Secondary switch</div>
+          </div>
+          <span class="badge badge-green">ACTIVE</span>
+        </div>
+        <div class="switch-body">
+          <div class="port-row">
+            <div class="port p-trunk"   title="gi1 — Trunk to SW-A gi4"><span class="port-num">gi1</span><span class="port-vlan">TRUNK</span></div>
+            <div class="port p-users"   title="gi2 — VLAN20 user PC 1"><span class="port-num">gi2</span><span class="port-vlan">V20</span></div>
+            <div class="port p-users"   title="gi3 — VLAN20 user PC 2"><span class="port-num">gi3</span><span class="port-vlan">V20</span></div>
+            <div class="port p-users"   title="gi4 — VLAN20 user notebook"><span class="port-num">gi4</span><span class="port-vlan">V20</span></div>
+            <div class="port p-mgmt"    title="gi5 — VLAN30 admin/mgmt"><span class="port-num">gi5</span><span class="port-vlan">V30</span></div>
+            <div class="port p-guest"   title="gi6 — VLAN60 guest 1"><span class="port-num">gi6</span><span class="port-vlan">V60</span></div>
+            <div class="port p-guest"   title="gi7 — VLAN60 guest 2"><span class="port-num">gi7</span><span class="port-vlan">V60</span></div>
+            <div class="port p-planned" title="gi8 — PLANNED: VLAN40 SOC"><span class="port-num">gi8</span><span class="port-vlan">PLAN</span></div>
+          </div>
+          <div class="port-legend">
+            <div class="port-legend-item"><div class="port-legend-dot" style="background:#ff3b5c"></div>Trunk</div>
+            <div class="port-legend-item"><div class="port-legend-dot" style="background:#00ff9d"></div>VLAN20</div>
+            <div class="port-legend-item"><div class="port-legend-dot" style="background:#3b82f6"></div>VLAN30</div>
+            <div class="port-legend-item"><div class="port-legend-dot" style="background:#ffb300"></div>VLAN60</div>
+            <div class="port-legend-item"><div class="port-legend-dot" style="background:#3d5a77"></div>Planned</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PORT TABLES -->
+  <div class="section">
+    <div class="section-header">
+      <h2>SW-A Port Assignment</h2>
+      <div class="section-line"></div>
+      <span class="section-tag tag-cyan">SW-A</span>
+    </div>
+    <table class="port-table">
+      <thead><tr><th>Port</th><th>Mode</th><th>VLAN</th><th>Purpose</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td class="pt-port">gi1</td><td>trunk</td><td class="pt-vlan">20,30,60</td><td class="pt-purpose">Trunk → FortiGate 60E</td><td><span class="badge badge-green">ACTIVE</span></td></tr>
+        <tr><td class="pt-port">gi2</td><td>access</td><td class="pt-vlan">30</td><td class="pt-purpose">Break-glass notebook</td><td><span class="badge badge-green">ACTIVE</span></td></tr>
+        <tr><td class="pt-port">gi3</td><td>access</td><td class="pt-vlan">30</td><td class="pt-purpose">Management access</td><td><span class="badge badge-green">ACTIVE</span></td></tr>
+        <tr><td class="pt-port">gi4</td><td>trunk</td><td class="pt-vlan">20,30,60</td><td class="pt-purpose">Trunk → SW-B</td><td><span class="badge badge-green">ACTIVE</span></td></tr>
+        <tr><td class="pt-port">gi5</td><td>access</td><td class="pt-vlan">20</td><td class="pt-purpose">Local user device</td><td><span class="badge badge-green">ACTIVE</span></td></tr>
+        <tr><td class="pt-port">gi6</td><td>access</td><td class="pt-vlan">60</td><td class="pt-purpose">Local guest device</td><td><span class="badge badge-green">ACTIVE</span></td></tr>
+        <tr class="planned"><td class="pt-port">gi7</td><td>access</td><td class="pt-vlan">40</td><td class="pt-purpose">SOC workstation</td><td><span class="badge badge-dim">PLANNED</span></td></tr>
+        <tr class="planned"><td class="pt-port">gi8</td><td>access</td><td class="pt-vlan">50</td><td class="pt-purpose">Server / lab host</td><td><span class="badge badge-dim">PLANNED</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <h2>SW-B Port Assignment</h2>
+      <div class="section-line"></div>
+      <span class="section-tag tag-cyan">SW-B</span>
+    </div>
+    <table class="port-table">
+      <thead><tr><th>Port</th><th>Mode</th><th>VLAN</th><th>Purpose</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td class="pt-port">gi1</td><td>trunk</td><td class="pt-vlan">20,30,60</td><td class="pt-purpose">Trunk → SW-A gi4</td><td><span class="badge badge-green">ACTIVE</span></td></tr>
+        <tr><td class="pt-port">gi2</td><td>access</td><td class="pt-vlan">20</td><td class="pt-purpose">User PC 1</td><td><span class="badge badge-green">ACTIVE</span></td></tr>
+        <tr><td class="pt-port">gi3</td><td>access</td><td class="pt-vlan">20</td><td class="pt-purpose">User PC 2</td><td><span class="badge badge-green">ACTIVE</span></td></tr>
+        <tr><td class="pt-port">gi4</td><td>access</td><td class="pt-vlan">20</td><td class="pt-purpose">User notebook</td><td><span class="badge badge-green">ACTIVE</span></td></tr>
+        <tr><td class="pt-port">gi5</td><td>access</td><td class="pt-vlan">30</td><td class="pt-purpose">Admin / management</td><td><span class="badge badge-green">ACTIVE</span></td></tr>
+        <tr><td class="pt-port">gi6</td><td>access</td><td class="pt-vlan">60</td><td class="pt-purpose">Guest device 1</td><td><span class="badge badge-green">ACTIVE</span></td></tr>
+        <tr><td class="pt-port">gi7</td><td>access</td><td class="pt-vlan">60</td><td class="pt-purpose">Guest device 2</td><td><span class="badge badge-green">ACTIVE</span></td></tr>
+        <tr class="planned"><td class="pt-port">gi8</td><td>access</td><td class="pt-vlan">40</td><td class="pt-purpose">SOC station</td><td><span class="badge badge-dim">PLANNED</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CLI -->
+  <div class="section">
+    <div class="section-header">
+      <h2>CBS CLI Configuration</h2>
+      <div class="section-line"></div>
+      <span class="section-tag tag-amber">CBS CLI</span>
+    </div>
+
+    <div class="cli-block">
+      <div class="cli-header">
+        <span class="cli-title">SW-A — VLAN Database + Trunk + Access ports</span>
+        <button class="cli-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+      <div class="cli-body"><pre><span class="c-prompt">SW-A> </span><span class="c-cmd">enable</span>
+<span class="c-prompt">SW-A# </span><span class="c-cmd">configure terminal</span>
+
+<span class="c-comment">! VLAN Database</span>
+<span class="c-prompt">SW-A(config)# </span><span class="c-cmd">vlan</span> <span class="c-val">20</span>
+<span class="c-prompt">SW-A(config-vlan)# </span><span class="c-key"> name</span> <span class="c-val">USERS</span>
+<span class="c-prompt">SW-A(config-vlan)# </span><span class="c-cmd">exit</span>
+<span class="c-prompt">SW-A(config)# </span><span class="c-cmd">vlan</span> <span class="c-val">30</span>
+<span class="c-prompt">SW-A(config-vlan)# </span><span class="c-key"> name</span> <span class="c-val">MGMT</span>
+<span class="c-prompt">SW-A(config-vlan)# </span><span class="c-cmd">exit</span>
+<span class="c-prompt">SW-A(config)# </span><span class="c-cmd">vlan</span> <span class="c-val">60</span>
+<span class="c-prompt">SW-A(config-vlan)# </span><span class="c-key"> name</span> <span class="c-val">GUEST</span>
+<span class="c-prompt">SW-A(config-vlan)# </span><span class="c-cmd">exit</span>
+
+<span class="c-comment">! Trunk gi1 → FortiGate 60E</span>
+<span class="c-prompt">SW-A(config)# </span><span class="c-cmd">interface gi1</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-key"> switchport mode trunk</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-key"> switchport trunk allowed vlan add</span> <span class="c-val">20,30,60</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-cmd">exit</span>
+
+<span class="c-comment">! Trunk gi4 → SW-B</span>
+<span class="c-prompt">SW-A(config)# </span><span class="c-cmd">interface gi4</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-key"> switchport mode trunk</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-key"> switchport trunk allowed vlan add</span> <span class="c-val">20,30,60</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-cmd">exit</span>
+
+<span class="c-comment">! Access gi2–gi3 → VLAN30 Management</span>
+<span class="c-prompt">SW-A(config)# </span><span class="c-cmd">interface gi2</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-key"> switchport mode access</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-key"> switchport access vlan</span> <span class="c-val">30</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-cmd">exit</span>
+<span class="c-prompt">SW-A(config)# </span><span class="c-cmd">interface gi3</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-key"> switchport mode access</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-key"> switchport access vlan</span> <span class="c-val">30</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-cmd">exit</span>
+
+<span class="c-comment">! Access gi5 → VLAN20 Users</span>
+<span class="c-prompt">SW-A(config)# </span><span class="c-cmd">interface gi5</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-key"> switchport mode access</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-key"> switchport access vlan</span> <span class="c-val">20</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-cmd">exit</span>
+
+<span class="c-comment">! Access gi6 → VLAN60 Guest</span>
+<span class="c-prompt">SW-A(config)# </span><span class="c-cmd">interface gi6</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-key"> switchport mode access</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-key"> switchport access vlan</span> <span class="c-val">60</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-cmd">exit</span>
+
+<span class="c-comment">! Management IP na VLAN30</span>
+<span class="c-prompt">SW-A(config)# </span><span class="c-cmd">interface vlan 30</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-key"> ip address</span> <span class="c-val">10.10.30.2 255.255.255.0</span>
+<span class="c-prompt">SW-A(config-if)# </span><span class="c-cmd">exit</span>
+<span class="c-prompt">SW-A(config)# </span><span class="c-key">ip default-gateway</span> <span class="c-val">10.10.30.1</span>
+
+<span class="c-prompt">SW-A(config)# </span><span class="c-cmd">end</span>
+<span class="c-prompt">SW-A# </span><span class="c-key">copy running-config startup-config</span></pre></div>
+    </div>
+
+    <div class="cli-block">
+      <div class="cli-header">
+        <span class="cli-title">SW-B — VLAN Database + Trunk + Access ports</span>
+        <button class="cli-copy" onclick="copyCode(this)">Copy</button>
+      </div>
+      <div class="cli-body"><pre><span class="c-prompt">SW-B> </span><span class="c-cmd">enable</span>
+<span class="c-prompt">SW-B# </span><span class="c-cmd">configure terminal</span>
+
+<span class="c-comment">! VLAN Database (rovnaká na oboch)</span>
+<span class="c-prompt">SW-B(config)# </span><span class="c-cmd">vlan</span> <span class="c-val">20</span>
+<span class="c-prompt">SW-B(config-vlan)# </span><span class="c-key"> name</span> <span class="c-val">USERS</span>
+<span class="c-prompt">SW-B(config-vlan)# </span><span class="c-cmd">exit</span>
+<span class="c-prompt">SW-B(config)# </span><span class="c-cmd">vlan</span> <span class="c-val">30</span>
+<span class="c-prompt">SW-B(config-vlan)# </span><span class="c-key"> name</span> <span class="c-val">MGMT</span>
+<span class="c-prompt">SW-B(config-vlan)# </span><span class="c-cmd">exit</span>
+<span class="c-prompt">SW-B(config)# </span><span class="c-cmd">vlan</span> <span class="c-val">60</span>
+<span class="c-prompt">SW-B(config-vlan)# </span><span class="c-key"> name</span> <span class="c-val">GUEST</span>
+<span class="c-prompt">SW-B(config-vlan)# </span><span class="c-cmd">exit</span>
+
+<span class="c-comment">! Trunk gi1 → SW-A gi4</span>
+<span class="c-prompt">SW-B(config)# </span><span class="c-cmd">interface gi1</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-key"> switchport mode trunk</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-key"> switchport trunk allowed vlan add</span> <span class="c-val">20,30,60</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-cmd">exit</span>
+
+<span class="c-comment">! Access gi2–gi4 → VLAN20 Users</span>
+<span class="c-prompt">SW-B(config)# </span><span class="c-cmd">interface gi2</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-key"> switchport mode access</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-key"> switchport access vlan</span> <span class="c-val">20</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-cmd">exit</span>
+<span class="c-prompt">SW-B(config)# </span><span class="c-cmd">interface gi3</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-key"> switchport mode access</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-key"> switchport access vlan</span> <span class="c-val">20</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-cmd">exit</span>
+<span class="c-prompt">SW-B(config)# </span><span class="c-cmd">interface gi4</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-key"> switchport mode access</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-key"> switchport access vlan</span> <span class="c-val">20</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-cmd">exit</span>
+
+<span class="c-comment">! Access gi5 → VLAN30 Mgmt</span>
+<span class="c-prompt">SW-B(config)# </span><span class="c-cmd">interface gi5</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-key"> switchport mode access</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-key"> switchport access vlan</span> <span class="c-val">30</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-cmd">exit</span>
+
+<span class="c-comment">! Access gi6–gi7 → VLAN60 Guest</span>
+<span class="c-prompt">SW-B(config)# </span><span class="c-cmd">interface gi6</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-key"> switchport mode access</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-key"> switchport access vlan</span> <span class="c-val">60</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-cmd">exit</span>
+<span class="c-prompt">SW-B(config)# </span><span class="c-cmd">interface gi7</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-key"> switchport mode access</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-key"> switchport access vlan</span> <span class="c-val">60</span>
+<span class="c-prompt">SW-B(config-if)# </span><span class="c-cmd">exit</span>
+
+<span class="c-prompt">SW-B(config)# </span><span class="c-cmd">end</span>
+<span class="c-prompt">SW-B# </span><span class="c-key">copy running-config startup-config</span></pre></div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  <span>Enterprise Security Lab · <span id="footer-year"></span></span>
+  <span>2× CBS250-8PP-D · ROS 3.5.3.2 · <a href="device-fortigate.html">← FortiGate</a> · <a href="index.html">Home</a></span>
+</footer>
+
+<script>
+  function updateClock() {
+    document.getElementById('live-clock').textContent =
+      new Date().toLocaleTimeString('en-GB', { timeZone: 'Europe/Bratislava', hour12: false });
+  }
+  setInterval(updateClock, 1000); updateClock();
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+  function copyCode(btn) {
+    const pre = btn.closest('.cli-block').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  }
+  document.querySelectorAll('.port').forEach(p => {
+    p.addEventListener('mouseenter', () => p.style.transform = 'translateY(-4px) scale(1.1)');
+    p.addEventListener('mouseleave', () => p.style.transform = '');
+  });
+</script>
 </body>
 </html>
